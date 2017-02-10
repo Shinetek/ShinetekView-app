@@ -1,0 +1,30 @@
+{
+  "name": "worldview-app",
+  "authors": [
+    "FanTaSyLin <fanlin19830908@hotmail.com>"
+  ],
+  "description": "",
+  "main": "worldview.html",
+  "license": "MIT",
+  "homepage": "worldview.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "1.5.8",
+    "angular-bootstrap": "^2.2.0",
+    "angular-cookies": "1.5.8",
+    "angular-route": "1.5.8",
+    "jquery-ui": "^1.12.1",
+    "animate.css": "^3.5.2",
+    "ngAnimate-animate.css": "^0.1.1",
+    "angular-ui-sortable": "^0.15.0",
+    "moment": "^2.17.1"
+  }
+}

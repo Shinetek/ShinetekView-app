@@ -1,0 +1,22 @@
+{
+  "name": "worldview-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "worldview.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "express-unless": "^0.3.0",
+    "lodash": "^4.16.4",
+    "morgan": "^1.7.0",
+    "on-finished": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fantasylin liuyp zhangz",
+  "license": "ISC"
+}

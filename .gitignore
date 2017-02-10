@@ -1,0 +1,12 @@
+node_modules
+bower_components
+.idea
+tmp
+.eslintrc.js
+typings
+tags
+12312312.jpg
+launch.json
+.DS_Store
+jsconfig.json
+typings.json

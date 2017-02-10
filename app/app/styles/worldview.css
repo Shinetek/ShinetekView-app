@@ -1,0 +1,419 @@
+h1, h4, h5 {
+    color: #f2f2f2;
+    /*word-spacing:4px; 行间距*/
+    /*letter-spacing: -4px; 字间距*/
+}
+
+a {
+    cursor: pointer;
+}
+
+.func-area-css {
+    position: absolute;
+    width: 350px;
+    height: auto;
+    left: 15px;
+    top: 5px;
+    /*min-height: 500px;
+    margin-top: -980px;
+    margin-left: 15px;*/
+    z-index: 1600!important;
+}
+
+.view-area-css {
+    width: 100%;
+    height: 100%;
+    z-index: 1!important;
+    /*background-image: url(../publics/MapDay.jpg);*/
+}
+
+.func-area-css .title-ico-css, .func-css {
+    width: 100%;
+    background-color: rgba(46, 51, 55, 0.71);
+    margin: auto 0;
+}
+
+.title-ico-css {
+    height: 80px;
+    border-radius: 5px 5px 0 0;
+    border-top: 0.3px solid rgb(71, 76, 80);
+    border-left: 0.3px solid rgb(71, 76, 80);
+    border-right: 0.3px solid rgb(71, 76, 80);
+}
+
+.func-css {    
+    margin-top: 5px;
+    border-radius: 0 0 5px 5px;
+    border-bottom: 0.3px solid rgb(71, 76, 80);
+    border-left: 0.3px solid rgb(71, 76, 80);
+    border-right: 0.3px solid rgb(71, 76, 80);
+}
+
+.func-css .extend {
+    height: auto;
+    min-height: 415px;
+}
+
+.func-css .collapse {
+    height: 0;
+}
+
+.collapse-area {
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+    color: #f2f2f2;
+}
+
+.collapse-area:hover {
+    background-color: #ffffff;
+    border-bottom: 0.3px solid #ffffff;
+    border-left: 0.3px solid #ffffff;
+    border-right: 0.3px solid #ffffff;
+    color: #0f0f0f;
+}
+
+.extend-icon {
+    position: absolute;
+    left: 100px;
+    top: 8px;
+    font-size: 1.6em;
+}
+
+.extend-label {
+    position: absolute;
+    left: 140px;
+    top: 8px;
+    font-size: 1.1em;
+}
+
+
+.nav-tabs a {
+    color: #f2f2f2;
+    font-size: 1.2em;
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #00457b;
+    border: 1px solid #00457b;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #cccccc;
+    cursor: default;
+    background-color: #00457b;
+    border: 1px solid #00457b;
+    border-bottom-color: transparent
+}
+
+.nav-tabs {
+    border-bottom: 3.5px solid #00457b
+}
+
+.funcMenu:hover span {
+    color: #3385ff;
+}
+
+.layers,
+.events,
+.data {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    /*background-color: #2aabd2*/;
+}
+
+.foot {
+    width: 100%;
+    height: auto;
+}
+
+.overlays {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    padding-left: 0;
+    overflow: auto;
+    /*background-color: #d2ad5f*/;
+}
+
+.baselays {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    overflow: auto;
+    /*background-color: #86d2b3*/;
+}
+
+.lay-item {
+    /*width: 340px;*/
+    width: auto;
+    height: auto;
+    margin: 0 auto 3px auto;
+    border-radius: 2px;
+}
+
+.overlays .bk-show,
+.baselays .bk-show {
+    background-color: #c1c1c1;
+}
+
+.overlays .bk-noshow,
+.baselays .bk-noshow {
+    background-color: rgba(105, 105, 105, 0.65);;
+}
+
+.overlays .eye,
+.baselays .eye {
+    display: block;
+    font-size: 1.3em;
+    width: 46px;
+    border-radius: 2px 0 0 2px;
+    /*height: 58px;*/
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    cursor: pointer;
+    border-right: 1px solid #0f0f0f;
+}
+
+.overlays .eye .close-color,
+.baselays .eye .close-color {
+    color: #2f2f2f;
+}
+
+.overlays .eye .open-color,
+.baselays .eye .open-color {
+    color: #0f0f0f;
+}
+
+.overlays .eye span,
+.baselays .eye span {
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.overlays .eye:hover,
+.baselays .eye:hover {
+    background-color: #e2e2e2;
+}
+
+.overlays .info-projectName,
+.baselays .info-projectName {
+    line-height: 100%;
+    font-size: 1em
+}
+
+.overlays .info-inst,
+.baselays .info-inst {
+    line-height: 15%;
+    font-size: 0.8em
+}
+
+.info-pallet {
+    width: 250px;
+    height: 15px;
+    cursor: crosshair;
+    background-color: #5cb85c;
+}
+
+.ctrl-options {
+    color: #474c50;
+}
+
+.ctrl-options:hover {
+    color: #0f0f0f;
+}
+
+.collapse-btn:hover span {
+    color: #ffffff;
+}
+
+.addlayers-btn {
+    margin-left: 20px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+#layerMenu .dialog-header,
+#layerMenu .dialog-body {
+    /*background-color: #c1c1c1;*/
+    background-color: #dcdcdc;
+}
+
+#layerMenu .dialog-body {
+    height: auto;
+    min-height: 800px;
+}
+
+#layerMenu .search-layer-btn {
+    font-size: 1.5em;
+    color: #505050;
+    margin-left: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#layerMenu .search-layer-btn:hover {
+    color: #0f0f0f;
+}
+
+#layerMenu .search-input {
+    font-size: 2em;
+    font-family: "Book Antiqua";
+    font-weight: 500;
+    color: #696969;
+    width: 400px;
+    height: auto;
+    border:none;
+    outline:medium;
+    margin-left: -10px;
+    background-color: #dcdcdc;
+}
+
+#layerMenu .flex-container {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+#layerMenu .nav-tabs a {
+    color: #2f2f2f;
+    font-size: 1em;
+}
+
+#layerMenu .nav > li > a:focus,
+#layerMenu .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #00457b;
+    border: 1px solid #00457b;
+}
+
+#layerMenu .nav-tabs > li.active > a,
+#layerMenu .nav-tabs > li.active > a:focus,
+#layerMenu .nav-tabs > li.active > a:hover {
+    color: #ffffff;
+    cursor: default;
+    background-color: #00457b;
+    border: 1px solid #00457b;
+    border-bottom-color: transparent
+}
+
+#layerMenu .nav-tabs {
+    border-bottom: 5.5px solid #00457b
+}
+
+.loading-mask{
+    position:absolute;
+    left:0;
+    top:0;
+    width: 255px;
+    height: 250px;
+    /*z-index:2;*/
+    background-color: rgba(143, 143, 143, 0.21);
+}
+
+.POSItem,
+.GEOItem {
+    display: flex;
+    position: relative;
+    width: 255px;
+    height: 250px;
+    margin: 0 10px 5px 0px;
+}
+
+.POSItem .background-img,
+.GEOItem .background-img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*z-index: 100;*/
+}
+
+.POSItem .background-mask,
+.GEOItem .background-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*z-index: 150;*/
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.POSItem .layergroup,
+.GEOItem .layergroup {
+    position: absolute;
+    color: #ffffff;
+    left: 10px;
+    top: 10px;
+    z-index: 200;
+}
+
+.POSItem .layerlist,
+.GEOItem .layerlist {
+    position: absolute;
+    left: 0px;
+    top: 50px;
+    z-index: 300;
+}
+
+.breadcrumb > li + li:before {
+    color: #0f0f0f;
+    content: "/ ";
+    padding: 0 3px;
+}
+
+.breadcrumb li a {
+    color: #0f0f0f;
+    font-size: 1.1em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+}
+
+.panel-title .sub-name {
+    color: #474c50;
+    font-size: 0.8em;
+    font-style: italic;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#layer-accordion .layer-accordion-content {
+    min-height: 300px;
+    padding-left: 0px;
+}
+
+#layer-accordion .layer-accordion-content-instlist {
+    list-style:none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+
+#layer-accordion .layer-accordion-content-projectlist {
+    list-style:none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+#layer-accordion .layer-accordion-content-projectlist > p {
+    cursor: pointer;
+}
+
+#layer-accordion .layer-accordion-content-projectlist > p:hover {
+    background-color: rgba(105, 105, 105, 0.51);
+}
+
+#layer-accordion .layer-accordion-content-instlist > a:hover,
+#layer-accordion .layer-accordion-content-instlist > a:active,
+#layer-accordion .layer-accordion-content-instlist > a:focus {
+    color: #e2e2e2;
+}

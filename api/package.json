@@ -1,0 +1,25 @@
+{
+  "name": "worldview-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "worldview-api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "fantasylin",
+  "license": "ISC",
+  "dependencies": {
+    "concat-stream": "^1.6.0",
+    "debug": "^2.2.0",
+    "ftp": "^0.3.10",
+    "lodash": "^4.16.4",
+    "moment": "^2.17.1",
+    "mongoose": "^4.6.4",
+    "morgan": "^1.7.0",
+    "mysql": "^2.12.0",
+    "restify": "^4.1.1"
+  }
+}

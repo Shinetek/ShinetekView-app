@@ -1,0 +1,54 @@
+/*重置经纬度坐标位置*/
+*,html,body,div,img{
+    margin: 0;
+    padding: 0;
+}
+
+div.olControlMousePosition{
+    right: 20px!important;
+    bottom: 110px!important;
+    text-shadow: -1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+    color: white;
+    cursor: pointer;
+}
+
+div.olControlMousePosition:hover{
+    background-color: rgba(40,40,40,.85);
+}
+
+/*重置比例尺样式*/
+.olControlScaleLine{
+    right: 20px;
+    bottom: 150px!important;
+    color: white;
+    text-shadow: -1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+}
+
+div.olControlScaleLineTop{
+    border: solid 2px wheat!important;
+    background-color: rgba(40,40,40,.85);
+    border-top: none!important;
+}
+
+div.olControlScaleLineBottom{
+    border: solid 2px wheat!important;
+    background-color: rgba(40,40,40,.85);
+    border-bottom: none!important;
+}
+
+/*重置+-位置*/
+.olControlZoom{
+    right: 20px;
+    top: 5%;
+}
+
+/*碎图样式修改*/
+.olImageLoadError{
+    background-color:transparent!important;
+    filter: alpha(opacity=0)!important;
+    -moz-opacity: 0!important;
+    opacity: 0!important;
+}
+
+
+
