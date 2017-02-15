@@ -81,6 +81,13 @@
         /*移除选中的图层*/
         self.removeThisLayer = _removeThisLayer;
 
+        //关闭事件 调用刷新cookies
+        window.onbeforeunload = function (e) {
+            e = e || window.event;
+            //刷新图层cookies
+            _refreshLaysCookies();
+            return;
+        };
         _init();
 
         //时间轴控件发生日期改变时 重新加载所有图层
@@ -133,27 +140,27 @@
                 _removeLayFromWMS(tmpList[i]);
                 _addLayToWMS(tmpList[i]);
             }
-            _refreshLaysCookies();
+
         }
 
         /**
-         * 刷新 保存 cookies 中图层信息的属性
+         * 刷新 保存 cookies 中图层信息的属性 关闭网页时调用
          * @private
          */
         function _refreshLaysCookies() {
-            // console.log('_refreshLaysCookies');
             //删除原有图层cookies
             $cookies.remove("overLays");
             $cookies.remove("baseLays");
+            //设置cookies时效
+            var expireTime = new Date();
+            expireTime.setDate(expireTime.getDate() + 7000);
             //加入新图层信息
-            $cookies.putObject("overLays", self.overLays);
-            $cookies.putObject("baseLays", self.baseLays);
-            // console.log(self.overLays);
+            $cookies.putObject("overLays", self.overLays, {'expires': expireTime});
+            $cookies.putObject("baseLays", self.baseLays, {'expires': expireTime});
         }
 
         /**
          * 从 layerList 移除 layer 对象
-         *
          * @param {Object} layer 目标图层对象
          * @param {Array} layerList 所属数组
          */
@@ -167,8 +174,6 @@
             //移除
             _removeLayFromWMS(layer);
             //移除TimeLine
-            //移除cookies
-            _refreshLaysCookies();
         }
 
         function _addThisProject(project) {
@@ -545,7 +550,7 @@
         function _eyeClick(layModule) {
             layModule.isShow = !layModule.isShow;
             _setVisibilityFromWMS(layModule);
-            // _refreshLaysCookies();
+
         }
 
         /**
@@ -588,7 +593,6 @@
          */
         function _removeLayFromWMS(layModule) {
             WMS.removeLayer(layModule._id, layModule.mapType);
-            _refreshLaysCookies();
         }
 
         /**
@@ -598,8 +602,6 @@
          */
         function _setVisibilityFromWMS(layModule) {
             WMS.setVisibility(layModule._id, layModule.mapType);
-            //刷新cookies 否则在显示不刷新的情况下，cookies中是否可见信息不刷新
-            _refreshLaysCookies();
         }
 
         /**
@@ -685,7 +687,6 @@
                     lay.isSelected = true;
                     _addLayToWMS(lay);
                 }
-
             });
         }
 
@@ -693,13 +694,30 @@
          * 从cookie中获取上次保存的列表
          * @private
          */
-        function _initLaysFromCookies() {
+        function _initLaysbycondition() {
             //console.log('_initLaysFromCookies');
             //baseLays 获取cookies
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
             // console.log(m_overLays);
+            if (m_baseLays || m_baseLays) {
+                //进行初始化 根据 cookies 进行初始化
+                _initLaysFromCookies();
+            }
+            else {
+                //根据数据库基础数据信息进行初始化
+                _initLays();
+            }
+        }
 
+        /**
+         * 根据cookies初始化图层列表
+         * @private
+         */
+        function _initLaysFromCookies() {
+            //baseLays 获取cookies
+            var m_baseLays = $cookies.getObject('baseLays');
+            var m_overLays = $cookies.getObject('overLays');
             //若Cookies m_baseLays 不为空 加入列表 并加入界面显示
             if (m_baseLays) {
                 //遍历添加数据
@@ -738,6 +756,19 @@
                 });
             }
 
+            //遍历显示列表
+            projectList.forEach(function (lay) {
+                self.baseLays.forEach(function (inlay) {
+                    if (inlay._id === lay._id) {
+                        lay.isSelected = true;
+                    }
+                });
+                self.overLays.forEach(function (inlay) {
+                    if (inlay._id === lay._id) {
+                        lay.isSelected = true;
+                    }
+                });
+            });
         }
 
         /**
@@ -760,10 +791,10 @@
 
                 //根据默认图层初始化openlayer
                 _initMap();
-                //加入默认选中的图层 加入cookie中的图层
-                _initLays();
-                //初始化从cookies中获取的图层
-                _initLaysFromCookies();
+
+                //根据当前COOKIES条件对图层信息进行初始化，若当前不存在图层信息缓存，则使用数据库返回默认配置信息刷新
+                _initLaysbycondition();
+
                 //初始化时间轴控件
                 _initTimeLine();
 
