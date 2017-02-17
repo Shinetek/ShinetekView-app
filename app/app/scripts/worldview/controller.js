@@ -141,6 +141,24 @@
                 _addLayToWMS(tmpList[i]);
             }
 
+
+        }
+
+        /**
+         * 根据当前baseLays 重新设置顺序
+         * @private
+         */
+        function _ResetDatOrder() {
+            //根据图层顺序
+            var newListOrder = [];
+            self.baseLays.forEach(function (layModule) {
+                var m_DataItem = [];
+                m_DataItem.DataName = layModule.projectName + layModule._id;
+                m_DataItem.Layeris_Show = layModule.isShow;
+                newListOrder.push(m_DataItem);
+            });
+            //重设
+            timeLine.ReSetLayerList(newListOrder);
         }
 
         /**
@@ -165,6 +183,12 @@
          * @param {Array} layerList 所属数组
          */
         function _removeThisLayer(layer, layerList) {
+            //修复从cookies中获取的lay与当前列表lay不一致导致的取消显示后，列表勾选不取消的bug
+            projectList.forEach(function (lay) {
+                if (layer._id == lay._id) {
+                    lay.isSelected = false;
+                }
+            });
             layer.isSelected = false;
             for (var i = 0; i < layerList.length; i++) {
                 if (layer._id === layerList[i]._id) {
@@ -550,6 +574,7 @@
         function _eyeClick(layModule) {
             layModule.isShow = !layModule.isShow;
             _setVisibilityFromWMS(layModule);
+            //_ResetDatOrder();
 
         }
 
@@ -579,11 +604,15 @@
             if (layModule.isShow === false) {
                 _setVisibilityFromWMS(layModule);
             }
+            //只对base的数据进行排序
+            if (layModule.layType != "OVERLAYERS") {
+                //获取数据存在列表
+                _getDataExistList(layModule, function (m_timeLineList) {
+                    timeLine.AddMinuteData(m_timeLineList);
+                    _ResetDatOrder();
+                });
+            }
 
-            //获取数据存在列表
-            _getDataExistList(layModule, function (err, timeLineList) {
-                timeLine.AddMinuteData(timeLineListMinutes);
-            });
         }
 
         /**
@@ -593,6 +622,10 @@
          */
         function _removeLayFromWMS(layModule) {
             WMS.removeLayer(layModule._id, layModule.mapType);
+            //对基准图进行操作不影响数据图层
+            if (layModule.layType != "OVERLAYERS") {
+                _removeDataExistList(layModule);
+            }
         }
 
         /**
@@ -611,48 +644,87 @@
          * @callback next
          */
         function _getDataExistList(layModule, next) {
-
             if (layModule.dataListUrl === '') {
                 return;
             }
-
             WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
+                var m_timeLineListMinutes = [];
                 //    var timeLineObj = {};
                 if (data.dataList_Minute !== undefined && data.dataList_Minute.length > 0) {
 
                     //分钟数据
                     var timeLineObj_Min = {
-                        DataName: layModule.projectName,
+                        DataName: layModule.projectName + layModule._id,
                         DataInfo: data.dataList_Minute,
                         Layeris_Show: true
                     };
                     //日数据
                     var timeLineObj_Day = {
-                        DataName: layModule.projectName,
+                        DataName: layModule.projectName + layModule._id,
                         DataInfo: data.dataList_Day,
                         Layeris_Show: true
                     };
                     //月数据
                     var timeLineObj_Month = {
-                        DataName: layModule.projectName,
+                        DataName: layModule.projectName + layModule._id,
                         DataInfo: data.dataList_Month,
                         Layeris_Show: true
                     };
                     //年数据
                     var timeLineObj_Year = {
-                        DataName: layModule.projectName,
+                        DataName: layModule.projectName + layModule._id,
                         DataInfo: data.dataList_Year,
                         Layeris_Show: true
                     };
-                    timeLineListMinutes.push(timeLineObj_Min);
-                    timeLineListMinutes.push(timeLineObj_Day);
-                    timeLineListMinutes.push(timeLineObj_Month);
-                    timeLineListMinutes.push(timeLineObj_Year);
-                    next();
+                    m_timeLineListMinutes.push(timeLineObj_Min);
+                    m_timeLineListMinutes.push(timeLineObj_Day);
+                    m_timeLineListMinutes.push(timeLineObj_Month);
+                    m_timeLineListMinutes.push(timeLineObj_Year);
+                    next(m_timeLineListMinutes);
                 }
             }, function (data) {
-
+                var m_timeLineListMinutes = [];
+                //失败也需要使用名称进行占位
+                //分钟数据
+                var timeLineObj_Min = {
+                    DataName: layModule.projectName + layModule._id,
+                    DataInfo: [],
+                    Layeris_Show: true
+                };
+                //日数据
+                var timeLineObj_Day = {
+                    DataName: layModule.projectName + layModule._id,
+                    DataInfo: [],
+                    Layeris_Show: true
+                };
+                //月数据
+                var timeLineObj_Month = {
+                    DataName: layModule.projectName + layModule._id,
+                    DataInfo: [],
+                    Layeris_Show: true
+                };
+                //年数据
+                var timeLineObj_Year = {
+                    DataName: layModule.projectName + layModule._id,
+                    DataInfo: [],
+                    Layeris_Show: true
+                };
+                m_timeLineListMinutes.push(timeLineObj_Min);
+                m_timeLineListMinutes.push(timeLineObj_Day);
+                m_timeLineListMinutes.push(timeLineObj_Month);
+                m_timeLineListMinutes.push(timeLineObj_Year);
+                next(m_timeLineListMinutes);
             });
+        }
+
+        /**
+         * 移除当前显示的列表
+         * @param layModule
+         * @private
+         */
+        function _removeDataExistList(layModule) {
+            //移除函数
+            timeLine.RemoveLayerDataByName(layModule.projectName + layModule._id);
         }
 
         /**
@@ -695,12 +767,12 @@
          * @private
          */
         function _initLaysbycondition() {
-            //console.log('_initLaysFromCookies');
+            console.log('_initLaysFromCookies');
             //baseLays 获取cookies
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
             // console.log(m_overLays);
-            if (m_baseLays || m_baseLays) {
+            if (m_baseLays || m_overLays) {
                 //进行初始化 根据 cookies 进行初始化
                 _initLaysFromCookies();
             }
