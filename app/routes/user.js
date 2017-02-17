@@ -23,7 +23,7 @@
         res.sendfile('app/worldview.html');
     }
     function _startApp3(req, res, next) {
-        res.sendfile('app/worldview_3.html');
+        res.sendfile('app/worldview.html');
     }
 
     function _startConfigAPP(req, res, next) {
