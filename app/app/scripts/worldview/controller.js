@@ -574,7 +574,7 @@
         function _eyeClick(layModule) {
             layModule.isShow = !layModule.isShow;
             _setVisibilityFromWMS(layModule);
-            //_ResetDatOrder();
+             _ResetDatOrder();
 
         }
 
