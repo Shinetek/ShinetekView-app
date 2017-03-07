@@ -140,8 +140,6 @@
                 _removeLayFromWMS(tmpList[i]);
                 _addLayToWMS(tmpList[i]);
             }
-
-
         }
 
         /**
@@ -199,6 +197,7 @@
             _removeLayFromWMS(layer);
             //移除TimeLine
         }
+
 
         function _addThisProject(project) {
             project.isSelected = !project.isSelected;
@@ -536,7 +535,6 @@
                         }
                     }
                 }
-
                 if (isExistLayerGroup === false) {
                     //不存在 此layerGroup 创建新的 layerGroup
                     var tmpLayerGroup = {
@@ -574,8 +572,7 @@
         function _eyeClick(layModule) {
             layModule.isShow = !layModule.isShow;
             _setVisibilityFromWMS(layModule);
-             _ResetDatOrder();
-
+            _ResetDatOrder();
         }
 
         /**
@@ -612,7 +609,6 @@
                     _ResetDatOrder();
                 });
             }
-
         }
 
         /**
@@ -733,7 +729,9 @@
          * @private
          */
         function _initMap() {
-            WMS.init("http://10.24.10.108/IMAGEL2/GBAL/");
+            //根据配置初始化底图
+            WMS.init(Config_Total.BASETILEURL);
+            //WMS.init("http://10.24.10.108/IMAGEL2/GBAL/");
         }
 
         /**
@@ -767,12 +765,15 @@
          * @private
          */
         function _initLaysbycondition() {
-            console.log('_initLaysFromCookies');
+          //  console.log('_initLaysFromCookies');
             //baseLays 获取cookies
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
             // console.log(m_overLays);
-            if (m_baseLays || m_overLays) {
+            /*console.log(m_baseLays);
+            console.log(m_overLays);*/
+            //修改为缓存图层为空时，自动添加新图层
+            if (m_baseLays.length > 0 || m_overLays.length > 0) {
                 //进行初始化 根据 cookies 进行初始化
                 _initLaysFromCookies();
             }
@@ -871,7 +872,12 @@
                 _initTimeLine();
 
             });
+
+
         }
+
+
+
 
         function _isSelectedTab(tabName) {
             return self.currentTab === tabName;
@@ -902,6 +908,133 @@
         function _extendMenu() {
             self.isMenuCollapse = false;
         }
+
+
+        //动画部分
+        self._animeinit = _animeinit;
+        //需要进行动画的数据信息
+        self.animedata = [];
+        var animespeed = 500;
+
+        /**
+         * 根据时间初始化函数
+         * @param beginDate 开始日期
+         * @param endDate 结束日期
+         * @param anime_speed 速度
+         * @param anime_mode 时次模式
+         * @private
+         */
+        function _animeinit() {
+            /*首先进行数据初始化*/
+            //使用600-800 这个段数 进行
+            //beginDate, endDate, anime_speed, anime_mode
+            animespeed = 500;
+            var m_time_begin = moment("2017-03-06T00:00:00+0000").utc();
+            var m_time_end = moment("2017-03-06T13:00:00+0000").utc();
+            var layerid = "";
+            var projectUrl = "";
+            //遍历图层
+            for (var i = 0; i < self.baseLays.length; i++) {
+                if (self.baseLays[i].isShow == true) {
+                    // m_layer = self.baseLays[i];
+                    projectUrl = self.baseLays[i].projectUrl;
+                    layerid = self.baseLays[i]._id;
+                    break;
+                }
+            }
+            var m_List = [];
+            var m_TotalList = [];
+            //以最小10分钟为demo
+            var m_count = m_time_end.diff(m_time_begin) / 1000 / 60 / 10;
+            for (var i = 0; i < m_count; i++) {
+                var m_momeng_i = moment(m_time_begin).add(10.0 * i, 'minutes');
+                var m_TimeUrl = projectUrl;
+                if (m_TimeUrl.indexOf('yyyy') > 0) {
+                    m_TimeUrl = m_TimeUrl.replace('yyyy', m_momeng_i.utc().format("YYYY"));
+                }
+                if (m_TimeUrl.indexOf('MM') > 0) {
+                    m_TimeUrl = m_TimeUrl.replace('MM', m_momeng_i.utc().format("MM"));
+                }
+                if (m_TimeUrl.indexOf('dd') > 0) {
+                    m_TimeUrl = m_TimeUrl.replace('dd', m_momeng_i.utc().format("DD"));
+                }
+                if (m_TimeUrl.indexOf('hh') > 0) {
+                    m_TimeUrl = m_TimeUrl.replace('hh', m_momeng_i.utc().format("HH"));
+                }
+                if (m_TimeUrl.indexOf('mm') > 0) {
+                    m_TimeUrl = m_TimeUrl.replace('mm', m_momeng_i.utc().format("mm"));
+                }
+                //若不存在则添加
+                if (m_List.indexOf(m_TimeUrl) == -1) {
+                    m_List.push(m_TimeUrl);
+                }
+            }
+            var index_z_max = m_List.length + 650;
+            for (var i = 0; i < m_List.length; i++) {
+                var m_itemInfo = [];
+                m_itemInfo.LayerTimeUrl = m_List[i];
+                m_itemInfo.LayerTimeName = layerid + "_" + i;
+                m_itemInfo.LayerTimeIndexZ = index_z_max - i;
+                m_TotalList.push(m_itemInfo);
+            }
+            self.animedata = m_TotalList;
+           // console.log(m_TotalList);
+            remove_layer_num = 0;
+            show_layer_num = 1;
+            add_layer_num = 3;
+            for (var i = remove_layer_num; i < add_layer_num - 1; i++) {
+                WMS.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");//0
+                WMS.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+            }
+            _animeclick();
+        }
+
+        self._animeclick = _animeclick;
+        //定时器 动画控制 相关变量
+        var anime_timer;
+        var remove_layer_num;
+        var show_layer_num;
+        var add_layer_num;
+        //当前动画状态 初始化为静止
+        var _beginTranShow_Flag = false;
+
+        /**
+         * 点击暂停开始等调用事件
+         * @private
+         */
+        function _animeclick() {
+            var m_NumMax = self.animedata.length;
+            var m_DataAll = self.animedata;
+            if (!_beginTranShow_Flag) {
+                console.log("循环开始");
+                anime_timer = setInterval(function () {
+                    if (remove_layer_num >= m_NumMax) {
+                        remove_layer_num = 0;
+                    }
+                    if (show_layer_num >= m_NumMax) {
+                        show_layer_num = 0;
+                    }
+                    if (add_layer_num >= m_NumMax) {
+                        add_layer_num = 0;
+                    }
+                   // console.log("setInterva：" + remove_layer_num + ":" + show_layer_num + ":" + add_layer_num);
+                    //console.log("当前显示时次：" + m_DataAll[show_layer_num].LayerTimeUrl);
+                    WMS.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS");//0
+                    WMS.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                    WMS.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
+                    remove_layer_num++;
+                    show_layer_num++;
+                    add_layer_num++;
+                }, 2000);
+                _beginTranShow_Flag = true;
+            }
+            else {
+                console.log("循环停止");
+                window.clearInterval(anime_timer);
+                _beginTranShow_Flag = false;
+            }
+        }
+
     }
 
 })();

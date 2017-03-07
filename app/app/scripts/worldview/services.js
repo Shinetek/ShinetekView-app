@@ -13,7 +13,7 @@
 
     function WorldviewServices($http) {
 
-        var BASEPATH = 'http://10.24.4.130:4001/api';
+        var BASEPATH = Config_Total.BASEPATH;
 
         var self = {
             getLayerGroupList: _getLayerGroupList,

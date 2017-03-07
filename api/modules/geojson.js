@@ -12,6 +12,7 @@ var _GetGEOJsonFile = function (req, res, next) {
     }
     else {
         res.end("");
+        next();
     }
 };
 exports._GetGEOJsonFile = _GetGEOJsonFile;

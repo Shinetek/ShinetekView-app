@@ -1,0 +1,23 @@
+{
+  "MongodbUrl": "mongodb://worldview:shk@10.24.4.130:27071/worldview",
+  "MYSQL": {
+    "host": "10.24.10.108",
+    "user": "fy4",
+    "password": "fy4",
+    "database": "fy4"
+  },
+  "POS_FTP": {
+    "host": "10.24.10.107",
+    "port": "21",
+    "user": "web",
+    "password": "123",
+    "path":""
+  },
+  "FirePointFTP":{
+    "host":"10.24.10.108",
+    "port":"21",
+    "uid":"fy4",
+    "pw":"fy4",
+    "path":"/FY4COMM/FY4A/L2/AGRIX/FHS/"
+  }
+}

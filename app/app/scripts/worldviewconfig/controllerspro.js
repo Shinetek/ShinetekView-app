@@ -6,15 +6,7 @@
 
     "use strict";
     angular.module('WVConfig', [])
-        .constant('WVAPI_Url', {
-            //API配置
-            baseUrl: 'http://10.24.4.130'
-        })
-        .service('configservice',
-            function (WVAPI_Url) {
-                this.WVAPI_Url = WVAPI_Url;
-            }
-        )
+
         .controller('ProdConfigController', ProductInfoCtrl);
 
     function ProductInfoCtrl($scope, configservice) {
@@ -27,13 +19,13 @@
         //
         $scope.groupInfoList = [];
         //产品url
-        $scope.GetInfoUrl = configservice.WVAPI_Url.baseUrl + ':4001/api/projectinfo';
+        $scope.GetInfoUrl = Config_Total.BASEPATH + '/projectinfo';
         //更新产品URL
-        $scope.UpdateProdInfoUrl = configservice.WVAPI_Url.baseUrl + ':4001/api/projectinfo/update';
+        $scope.UpdateProdInfoUrl = Config_Total.BASEPATH + '/projectinfo/update';
         //删除产品 url
-        $scope.DeleteProdInfoUrl = configservice.WVAPI_Url.baseUrl + ':4001/api/projectinfo/delete';
+        $scope.DeleteProdInfoUrl = Config_Total.BASEPATH + '/projectinfo/delete';
         //分组url
-        $scope.GetGroupInfoUrl = configservice.WVAPI_Url.baseUrl + ':4001/api/layer-group';
+        $scope.GetGroupInfoUrl = Config_Total.BASEPATH + '/layer-group';
         //排序条件
         $scope.orderProp = 'satID';
         //初始化数据

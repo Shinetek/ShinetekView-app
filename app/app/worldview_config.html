@@ -6,11 +6,7 @@
     <title>遥感产品综合展示平台配置</title>
     <link rel="shortcut icon" href="./publics/logo2.ico">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 
-    <script type="text/javascript" src="scripts/worldviewconfig/controllerspro.js"></script>
     <style type="text/css">
         .inputDiv {
             margin-top: 5px;
@@ -42,7 +38,7 @@
 <body ng-controller="ProdConfigController">
 
 <!--导航栏部分-->
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -54,45 +50,34 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/worldview">遥感产品综合展示平台</a>
+            <a class="navbar-brand" href="#" rel="tooltip">遥感产品综合展示平台</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-
                 <li class="active"><a href="#">产品详情配置</a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search" STYLE="display: none">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="{{SearchStr}}">
-                </div>
-                <button type="submit" class="btn btn-default">搜索</button>
+            <form class="navbar-form navbar-right" role="search">
+                <input type="text" class="form-control" placeholder="请输入检索内容" ng-model="query">
+                <select ng-model="orderProp" class="form-control">
+                    <option value="satID">星标</option>
+                    <option value="instID">仪器名称</option>
+                    <option value="projectName">产品名称</option>
+                    <option value="layerName">图层名称</option>
+                </select>
+                <button class="btn btn-success" data-toggle="modal" data-target="#AddModal">添加</button>
+                <button class="btn btn-primary" ng-click="GetInfoALL()">刷新</button>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">说明</a></li>
-            </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
 <!--title部分 及 检索部分-->
 <div class="projects-header page-header row" style="text-align: center;">
     <h3> 产品详情配置 -- 配置产品总数： {{ProdInfonum}}<span>  </span></h3>
-
-    <form class="navbar-form" role="search">
-        <label>检索:</label> <input type="text" class="form-control" placeholder="请输入检索内容" ng-model="query">
-        <select ng-model="orderProp" class="form-control">
-            <option value="satID">星标</option>
-            <option value="instID">仪器名称</option>
-            <option value="projectName">产品名称</option>
-            <option value="layerName">图层名称</option>
-        </select>
-        <button class="btn btn-success" data-toggle="modal" data-target="#AddModal">添加</button>
-        <button class="btn btn-primary" ng-click="GetInfoALL()">刷新</button>
-    </form>
 </div>
 <!--主体显示列表部分-->
-<div class="row">
+<div class="row" id="ProConfigdiv">
     <!-- 产品列表-->
     <div class="col-lg-10 col-lg-offset-1">
         <table class="table table-bordered" style="visibility: visible;">
@@ -119,7 +104,7 @@
                 <td class="ShowTabletd">{{Prod.isDefault}}</td>
                 <td class="ShowTabletd">{{Prod.projectName}}</td>
                 <td class="ShowTabletd">
-                    <p style="width: 250px;word-break: break-all;">{{Prod.projectUrl}}</p>
+                    <p style="width: 300px;word-break: break-all;">{{Prod.projectUrl}}</p>
                 </td>
                 <td class="ShowTabletd">
                     <p style="width: 100px;word-break: break-all;">{{Prod.layerName}}</p>
@@ -128,7 +113,7 @@
                 <td class="ShowTabletd">{{Prod.mapType}}</td>
                 <td class="ShowTabletd">{{Prod.dataListUrl}}</td>
                 <td>
-                    <div>
+                    <div style="width: 80px;">
                         <button type="button" class="btn btn-default" ng-click="ChangeModelFunc(Prod)"
                                 date-ChangeInfo={{Prod}} data-toggle="modal"
                                 data-target="#ChangeModal" style="float: left ;margin: 2px;">
@@ -142,7 +127,6 @@
             </tr>
             </tbody>
         </table>
-
     </div>
 
     <!-- 修改DIV-->
@@ -199,7 +183,7 @@
                         </div>
                         <!--6 产品路径-->
                         <div class="form-group inputDiv">
-                            <label class="col-sm-2 inputLabel   ">产品URL</label>
+                            <label class="col-sm-2 inputLabel   ">产品名称</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" placeholder="{{ChangeModelData.projectUrl}}"
                                        ng-model="ChangeModelData.projectUrl">
@@ -309,13 +293,12 @@
                                     <option value="AGRI">AGRI</option>
                                     <option value="AVHRR">AVHRR</option>
                                     <option value="VIIRS">VIIRS</option>
-                                    <option value="NAN">NAN</option>
                                 </select>
                             </div>
                         </div>
                         <!--4 是否默认加载-->
                         <div class="form-group inputDiv">
-                            <label class="col-sm-2 control-label inputLabel">是否默认</label>
+                            <label class="col-sm-2 control-label inputLabel  ">是否默认</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" placeholder="{{AddModelData.isDefault}}"
                                        style="display: none;" ng-model="AddModelData.isDefault">
@@ -374,8 +357,7 @@
                                 <select ng-model="AddModelData.mapType" class="form-control">
                                     <option value="TMS">TMS</option>
                                     <option value="WMS">WMS</option>
-                                    <option value="FMS">FMS</option>
-                                    <option value="KML">KML</option>
+                                    <option value="XYZ">XYZ</option>
                                 </select>
                             </div>
                         </div>
@@ -396,10 +378,15 @@
                 </div>
             </div>
         </div>
-
     </div>
-
+    <!-- 删除DIV-->
 </div>
 
+<!--js文件引入-->
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="scripts/config.js"></script>
+<script type="text/javascript" src="scripts/worldviewconfig/controllerspro.js"></script>
 </body>
 </html>

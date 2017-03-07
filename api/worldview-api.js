@@ -8,9 +8,12 @@
 
     'use strict';
 
+    //加载配置
+    var Config = require("./config.json");
     const HTTP_PORT = process.env.HTTP_PORT || 4001;
     //const MONGOOSE_URI = process.env.MONGOOSE_URI || "10.24.4.130/worldview";修改为27071端口 添加用户名和密码
-    const MONGOOSE_URI = process.env.MONGOOSE_URI || "mongodb://worldview:shk@10.24.4.130:27071/worldview";
+    //替换为配置
+    const MONGOOSE_URI = process.env.MONGOOSE_URI || Config.MongodbUrl;
     var debug = require('debug')('worldview-api');
     var morgan = require('morgan');
     var mongoose = require('mongoose');
@@ -43,7 +46,6 @@
 
     debug('Create RESTful Server');
     (function () {
-
         var server = RESTful.createServer({
             name: 'Worldview-API'
         });
