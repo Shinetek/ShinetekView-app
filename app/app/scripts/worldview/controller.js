@@ -765,13 +765,13 @@
          * @private
          */
         function _initLaysbycondition() {
-          //  console.log('_initLaysFromCookies');
             //baseLays 获取cookies
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
-            // console.log(m_overLays);
-            /*console.log(m_baseLays);
-            console.log(m_overLays);*/
+            /*
+             console.log(m_baseLays);
+             console.log(m_overLays);
+             */
             //修改为缓存图层为空时，自动添加新图层
             if (m_baseLays.length > 0 || m_overLays.length > 0) {
                 //进行初始化 根据 cookies 进行初始化
@@ -877,8 +877,6 @@
         }
 
 
-
-
         function _isSelectedTab(tabName) {
             return self.currentTab === tabName;
         }
@@ -978,7 +976,7 @@
                 m_TotalList.push(m_itemInfo);
             }
             self.animedata = m_TotalList;
-           // console.log(m_TotalList);
+            // console.log(m_TotalList);
             remove_layer_num = 0;
             show_layer_num = 1;
             add_layer_num = 3;
@@ -1017,7 +1015,7 @@
                     if (add_layer_num >= m_NumMax) {
                         add_layer_num = 0;
                     }
-                   // console.log("setInterva：" + remove_layer_num + ":" + show_layer_num + ":" + add_layer_num);
+                    // console.log("setInterva：" + remove_layer_num + ":" + show_layer_num + ":" + add_layer_num);
                     //console.log("当前显示时次：" + m_DataAll[show_layer_num].LayerTimeUrl);
                     WMS.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS");//0
                     WMS.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
