@@ -171,8 +171,12 @@
             var expireTime = new Date();
             expireTime.setDate(expireTime.getDate() + 7000);
             //加入新图层信息
-            $cookies.putObject("overLays", self.overLays, {'expires': expireTime});
-            $cookies.putObject("baseLays", self.baseLays, {'expires': expireTime});
+            $cookies.putObject("overLays", self.overLays, {
+                'expires': expireTime
+            });
+            $cookies.putObject("baseLays", self.baseLays, {
+                'expires': expireTime
+            });
         }
 
         /**
@@ -267,7 +271,9 @@
             });
             var expireTime = new Date();
             expireTime.setDate(expireTime.getDate() + 7000);
-            $cookies.putObject('frequently-used', frequentlyUsed, {'expires': expireTime});
+            $cookies.putObject('frequently-used', frequentlyUsed, {
+                'expires': expireTime
+            });
         }
 
         /**
@@ -455,7 +461,9 @@
 
                 var expireTime = new Date();
                 expireTime.setDate(expireTime.getDate() + 7000);
-                $cookies.putObject('frequently-used', frequentlyUsed, {'expires': expireTime});
+                $cookies.putObject('frequently-used', frequentlyUsed, {
+                    'expires': expireTime
+                });
             } else {
                 frequentlyUsed.sort(function (a, b) {
                     return -(a.frequently - b.frequently);
@@ -561,7 +569,10 @@
          * 点击显示图层选择模态框
          */
         function _showLayerMenu() {
-            layerMenu.modal({backdrop: 'static', keyboard: false});
+            layerMenu.modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         }
 
         /**
@@ -597,7 +608,7 @@
             if (projectUrl.indexOf('mm') > 0) {
                 projectUrl = projectUrl.replace('mm', moment(timeLine.GetShowDate()).utc().format("mm"));
             }
-            WMS.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+            Shinetek.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
             if (layModule.isShow === false) {
                 _setVisibilityFromWMS(layModule);
             }
@@ -608,6 +619,36 @@
                     timeLine.AddMinuteData(m_timeLineList);
                     _ResetDatOrder();
                 });
+
+                //获取图层调色板
+                _getProjectPalette(layModule, function (err, paletteModule) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    if (paletteModule !== undefined) {
+                        var paletteDivID = "palette" + layModule._id;
+                        var palette = new Palette();
+                        palette.init_palette(paletteDivID, paletteModule);
+                    }
+                });
+            }
+        }
+
+        /**
+         * 获取产品调色板
+         * @param {Object} layModule 
+         * @param {Function} next 
+         */
+        function _getProjectPalette(layModule, next) {
+            if (layModule.paletteUrl === undefined || layModule.paletteUrl === "") {
+                cb(null, undefined);
+            } else {
+                WorldviewServices.getProjectPalette(layModule.paletteUrl, function (res) {
+                    next(null, res);
+                }, function (res) {
+                    next(new Error("获取调色板失败，请检查产品配置"), undefined);
+                });
             }
         }
 
@@ -617,7 +658,7 @@
          * @private
          */
         function _removeLayFromWMS(layModule) {
-            WMS.removeLayer(layModule._id, layModule.mapType);
+            Shinetek.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
             //对基准图进行操作不影响数据图层
             if (layModule.layType != "OVERLAYERS") {
                 _removeDataExistList(layModule);
@@ -630,7 +671,7 @@
          * @param {any} layModule
          */
         function _setVisibilityFromWMS(layModule) {
-            WMS.setVisibility(layModule._id, layModule.mapType);
+            Shinetek.Ol3Opt.setVisibility(layModule._id, layModule.mapType);
         }
 
         /**
@@ -730,8 +771,7 @@
          */
         function _initMap() {
             //根据配置初始化底图
-            WMS.init(Config_Total.BASETILEURL);
-            //WMS.init("http://10.24.10.108/IMAGEL2/GBAL/");
+            Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
         }
 
         /**
@@ -751,8 +791,7 @@
                 if (lay.isDefault === true) {
                     if (lay.layType === 'BASELAYERS') {
                         self.baseLays.push(lay);
-                    }
-                    else
+                    } else
                         self.overLays.push(lay);
                     lay.isSelected = true;
                     _addLayToWMS(lay);
@@ -776,8 +815,7 @@
             if (m_baseLays.length > 0 || m_overLays.length > 0) {
                 //进行初始化 根据 cookies 进行初始化
                 _initLaysFromCookies();
-            }
-            else {
+            } else {
                 //根据数据库基础数据信息进行初始化
                 _initLays();
             }
@@ -981,8 +1019,8 @@
             show_layer_num = 1;
             add_layer_num = 3;
             for (var i = remove_layer_num; i < add_layer_num - 1; i++) {
-                WMS.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");//0
-                WMS.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+                Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS"); //0
+                Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
             }
             _animeclick();
         }
@@ -1017,16 +1055,15 @@
                     }
                     // console.log("setInterva：" + remove_layer_num + ":" + show_layer_num + ":" + add_layer_num);
                     //console.log("当前显示时次：" + m_DataAll[show_layer_num].LayerTimeUrl);
-                    WMS.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS");//0
-                    WMS.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
-                    WMS.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
+                    Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+                    Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                    Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                     remove_layer_num++;
                     show_layer_num++;
                     add_layer_num++;
                 }, 2000);
                 _beginTranShow_Flag = true;
-            }
-            else {
+            } else {
                 console.log("循环停止");
                 window.clearInterval(anime_timer);
                 _beginTranShow_Flag = false;

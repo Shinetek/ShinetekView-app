@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="bower_components/timeline/css/TimeLine_shk.css">
-    <link rel="stylesheet" href="bower_components/openlayer/css/ol3.css">
-    <link rel="stylesheet" href="bower_components/openlayer/css/shk3.css">
+    <link rel="stylesheet" href="bower_components/openlayer/dist/css/ol3.css">
+    <link rel="stylesheet" href="bower_components/openlayer/dist/css/shk-ol3.css">
     <link rel="stylesheet" href="styles/worldview.css">
     <!--全局配置文件-->
     <script type="text/javascript" src="scripts/config.js"></script>
@@ -94,7 +94,7 @@
                             <p class="info-projectName" style="width: 250px; padding-top: 3px">
                                 {{lay.projectName}}</p>
                             <p class="info-inst">{{lay.satID}}/{{lay.instID}}</p>
-                            <div class="info-pallet"></div>
+                            <div id="palette{{lay._id}}" class="info-pallet"></div>
                             <div style="height: 5px"></div>
                         </div>
                         <div style="position: absolute; left: 300px; top: 3px; bottom: 3px;">
@@ -131,7 +131,7 @@
                             <p class="info-projectName" style="width: 250px; padding-top: 3px">
                                 {{lay.projectName}}</p>
                             <p class="info-inst">{{lay.satID}}/{{lay.instID}}</p>
-                            <div class="info-pallet"></div>
+                            <div id="palette{{lay._id}}" class="info-pallet"></div>
                             <div style="height: 5px"></div>
                         </div>
                         <div style="position: absolute; left: 300px; top: 3px; bottom: 3px;">
@@ -378,14 +378,20 @@
 <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
 <script type="text/javascript" src="bower_components/ngAnimate-animate.css/animate.js"></script>
 <script type="text/javascript" src="bower_components/angular-ui-sortable/sortable.js"></script>
-<script type="text/javascript" src="bower_components/openlayer/js/ol3-debug.js"></script>
-<script type="text/javascript" src="bower_components/openlayer/js/ol3.js"></script>
-<script type="text/javascript" src="bower_components/openlayer/js/FY4System-3.0.0.js"></script>
 <script type="text/javascript" src="bower_components/moment/moment.js"></script>
 
 <!--　TimeLine 部分引用　-->
 <script type="text/javascript" src="bower_components/timeline/dist/moment.min.js"></script>
 <script type="text/javascript" src="bower_components/timeline/TimeLine_shk.js"></script>
+
+<!--Openlayer 部分引用-->
+<script type="text/javascript" src="bower_components/openlayer/dist/js/ol3-debug.js"></script>
+<script type="text/javascript" src="bower_components/openlayer/dist/js/ol3.js"></script>
+<script type="text/javascript" src="bower_components/openlayer/dist/js/ol3-opt.js"></script>
+
+<!--Palette 部分引用-->
+<script type="text/javascript" src="bower_components/palette/dist/Palette.js"></script>
+
 
 
 <script type="text/javascript" src="scripts/worldview/module.js"></script>

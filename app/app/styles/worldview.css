@@ -214,9 +214,9 @@ a {
 
 .info-pallet {
     width: 250px;
-    height: 15px;
+    height: 25px;
     cursor: crosshair;
-    background-color: #5cb85c;
+    /*background-color: #5cb85c;*/
 }
 
 .ctrl-options {
