@@ -30,6 +30,7 @@
         var timeLine = new TimeLine();
         var layerMenu = angular.element(document.getElementById("layerMenu"));
         var timeLineElm = angular.element(document.getElementById("timeLine"));
+        var sliderFps = angular.element(document.getElementById("slider-fps")).slider();
         /*var overlaysZone = angular.element(document.getElementById('overlays-zone'));*/
 
         self.currentTab = "Layer";
@@ -52,6 +53,12 @@
         self.currentGroup = {};
         self.currentLayer = {};
         self.currentInst = {};
+        /*是否显示video面板*/
+        self.isShownVideoPanel = false;
+        /*video帧频*/
+        self.fpsNum = 0;
+
+
 
         /*功能标签选择*/
         self.selectTab = _selectTab;
@@ -80,6 +87,8 @@
         self.addThisProject = _addThisProject;
         /*移除选中的图层*/
         self.removeThisLayer = _removeThisLayer;
+        /*打开video面板*/
+        self.showVideoPanel = _showVideoPanel;
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -88,12 +97,20 @@
             _refreshLaysCookies();
             return;
         };
+
         _init();
 
         //时间轴控件发生日期改变时 重新加载所有图层
         timeLineElm.on("DateTimeChange", function (event, selectDate) {
             _refreshLayers();
         });
+
+        /*帧频改变时 调整数值显示*/
+        sliderFps.on("slideStop", function(slideEvt) {
+            angular.element(document.getElementById("slider-fps-num")).text(slideEvt.value);
+            self.fpsNum = slideEvt.value;
+        });
+
 
         /**
          * 拖拽指令函数
@@ -117,6 +134,13 @@
             }
 
         };
+
+        /**
+         * 显示video面板
+         */
+        function _showVideoPanel() {
+            self.isShownVideoPanel = !self.isShownVideoPanel;
+        }
 
         /**
          * 重载所有已添加的图层
@@ -895,7 +919,6 @@
          * @private
          */
         function _init() {
-
 
             //初始化图层列表
             _initLayerMenuModal(function () {
