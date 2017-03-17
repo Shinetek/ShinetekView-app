@@ -44,14 +44,14 @@
     <div class="sv-animation-widget-header">
         Animate Map in daily Increments
     </div>
-    <a title="播放动画" class="sv-animation-widget-play">
-        <i class="glyphicon glyphicon-play"></i>
+    <a title="播放动画" class="sv-animation-widget-play" ng-click="WorldviewCtrl.playVideo()">
+        <i class="glyphicon" ng-class="{'glyphicon-play': WorldviewCtrl.isVideoPlayed === false, 'glyphicon-pause': WorldviewCtrl.isVideoPlayed === true}"></i>
     </a>
-    <a title="循环播放" class="sv-animation-widget-play">
-        <i class="glyphicon glyphicon-retweet"></i>
+    <a title="循环播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLooped = !WorldviewCtrl.isLooped">
+        <i class="glyphicon glyphicon-retweet" ng-class="{'item-start': WorldviewCtrl.isLooped === true, 'item-stop': WorldviewCtrl.isLooped === false}"></i>
     </a>
-    <a title="播放24小时内的最新数据" class="sv-animation-widget-play">
-        <i class="glyphicon glyphicon-time"></i>
+    <a title="播放24小时内的最新数据" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLatest24 = !WorldviewCtrl.isLatest24">
+        <i class="glyphicon glyphicon-time" ng-class="{'item-start': WorldviewCtrl.isLatest24 === true, 'item-stop': WorldviewCtrl.isLatest24 === false}"></i>
     </a>
     <div class="sv-animation-widget-fps">
         <input id="slider-fps" type="text" data-provide="slider" data-slider-min="0.5" data-slider-max="4"
@@ -66,39 +66,39 @@
     <div class="sv-anim-dates-case">
         <div class="sv-date-selector-widget">
             <div class="input-wrapper">
-                <div class="date-arrows date-arrows-up">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('y', 'plus', WorldviewCtrl.videoStartTime)">
                     <svg width="25" height="8">
                         <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
-                <input tabindex="1" type="text" size="4" maxlength="4" value="2016">
-                <div class="date-arrows date-arrows-down">
+                <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoStartTime.format('YYYY')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('y', 'minus', WorldviewCtrl.videoStartTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
             </div>
             <div class="input-wrapper">
-                <div class="date-arrows date-arrows-up">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('M', 'plus', WorldviewCtrl.videoStartTime)">
                     <svg width="25" height="8">
                         <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
-                <input tabindex="1" type="text" size="4" maxlength="4" value="03">
-                <div class="date-arrows date-arrows-down">
+                <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoStartTime.format('MM')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('M', 'minus', WorldviewCtrl.videoStartTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
             </div>
             <div class="input-wrapper">
-                <div class="date-arrows date-arrows-up">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('d', 'plus', WorldviewCtrl.videoStartTime)">
                     <svg width="25" height="8">
                         <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
-                <input tabindex="1" type="text" size="4" maxlength="4" value="16">
-                <div class="date-arrows date-arrows-down">
+                <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoStartTime.format('DD')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('d', 'minus', WorldviewCtrl.videoStartTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
@@ -108,39 +108,39 @@
         <div class="thru-label">To</div>
         <div class="sv-date-selector-widget">
             <div class="input-wrapper">
-                <div class="date-arrows date-arrows-up">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('y', 'plus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
-                <input tabindex="1" type="text" size="4" maxlength="4" value="2016">
-                <div class="date-arrows date-arrows-down">
+                <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoEndTime.format('YYYY')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('y', 'minus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
             </div>
             <div class="input-wrapper">
-                <div class="date-arrows date-arrows-up">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('M', 'plus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
-                <input tabindex="1" type="text" size="4" maxlength="4" value="03">
-                <div class="date-arrows date-arrows-down">
+                <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoEndTime.format('MM')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('M', 'minus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
             </div>
             <div class="input-wrapper">
-                <div class="date-arrows date-arrows-up">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('d', 'plus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
                 </div>
-                <input tabindex="1" type="text" size="4" maxlength="4" value="16">
-                <div class="date-arrows date-arrows-down">
+                <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoEndTime.format('DD')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('d', 'minus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
@@ -496,7 +496,7 @@
 <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
-<script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
+<!--<script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>-->
 <script type="text/javascript" src="bower_components/ngAnimate-animate.css/animate.js"></script>
 <script type="text/javascript" src="bower_components/angular-ui-sortable/sortable.js"></script>
 <script type="text/javascript" src="bower_components/moment/moment.js"></script>

@@ -9,8 +9,7 @@
     angular.module('Worldview', [
         'ngCookies',
         'ngRoute',
-        'ngAnimate-animate.css',
         'ui.sortable'
     ]);
-
+    //    'ngAnimate-animate.css',
 })();

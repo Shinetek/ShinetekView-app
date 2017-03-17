@@ -492,6 +492,14 @@ a {
     margin: 7px 0 0 10px;
 }
 
+.sv-animation-widget .sv-animation-widget-play .item-start {
+    color: #fff;
+}
+
+.sv-animation-widget .sv-animation-widget-play .item-stop {
+    color: #212121;
+}
+
 .sv-animation-widget a .glyphicon {
     font-size: 28px;
     color: #fff;
