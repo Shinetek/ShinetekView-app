@@ -57,6 +57,16 @@
         self.isShownVideoPanel = false;
         /*video帧频*/
         self.fpsNum = 0;
+        /*video play 标识*/
+        self.isVideoPlayed = false;
+        /*video 循环 标识*/
+        self.isLooped = false;
+        /*video latest24 标识*/
+        self.isLatest24 = false;
+        /*video 动画起始时间*/
+        self.videoStartTime = moment(new Date()).add(-24, 'h');
+        /*video 动画结束时间*/
+        self.videoEndTime = moment(new Date());
 
 
 
@@ -89,6 +99,10 @@
         self.removeThisLayer = _removeThisLayer;
         /*打开video面板*/
         self.showVideoPanel = _showVideoPanel;
+        /*播放video*/
+        self.playVideo = _playVideo;
+        /*设置video动画的时间范围*/
+        self.setVideoTimeRange = _setVideoTimeRange;
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -134,6 +148,32 @@
             }
 
         };
+
+
+        /**
+         * 设置video动画的时间范围
+         * @param {String} unit 单位（Y=年; M=月; D=日)
+         * @param {String} opt 操作方式 (plus=加; minus=减)
+         * @param {Object} targetTime 目标时间
+         * @private
+         */
+        function _setVideoTimeRange(unit, opt, targetTime) {
+            var x;
+            if (opt === 'plus') {
+                x = 1;
+            } else {
+                x = -1;
+            }
+            targetTime.add(x, unit)
+        }
+        
+        /**
+         * 播放动画
+         * @private
+         */
+        function _playVideo() {
+            self.isVideoPlayed = !self.isVideoPlayed;
+        }
 
         /**
          * 显示video面板
