@@ -77,9 +77,9 @@
     <h3> 产品详情配置 -- 配置产品总数： {{ProdInfonum}}<span>  </span></h3>
 </div>
 <!--主体显示列表部分-->
-<div class="row" id="ProConfigdiv">
+<div class="row" id="ProConfigdiv" style="margin: 20px 0px;">
     <!-- 产品列表-->
-    <div class="col-lg-10 col-lg-offset-1">
+    <div class="col-lg-12  ">
         <table class="table table-bordered" style="visibility: visible;">
             <thead>
             <tr>
@@ -93,6 +93,10 @@
                 <th class="ShowTableth">图层类型</th>
                 <th class="ShowTableth">map类型</th>
                 <th class="ShowTableth">数据API</th>
+                <th class="ShowTableth">调色板URL</th>
+                <th class="ShowTableth">截图URL</th>
+                <th class="ShowTableth">截图配置</th>
+                <th class="ShowTableth">动画URL</th>
                 <th class="ShowTableth">相关操作</th>
             </tr>
             </thead>
@@ -104,7 +108,7 @@
                 <td class="ShowTabletd">{{Prod.isDefault}}</td>
                 <td class="ShowTabletd">{{Prod.projectName}}</td>
                 <td class="ShowTabletd">
-                    <p style="width: 300px;word-break: break-all;">{{Prod.projectUrl}}</p>
+                    <p style="width: 200px;word-break: break-all;">{{Prod.projectUrl}}</p>
                 </td>
                 <td class="ShowTabletd">
                     <p style="width: 100px;word-break: break-all;">{{Prod.layerName}}</p>
@@ -112,6 +116,13 @@
                 <td class="ShowTabletd">{{Prod.layType}}</td>
                 <td class="ShowTabletd">{{Prod.mapType}}</td>
                 <td class="ShowTabletd">{{Prod.dataListUrl}}</td>
+
+                <td class="ShowTabletd">
+                    <p style="width: 200px;word-break: break-all;">{{Prod.paletteUrl}}</p>
+                </td>
+                <td class="ShowTabletd">{{Prod.screenshotUrl}}</td>
+                <td class="ShowTabletd">{{Prod.screenshotparam}}</td>
+                <td class="ShowTabletd">{{Prod.animeUrl}}</td>
                 <td>
                     <div style="width: 80px;">
                         <button type="button" class="btn btn-default" ng-click="ChangeModelFunc(Prod)"
@@ -221,6 +232,45 @@
                                 <input type="text" class="form-control"
                                        placeholder="{{ChangeModelData.dataListUrl}}"
                                        ng-model="ChangeModelData.dataListUrl">
+                            </div>
+                        </div>
+                        <!--11 调色板URL-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">调色板URL</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.paletteUrl}}"
+                                       ng-model="ChangeModelData.paletteUrl">
+                            </div>
+                        </div>
+
+                        <!--12 截图URL-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">截图URL</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.screenshotUrl}}"
+                                       ng-model="ChangeModelData.screenshotUrl">
+                            </div>
+                        </div>
+
+                        <!--13 截图参数-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">截图参数</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.screenshotparam}}"
+                                       ng-model="ChangeModelData.screenshotparam">
+                            </div>
+                        </div>
+
+                        <!--14 动画URL-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">动画URL</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.animeUrl}}"
+                                       ng-model="ChangeModelData.animeUrl">
                             </div>
                         </div>
                     </div>
@@ -368,6 +418,46 @@
                                 <input type="text" class="form-control"
                                        placeholder="{{AddModelData.dataListUrl}}"
                                        ng-model="AddModelData.dataListUrl">
+                            </div>
+                        </div>
+
+                        <!--11 调色板URL-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">调色板</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.paletteUrl}}"
+                                       ng-model="AddModelData.paletteUrl">
+                            </div>
+                        </div>
+
+                        <!--12 截图URL-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">截图URL</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.screenshotUrl}}"
+                                       ng-model="AddModelData.screenshotUrl">
+                            </div>
+                        </div>
+
+                        <!--13 截图参数-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">截图参数</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.screenshotparam}}"
+                                       ng-model="AddModelData.screenshotparam">
+                            </div>
+                        </div>
+
+                        <!--14 动画URL-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">动画URL</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.animeUrl}}"
+                                       ng-model="AddModelData.animeUrl">
                             </div>
                         </div>
                     </div>
