@@ -56,7 +56,7 @@
         /*是否显示video面板*/
         self.isShownVideoPanel = false;
         /*video帧频*/
-        self.fpsNum = 0;
+        self.fpsNum = 2;
         /*video play 标识*/
         self.isVideoPlayed = false;
         /*video 循环 标识*/
@@ -204,7 +204,13 @@
                 //2 启动动画
                 _playNextVideo(null);
             } else {
-                _stopAnime();
+                _stopAnime(function (layerNames) {
+                    if (layerNames !== null || layerNames !== undefined) {
+                        layerNames.forEach(function (item) {
+                            Shinetek.Ol3Opt.removeLayer(item);
+                        });
+                    }
+                });
             }
 
             function _playNextVideo(layerName) {
