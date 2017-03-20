@@ -463,7 +463,7 @@ a {
 
 .sv-animation-widget {
     display: block;
-    width: 380px;
+    width: 510px;
     border-radius: 8px;
     height: 135px;
     background: rgba(21,21,21,0.95);
@@ -514,11 +514,17 @@ a {
 .sv-animation-widget .sv-animation-widget-fps {
     display: inline-block;
     margin: 7px 0 0 10px;
-    width: 130px;
+    width: 260px;
+}
+
+.sv-animation-widget .sv-animation-widget-fps-label {
+    font-size: 12px;
+    margin: 0px auto;
+    width: 150px;
 }
 
 .sv-animation-widget .sv-animation-widget-fps .slider {
-    width: 130px!important;
+    width: 260px!important;
 }
 
 .sv-anim-dates-case {
@@ -636,7 +642,7 @@ a {
 }
 
 .sv-anim-dates-case :nth-child(3).sv-date-selector-widget {
-    right: 8px;
+    right: 5px;
 }
 
 

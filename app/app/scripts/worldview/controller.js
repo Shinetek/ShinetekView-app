@@ -63,8 +63,10 @@
         self.isLooped = false;
         /*video latest24 标识*/
         self.isLatest24 = false;
+        /**/
+        self.topsideLayer = {};
         /*video 动画起始时间*/
-        self.videoStartTime = moment(new Date()).add(-24, 'h');
+        self.videoStartTime = moment(new Date());
         /*video 动画结束时间*/
         self.videoEndTime = moment(new Date());
 
@@ -102,6 +104,8 @@
         self.playVideo = _playVideo;
         /*设置video动画的时间范围*/
         self.setVideoTimeRange = _setVideoTimeRange;
+        /*设置video动画播放最近24小时的数据*/
+        self.playVideoLatest24 = _playVideoLatest24;
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -148,6 +152,23 @@
 
         };
 
+        /**
+         * 设置video动画播放最近24小时的数据
+         * @private
+         */
+        function _playVideoLatest24() {
+            //1 设置标志, 时间范围区域 disable
+            //2 获取播放图层的数据列表
+            //3 根据最新数据计算动画的时间范围
+            //4 在timeline中设置播放范围
+            self.isLatest24 = ! self.isLatest24;
+            if (self.isLatest24) {
+                self.topsideLayer = self.baseLays[0];
+                self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
+                self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
+            }
+        }
+
 
         /**
          * 设置video动画的时间范围
@@ -157,11 +178,17 @@
          * @private
          */
         function _setVideoTimeRange(unit, opt, targetTime) {
+
+            if (self.isLatest24) return;
+
             var x;
             if (opt === 'plus') {
                 x = 1;
             } else {
                 x = -1;
+            }
+            if (unit === 'm') {
+                x = 15 * x;
             }
             targetTime.add(x, unit)
         }
@@ -172,6 +199,31 @@
          */
         function _playVideo() {
             self.isVideoPlayed = !self.isVideoPlayed;
+            if (self.isVideoPlayed) {
+                //1 获取数据列表
+                //2 启动动画
+                _playNextVideo(null);
+            } else {
+                _stopAnime();
+            }
+
+            function _playNextVideo(layerName) {
+                //1 移除最后加载的图层
+                //2 重新读取控制参数
+                //3 播放动画
+                if (layerName !== null) {
+                        Shinetek.Ol3Opt.removeLayer(layerName);
+                }
+                var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+                var timespan = Math.floor(1000 / self.fpsNum);
+                _startAnime(dateList, timespan, function (err, layerName) {
+                    if (self.isLooped) {
+                        setTimeout(function () {
+                            _playNextVideo(layerName);
+                        }, 3000);
+                    }
+                });
+            }
         }
 
         /**
@@ -965,6 +1017,11 @@
          */
         function _init() {
 
+            //初始化video动画播放时间范围
+            var tmp = moment(new Date());
+            self.videoEndTime = moment(tmp.add(1, "h").format("YYYY-MM-DD HH:00:00"));
+            self.videoStartTime = moment(tmp.add(-1, "d").format("YYYY-MM-DD HH:00:00"));
+
             //初始化图层列表
             _initLayerMenuModal(function () {
 
@@ -1136,7 +1193,7 @@
                     if (show_layer_num == (m_NumMax - 1)) {
                         console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
                         //结束当前定时器
-                        _anime_End();
+                        _stopAnime();
                         //返回最上层名字 用于移除当前动画图层使用
                         callback(m_DataAll[show_layer_num].LayerTimeName);
                         return;
@@ -1163,7 +1220,7 @@
          * 点击暂停时钟
          * @private
          */
-        function _anime_End() {
+        function _stopAnime() {
             console.log("循环停止");
             window.clearInterval(anime_timer);
         }
@@ -1175,7 +1232,7 @@
          * @param timespan 时间间隔 毫秒为单位 int 例如500
          * @private
          */
-        function _init_Anime(JsonData, timespan, callback) {
+        function _startAnime(JsonData, timespan, callback) {
             //处理JsonData
             var m_TotalList = [];
             var m_UrlList = JsonData.UrlList;
@@ -1214,7 +1271,7 @@
         }
 
 
-        //测试timeline
+        /*//测试timeline
         this._getTimelineDate = _getTimelineDate;
         function _getTimelineDate() {
 
@@ -1223,13 +1280,13 @@
             console.log("m_latestDate:" + m_latestDate);
 
             //获取动画列表部分 test
-            /*  var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
+            /!*  var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
              new Date("2017-03-20 00:00+0000"), "minute", 'http://10.24.10.108/IMAGEL2/CLM/yyyyMMdd_hhmm/');
 
              _init_Anime(m_UrlLisst, 500, function (m_LastLayer) {
              console.log("所有循环完成！m_LastLayer：" + m_LastLayer);
-             });*/
-        }
+             });*!/
+        }*/
 
     }
 
