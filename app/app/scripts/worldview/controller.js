@@ -69,7 +69,6 @@
         self.videoEndTime = moment(new Date());
 
 
-
         /*功能标签选择*/
         self.selectTab = _selectTab;
         self.selectTab_LayerMenuModal = _selectTab_LayerMenuModal;
@@ -122,7 +121,7 @@
         });
 
         /*帧频改变时 调整数值显示*/
-        sliderFps.on("slideStop", function(slideEvt) {
+        sliderFps.on("slideStop", function (slideEvt) {
             angular.element(document.getElementById("slider-fps-num")).text(slideEvt.value);
             self.fpsNum = slideEvt.value;
         });
@@ -191,7 +190,7 @@
             }
             targetTime.add(x, unit)
         }
-        
+
         /**
          * 播放动画
          * @private
@@ -726,8 +725,8 @@
 
         /**
          * 获取产品调色板
-         * @param {Object} layModule 
-         * @param {Function} next 
+         * @param {Object} layModule
+         * @param {Function} next
          */
         function _getProjectPalette(layModule, next) {
             if (layModule.paletteUrl === undefined || layModule.paletteUrl === "") {
@@ -762,6 +761,7 @@
         function _setVisibilityFromWMS(layModule) {
             Shinetek.Ol3Opt.setVisibility(layModule._id, layModule.mapType);
         }
+
 
         /**
          * 根据传入的图层对象 获取其数据存在列表 添加年月日全数据
@@ -861,10 +861,8 @@
         function _initMap() {
             //根据配置初始化底图
             Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
-            $("#snapshot").load("lib/screenshot/photo.html",function () {
-                screenshots.init("http://img1.3lian.com/2015/w7/98/d/22");
-            });
         }
+
 
         /**
          * 生成一个初始化的lays清单。
@@ -899,17 +897,21 @@
             //baseLays 获取cookies
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
-            /*
-             console.log(m_baseLays);
-             console.log(m_overLays);
-             */
-            //修改为缓存图层为空时，自动添加新图层
-            if (m_baseLays.length > 0 || m_overLays.length > 0) {
-                //进行初始化 根据 cookies 进行初始化
-                _initLaysFromCookies();
-            } else {
-                //根据数据库基础数据信息进行初始化
+            if (m_baseLays == null || m_overLays == null) {
                 _initLays();
+            } else {
+                /*
+                 console.log(m_baseLays);
+                 console.log(m_overLays);
+                 */
+                //修改为缓存图层为空时，自动添加新图层
+                if (m_baseLays.length > 0 || m_overLays.length > 0) {
+                    //进行初始化 根据 cookies 进行初始化
+                    _initLaysFromCookies();
+                } else {
+                    //根据数据库基础数据信息进行初始化
+                    _initLays();
+                }
             }
         }
 
@@ -1047,7 +1049,7 @@
         //需要进行动画的数据信息
         self.animedata = [];
         var animespeed = 500;
-
+        //  _animeinit();
         /**
          * 根据时间初始化函数
          * @param beginDate 开始日期
@@ -1057,12 +1059,14 @@
          * @private
          */
         function _animeinit() {
+            console.log("_animeinit");
+
             /*首先进行数据初始化*/
             //使用600-800 这个段数 进行
             //beginDate, endDate, anime_speed, anime_mode
             animespeed = 500;
-            var m_time_begin = moment("2017-03-06T00:00:00+0000").utc();
-            var m_time_end = moment("2017-03-06T13:00:00+0000").utc();
+            var m_time_begin = moment("2017-03-16T00:00:00+0000").utc();
+            var m_time_end = moment("2017-03-17T04:00:00+0000").utc();
             var layerid = "";
             var projectUrl = "";
             //遍历图层
@@ -1108,64 +1112,156 @@
                 m_itemInfo.LayerTimeName = layerid + "_" + i;
                 m_itemInfo.LayerTimeIndexZ = index_z_max - i;
                 m_TotalList.push(m_itemInfo);
+                //  console.log(m_itemInfo);
             }
             self.animedata = m_TotalList;
-            // console.log(m_TotalList);
+            //console.log(m_TotalList);
             remove_layer_num = 0;
             show_layer_num = 1;
-            add_layer_num = 3;
+            add_layer_num = 4;
             for (var i = remove_layer_num; i < add_layer_num - 1; i++) {
-                Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS"); //0
+                Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
             }
-            _animeclick();
+            // _animeclick();
         }
 
-        self._animeclick = _animeclick;
+        /**
+         * 点击事件
+         * @type {_animeclick}
+         * @private
+         */
+        self._animeclick = _anime_Begin;
+
         //定时器 动画控制 相关变量
         var anime_timer;
+        //移除图层的num
         var remove_layer_num;
+        //当前现实图层num
         var show_layer_num;
+        //添加图层num
         var add_layer_num;
         //当前动画状态 初始化为静止
-        var _beginTranShow_Flag = false;
+
 
         /**
          * 点击暂停开始等调用事件
          * @private
          */
-        function _animeclick() {
+        function _anime_Begin(timespan, callback) {
             var m_NumMax = self.animedata.length;
             var m_DataAll = self.animedata;
-            if (!_beginTranShow_Flag) {
-                console.log("循环开始");
-                anime_timer = setInterval(function () {
-                    if (remove_layer_num >= m_NumMax) {
-                        remove_layer_num = 0;
-                    }
-                    if (show_layer_num >= m_NumMax) {
-                        show_layer_num = 0;
-                    }
-                    if (add_layer_num >= m_NumMax) {
-                        add_layer_num = 0;
-                    }
-                    // console.log("setInterva：" + remove_layer_num + ":" + show_layer_num + ":" + add_layer_num);
-                    //console.log("当前显示时次：" + m_DataAll[show_layer_num].LayerTimeUrl);
-                    Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
-                    Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+            //对定时器赋值
+            anime_timer = setInterval(function () {
+                //是否加载成功
+                var m_Flag = Shinetek.Ol3Opt.oGetStatus();
+                //若下一个图层加载成功，则进行添加和移除
+                if (Shinetek.Ol3Opt.oGetStatus()) {
+                    //  console.log("载入:" + m_DataAll[add_layer_num].LayerTimeUrl);
+
+                    //移除上一层的显示
                     Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                     remove_layer_num++;
-                    show_layer_num++;
-                    add_layer_num++;
-                }, 2000);
-                _beginTranShow_Flag = true;
-            } else {
-                console.log("循环停止");
-                window.clearInterval(anime_timer);
-                _beginTranShow_Flag = false;
+                    //若当前显示为最后一张
+                    if (show_layer_num == (m_NumMax - 1)) {
+                        console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
+                        //结束当前定时器
+                        _anime_End();
+                        //返回最上层名字 用于移除当前动画图层使用
+                        callback(m_DataAll[show_layer_num].LayerTimeName);
+                        return;
+                    } else {
+                        //显示当前动画到了哪一张
+                        console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
+                        //若添加的图层非最后一张
+                        if (add_layer_num <= (m_NumMax - 1)) {
+                            //设置当前图层状态为显示模式
+                            Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+                            Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                            add_layer_num++;
+                        }
+                        show_layer_num++;
+                    }
+                }
+                else {
+                    console.log("载入false:" + m_Flag);
+                }
+            }, timespan);
+        }
+
+        /**
+         * 点击暂停时钟
+         * @private
+         */
+        function _anime_End() {
+            console.log("循环停止");
+            window.clearInterval(anime_timer);
+        }
+
+        /**
+         * 被调用的开始动画函数
+         * @param JsonData json数据内容（TimeLine 返回的,需要处理）
+         * @param callback
+         * @param timespan 时间间隔 毫秒为单位 int 例如500
+         * @private
+         */
+        function _init_Anime(JsonData, timespan, callback) {
+            //处理JsonData
+            var m_TotalList = [];
+            var m_UrlList = JsonData.UrlList;
+            var m_proid = JsonData._id;
+            var index_z_max = 550;
+            if (JsonData != undefined &&
+                m_UrlList != undefined && m_UrlList.length > 0 &&
+                m_proid != undefined) {
+                //遍历 存在数据 的URL的列表
+                for (var t = 0; t < m_UrlList.length; t++) {
+                    var m_itemInfo = [];
+                    m_itemInfo.LayerTimeUrl = m_UrlList[t];
+                    m_itemInfo.LayerTimeName = m_proid + "_" + t;
+                    m_itemInfo.LayerTimeIndexZ = index_z_max + m_UrlList.length - t;
+                    m_TotalList.push(m_itemInfo);
+                }
+                self.animedata = m_TotalList;
             }
+
+            remove_layer_num = 0;
+            show_layer_num = 1;
+            add_layer_num = 2;
+            for (var i = remove_layer_num; i < 4; i++) {
+                Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
+                Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+                add_layer_num++;
+            }
+            //判断 timespan 若非数字类型
+            if (typeof timespan != "number") {
+                timespan = parseInt(timespan);
+            }
+            //开始此次循环
+            if (timespan > 0) {
+                _anime_Begin(timespan, callback);
+            }
+        }
+
+
+        //测试timeline
+        this._getTimelineDate = _getTimelineDate;
+        function _getTimelineDate() {
+
+            //获取最新数据部分 test
+            var m_latestDate = timeLine.getLatestDate("云类型58ab95802f3b4377bc1cbd1d", "minute");
+            console.log("m_latestDate:" + m_latestDate);
+
+            //获取动画列表部分 test
+            /*  var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
+             new Date("2017-03-20 00:00+0000"), "minute", 'http://10.24.10.108/IMAGEL2/CLM/yyyyMMdd_hhmm/');
+
+             _init_Anime(m_UrlLisst, 500, function (m_LastLayer) {
+             console.log("所有循环完成！m_LastLayer：" + m_LastLayer);
+             });*/
         }
 
     }
 
-})();
+})
+();
