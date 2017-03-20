@@ -30,6 +30,7 @@
         var timeLine = new TimeLine();
         var layerMenu = angular.element(document.getElementById("layerMenu"));
         var timeLineElm = angular.element(document.getElementById("timeLine"));
+        var sliderFps = angular.element(document.getElementById("slider-fps")).slider();
         /*var overlaysZone = angular.element(document.getElementById('overlays-zone'));*/
 
         self.currentTab = "Layer";
@@ -52,6 +53,22 @@
         self.currentGroup = {};
         self.currentLayer = {};
         self.currentInst = {};
+        /*是否显示video面板*/
+        self.isShownVideoPanel = false;
+        /*video帧频*/
+        self.fpsNum = 0;
+        /*video play 标识*/
+        self.isVideoPlayed = false;
+        /*video 循环 标识*/
+        self.isLooped = false;
+        /*video latest24 标识*/
+        self.isLatest24 = false;
+        /*video 动画起始时间*/
+        self.videoStartTime = moment(new Date()).add(-24, 'h');
+        /*video 动画结束时间*/
+        self.videoEndTime = moment(new Date());
+
+
 
         /*功能标签选择*/
         self.selectTab = _selectTab;
@@ -80,6 +97,12 @@
         self.addThisProject = _addThisProject;
         /*移除选中的图层*/
         self.removeThisLayer = _removeThisLayer;
+        /*打开video面板*/
+        self.showVideoPanel = _showVideoPanel;
+        /*播放video*/
+        self.playVideo = _playVideo;
+        /*设置video动画的时间范围*/
+        self.setVideoTimeRange = _setVideoTimeRange;
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -88,12 +111,20 @@
             _refreshLaysCookies();
             return;
         };
+
         _init();
 
         //时间轴控件发生日期改变时 重新加载所有图层
         timeLineElm.on("DateTimeChange", function (event, selectDate) {
             _refreshLayers();
         });
+
+        /*帧频改变时 调整数值显示*/
+        sliderFps.on("slideStop", function(slideEvt) {
+            angular.element(document.getElementById("slider-fps-num")).text(slideEvt.value);
+            self.fpsNum = slideEvt.value;
+        });
+
 
         /**
          * 拖拽指令函数
@@ -117,6 +148,39 @@
             }
 
         };
+
+
+        /**
+         * 设置video动画的时间范围
+         * @param {String} unit 单位（Y=年; M=月; D=日)
+         * @param {String} opt 操作方式 (plus=加; minus=减)
+         * @param {Object} targetTime 目标时间
+         * @private
+         */
+        function _setVideoTimeRange(unit, opt, targetTime) {
+            var x;
+            if (opt === 'plus') {
+                x = 1;
+            } else {
+                x = -1;
+            }
+            targetTime.add(x, unit)
+        }
+        
+        /**
+         * 播放动画
+         * @private
+         */
+        function _playVideo() {
+            self.isVideoPlayed = !self.isVideoPlayed;
+        }
+
+        /**
+         * 显示video面板
+         */
+        function _showVideoPanel() {
+            self.isShownVideoPanel = !self.isShownVideoPanel;
+        }
 
         /**
          * 重载所有已添加的图层
@@ -901,7 +965,6 @@
          * @private
          */
         function _init() {
-
 
             //初始化图层列表
             _initLayerMenuModal(function () {

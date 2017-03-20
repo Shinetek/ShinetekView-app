@@ -417,3 +417,228 @@ a {
 #layer-accordion .layer-accordion-content-instlist > a:focus {
     color: #e2e2e2;
 }
+
+.sv-toolbar {
+    position: absolute;
+    right: 80px;
+    top: 15px;
+    border-radius: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.sv-toolbar-button {
+    display: inline-block;
+    margin: 0;
+    background: rgba(40,40,40,0.85);
+    border: 1px solid #eee;
+    border-radius: 6px;    
+    color: #eee;
+}
+
+.sv-toolbar-button:hover {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid #333;
+    color: rgb(40,40,40);;
+}
+
+
+.sv-toolbar-button label {
+    border-radius: 5px;
+    font-size: 2.2em;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    line-height: normal;
+    cursor: pointer;
+    vertical-align: center;
+    overflow: visible;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: -3px;
+    margin-bottom: 0px;
+}
+
+.sv-animation-widget {
+    display: block;
+    width: 380px;
+    border-radius: 8px;
+    height: 135px;
+    background: rgba(21,21,21,0.95);
+    position: absolute;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translate(-50%);
+    color: #fff;
+}
+
+.sv-animation-widget .sv-animation-widget-header {
+    display: block;
+    text-align: center;
+    margin: 7px 0 0 10px;
+    text-transform: capitalize;
+}
+
+.sv-animation-widget .sv-animation-widget-play {
+    display: inline-block;
+    height: 35px;
+    width: 42px;
+    background: #295f92;
+    position: relative;
+    border-radius: 5px;
+    margin: 7px 0 0 10px;
+}
+
+.sv-animation-widget .sv-animation-widget-play .item-start {
+    color: #fff;
+}
+
+.sv-animation-widget .sv-animation-widget-play .item-stop {
+    color: #212121;
+}
+
+.sv-animation-widget a .glyphicon {
+    font-size: 28px;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding-bottom: 4px;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+}
+
+.sv-animation-widget .sv-animation-widget-fps {
+    display: inline-block;
+    margin: 7px 0 0 10px;
+    width: 130px;
+}
+
+.sv-animation-widget .sv-animation-widget-fps .slider {
+    width: 130px!important;
+}
+
+.sv-anim-dates-case {
+    height: 48px;
+    width: 100%;
+    position: relative;
+    margin: 0px;
+}
+
+.sv-anim-dates-case :nth-child(1).sv-date-selector-widget {
+    left: 5px;
+}
+
+.sv-animation-widget .sv-date-selector-widget {
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    float: left;
+}
+
+.sv-date-selector-widget :nth-child(1).input-wrapper {
+    max-width: 40px;
+}
+
+.sv-animation-widget .sv-date-selector-widget .input-wrapper {
+    text-align: center;
+    margin: 0 1px;
+}
+
+.sv-date-selector-widget .input-wrapper {
+    display: inline-block;
+    background: 0 0;
+    border: 1px solid transparent;
+    vertical-align: middle;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.sv-date-selector-widget .input-wrapper:hover {
+    border: 1px solid #ffff;
+}
+
+.sv-date-selector-widget .date-arrows svg {
+    margin: 0 auto;
+    overflow: visible;
+    vertical-align: top;
+    display: block;
+}
+
+.sv-date-selector-widget .date-arrows {
+    cursor: pointer;
+}
+
+.sv-date-selector-widget .date-arrows:hover {
+    background: #ffff;
+}
+
+.sv-date-selector-widget .date-arrows svg path {
+    fill: #888;
+}
+
+.sv-date-selector-widget .date-arrows:hover svg path {
+    fill: #212121;
+}
+
+.sv-date-selector-widget .date-arrows.date-arrows-up {
+    display: block;
+    height: 10px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.sv-date-selector-widget input {
+    height: inherit;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    background: 0 0;
+    border: 0;
+    font-family: ‘Lucida Console’,Monaco,monospace;
+    font-size: 16px;
+    font-weight: 500;
+    vertical-align: middle;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 0;
+}
+
+.sv-date-selector-widget .date-arrows.date-arrows-down {
+    display: block;
+    height: 10px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
+}
+
+.sv-animation-widget .thru-label {
+    position: absolute;
+    transform: translate(-50%, 0px);
+    -webkit-transform: translate(-50%, 0px);
+    color: #fff;
+    left: 50%;
+    text-align: center;
+    bottom: 9px;
+    z-index: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.sv-anim-dates-case :nth-child(3).sv-date-selector-widget {
+    right: 8px;
+}
+
+
+
+
