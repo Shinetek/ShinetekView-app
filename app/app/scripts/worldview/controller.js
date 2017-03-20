@@ -56,7 +56,7 @@
         /*是否显示video面板*/
         self.isShownVideoPanel = false;
         /*video帧频*/
-        self.fpsNum = 0;
+        self.fpsNum = 2;
         /*video play 标识*/
         self.isVideoPlayed = false;
         /*video 循环 标识*/
@@ -1096,7 +1096,6 @@
                 var m_Flag = Shinetek.Ol3Opt.oGetStatus();
                 //若下一个图层加载成功，则进行添加和移除
                 if (Shinetek.Ol3Opt.oGetStatus()) {
-                    //  console.log("载入:" + m_DataAll[add_layer_num].LayerTimeUrl);
 
                     //移除上一层的显示
                     Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
@@ -1137,7 +1136,7 @@
             window.clearInterval(anime_timer);
             var m_showList = [];
             //根据当前的 remove_layer_num add_layer_num
-            //遍历获取 当前所有 已经添加 但是未被移除的图层名称
+            //遍历获取 当前所有 已经添加 但是未被移除的图层名称 测试ok 我的确加了那么多层QAQ
             for (var w = remove_layer_num; w < add_layer_num; w++) {
                 m_showList.push(self.animedata[w].LayerTimeName);
             }
@@ -1146,7 +1145,7 @@
 
         /**
          * 被调用的开始动画函数
-         * @param JsonData json数据内容（TimeLine 返回的,需要处理）
+         * @param JsonData json数据内容（TimeLine 返回的,需要再处理）
          * @param callback
          * @param timespan 时间间隔 毫秒为单位 int 例如500
          * @private
@@ -1177,6 +1176,7 @@
             for (var i = remove_layer_num; i < 4; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+
                 add_layer_num++;
             }
             //判断 timespan 若非数字类型
