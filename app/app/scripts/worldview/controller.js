@@ -103,6 +103,8 @@
         self.playVideo = _playVideo;
         /*设置video动画的时间范围*/
         self.setVideoTimeRange = _setVideoTimeRange;
+        /*设置video动画播放最近24小时的数据*/
+        self.playVideoLatest24 = _playVideoLatest24;
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -148,6 +150,23 @@
             }
 
         };
+
+        /**
+         * 设置video动画播放最近24小时的数据
+         * @private
+         */
+        function _playVideoLatest24() {
+            //1 设置标志
+            //2 获取播放图层的数据列表
+            //3 根据最新数据计算动画的时间范围
+            self.isLatest24 = ! self.isLatest24;
+            if (self.isLatest24) {
+                var topsideLayer = self.baseLays[0];
+                //alert(JSON.stringify(topsideLayer));
+                timeLine.getLatestDate(topsideLayer.projectName + topsideLayer._id, "minute");
+            }
+
+        }
 
 
         /**

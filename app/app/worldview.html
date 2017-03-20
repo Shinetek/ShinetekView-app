@@ -50,7 +50,7 @@
     <a title="循环播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLooped = !WorldviewCtrl.isLooped">
         <i class="glyphicon glyphicon-retweet" ng-class="{'item-start': WorldviewCtrl.isLooped === true, 'item-stop': WorldviewCtrl.isLooped === false}"></i>
     </a>
-    <a title="播放24小时内的最新数据" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLatest24 = !WorldviewCtrl.isLatest24">
+    <a title="播放24小时内的最新数据" class="sv-animation-widget-play" ng-click="WorldviewCtrl.playVideoLatest24()">
         <i class="glyphicon glyphicon-time" ng-class="{'item-start': WorldviewCtrl.isLatest24 === true, 'item-stop': WorldviewCtrl.isLatest24 === false}"></i>
     </a>
     <div class="sv-animation-widget-fps">
