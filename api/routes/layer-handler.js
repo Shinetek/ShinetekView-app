@@ -179,6 +179,7 @@
             try {
                 var projectInfo = new ProjectInfoSchema();
                 if (projectInfo.reportVerify(body)) {
+
                     //如果body内数据正确
                     ProjectInfoSchema.update({
                         _id: body._id
@@ -193,7 +194,11 @@
                             projectUrl: body.projectUrl,
                             mapType: body.mapType,
                             isDefault: body.isDefault,
-                            dataListUrl: body.dataListUrl
+                            dataListUrl: body.dataListUrl,
+                            paletteUrl: body.paletteUrl,
+                            screenshotUrl: body.screenshotUrl,
+                            screenshotparam: body.screenshotparam,
+                            animeUrl: body.animeUrl
                         }
                     }, function (err) {
                         if (err) {
