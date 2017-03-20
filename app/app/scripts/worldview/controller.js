@@ -1132,16 +1132,18 @@
                     //移除上一层的显示
                     Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                     remove_layer_num++;
-
                     //若当前显示为最后一张
                     if (show_layer_num == (m_NumMax - 1)) {
                         console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
+                        //结束当前定时器
                         _anime_End();
-                        //返回最上层名字
+                        //返回最上层名字 用于移除当前动画图层使用
                         callback(m_DataAll[show_layer_num].LayerTimeName);
                         return;
                     } else {
+                        //显示当前动画到了哪一张
                         console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
+                        //若添加的图层非最后一张
                         if (add_layer_num <= (m_NumMax - 1)) {
                             //设置当前图层状态为显示模式
                             Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
@@ -1211,7 +1213,8 @@
             }
         }
 
-//测试timeline
+
+        //测试timeline
         this._getTimelineDate = _getTimelineDate;
         function _getTimelineDate() {
 
