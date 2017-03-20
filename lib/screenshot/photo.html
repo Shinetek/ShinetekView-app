@@ -6,7 +6,7 @@
 </head>
 <body>
 <div id="cameraTop">
-    <span>Take a snapshot</span>
+    <span>图像裁剪</span>
     <button type="button" class="btn btn-default" id="release"><span>X</span></button>
 </div>
 <div id="cameraBottom">
@@ -17,14 +17,14 @@
             <option value="">1km</option>
             <option value="">2km</option>
         </select>
-        Resolution (per pixel)
+        分辨率 (像素)
     </div>
     <div class="wv-image-header">
         <select id="wv-image-format">
             <option value="image/jpeg" selected="selected">JPEG</option>
             <option value="image/png">PNG</option>
         </select>
-        Format
+        格式
     </div>
     <form id="coords"
           class="coords"
@@ -39,14 +39,14 @@
                 <label>H</label><input class="form-control" type="text" id="h" name="h" /><br>
             </div>
             <label>左上角经纬度</label><input class="form-control" type="text" id="topLeft" name="topLeft" /><br>
-            <label>右下角经纬度</label><input class="form-control" type="text" id="bottomRight" name="bottomRight" />
+            <label class="rbXY">右下角经纬度</label><input class="form-control" type="text" id="bottomRight" name="bottomRight" />
         </div>
     </form>
     <div class="myBut" id="determine">
         <a class="mybut" id="ensure">确定选框</a>
     </div>
-    <div class="myBut" id="down">
-        <a class="mybut" id="downLoad">DownLoad</a>
+    <div class="myBut" id="screenDown">
+        <a class="mybut" id="screenDownLoad">下载</a>
     </div>
 
 

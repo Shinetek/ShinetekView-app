@@ -1,5 +1,5 @@
 .jcrop-holder{
-    opacity: 0.2;
+    opacity: 1;
 }
 
 #snapshot {
@@ -54,7 +54,7 @@
     margin-left: 14px;
 }
 
-div#down{
+div#screenDown{
     float: left;
 }
 
@@ -219,9 +219,17 @@ div#determine{
     float: left;
 }
 
-div#down{
+div#screenDown{
     float: right;
 
+}
+
+#coords .form-group{
+    margin-top: 15px;
+}
+
+.rbXY{
+    margin-top: -10px;
 }
 
 #aaa{
