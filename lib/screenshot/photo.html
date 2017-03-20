@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="cameraTop">
+    <span>Take a snapshot</span>
+    <button type="button" class="btn btn-default" id="release"><span>X</span></button>
+</div>
+<div id="cameraBottom">
+    <div class="wv-image-header">
+        <select id="wv-image-resolution">
+            <option value="">200m</option>
+            <option value="" selected="selected">500m</option>
+            <option value="">1km</option>
+            <option value="">2km</option>
+        </select>
+        Resolution (per pixel)
+    </div>
+    <div class="wv-image-header">
+        <select id="wv-image-format">
+            <option value="image/jpeg" selected="selected">JPEG</option>
+            <option value="image/png">PNG</option>
+        </select>
+        Format
+    </div>
+    <form id="coords"
+          class="coords"
+          onsubmit="return false;">
+        <div class="form-group">
+            <div class="xydisplay">
+                <label>X1</label> <input class="form-control" type="text" id="x1" name="x1" /><br>
+                <label>Y1</label> <input class="form-control" type="text" id="y1" name="y1" /><br>
+                <label>X2</label> <input class="form-control" type="text" id="x2" name="x2" /><br>
+                <label>Y2</label> <input class="form-control" type="text" id="y2" name="y2" /><br>
+                <label>W</label><input class="form-control" type="text" id="w" name="w" /><br>
+                <label>H</label><input class="form-control" type="text" id="h" name="h" /><br>
+            </div>
+            <label>左上角经纬度</label><input class="form-control" type="text" id="topLeft" name="topLeft" /><br>
+            <label>右下角经纬度</label><input class="form-control" type="text" id="bottomRight" name="bottomRight" />
+        </div>
+    </form>
+    <div class="myBut" id="determine">
+        <a class="mybut" id="ensure">确定选框</a>
+    </div>
+    <div class="myBut" id="down">
+        <a class="mybut" id="downLoad">DownLoad</a>
+    </div>
+
+
+</div>
+</body>
+</html>
