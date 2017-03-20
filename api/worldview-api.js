@@ -67,6 +67,11 @@
          */
         require('./routes/datalist-handler.js')(server, BASEPATH);
 
+        /**
+         * 数据存在列表示例API
+         */
+        require('./routes/palette-handler.js')(server, BASEPATH);
+
         server.listen(HTTP_PORT, function () {
             debug('%s listening at %s ', server.name, server.url);
         });
