@@ -64,7 +64,7 @@
         /*video latest24 标识*/
         self.isLatest24 = false;
         /*video 动画起始时间*/
-        self.videoStartTime = moment(new Date()).add(-24, 'h');
+        self.videoStartTime = moment(new Date());
         /*video 动画结束时间*/
         self.videoEndTime = moment(new Date());
 
@@ -163,6 +163,9 @@
                 x = 1;
             } else {
                 x = -1;
+            }
+            if (unit === 'm') {
+                x = 15 * x;
             }
             targetTime.add(x, unit)
         }
@@ -706,7 +709,7 @@
          */
         function _getProjectPalette(layModule, next) {
             if (layModule.paletteUrl === undefined || layModule.paletteUrl === "") {
-                cb(null, undefined);
+                next(null, undefined);
             } else {
                 WorldviewServices.getProjectPalette(layModule.paletteUrl, function (res) {
                     next(null, res);
@@ -959,6 +962,11 @@
          * @private
          */
         function _init() {
+
+            //初始化video动画播放时间范围
+            var tmp = moment(new Date());
+            self.videoEndTime = moment(tmp.add(1, "h").format("YYYY-MM-DD HH:00:00"));
+            self.videoStartTime = moment(tmp.add(-1, "d").format("YYYY-MM-DD HH:00:00"));
 
             //初始化图层列表
             _initLayerMenuModal(function () {

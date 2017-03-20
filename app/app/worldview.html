@@ -45,7 +45,7 @@
         Animate Map in daily Increments
     </div>
     <a title="播放动画" class="sv-animation-widget-play" ng-click="WorldviewCtrl.playVideo()">
-        <i class="glyphicon" ng-class="{'glyphicon-play': WorldviewCtrl.isVideoPlayed === false, 'glyphicon-pause': WorldviewCtrl.isVideoPlayed === true}"></i>
+        <i class="glyphicon" ng-class="{'glyphicon-play': WorldviewCtrl.isVideoPlayed === false, 'glyphicon-stop': WorldviewCtrl.isVideoPlayed === true}"></i>
     </a>
     <a title="循环播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLooped = !WorldviewCtrl.isLooped">
         <i class="glyphicon glyphicon-retweet" ng-class="{'item-start': WorldviewCtrl.isLooped === true, 'item-stop': WorldviewCtrl.isLooped === false}"></i>
@@ -56,7 +56,7 @@
     <div class="sv-animation-widget-fps">
         <input id="slider-fps" type="text" data-provide="slider" data-slider-min="0.5" data-slider-max="4"
                data-slider-step="0.5" data-slider-value="2"/>
-        <div style="font-size: 12px">
+        <div class="sv-animation-widget-fps-label" style="font-size: 12px;">
             <i id="slider-fps-num">2</i> Frames Per Second
         </div>
     </div>
@@ -104,6 +104,19 @@
                     </svg>
                 </div>
             </div>
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('m', 'plus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="5" maxlength="5" ng-value="WorldviewCtrl.videoStartTime.format('HH:mm')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('m', 'minus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
+                    </svg>
+                </div>
+            </div>
         </div>
         <div class="thru-label">To</div>
         <div class="sv-date-selector-widget">
@@ -141,6 +154,19 @@
                 </div>
                 <input tabindex="1" type="text" size="4" maxlength="4" ng-value="WorldviewCtrl.videoEndTime.format('DD')">
                 <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('d', 'minus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up" ng-click="WorldviewCtrl.setVideoTimeRange('m', 'plus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="5" maxlength="5" ng-value="WorldviewCtrl.videoEndTime.format('HH:mm')">
+                <div class="date-arrows date-arrows-down" ng-click="WorldviewCtrl.setVideoTimeRange('m', 'minus', WorldviewCtrl.videoEndTime)">
                     <svg width="25" height="8">
                         <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z" />
                     </svg>
