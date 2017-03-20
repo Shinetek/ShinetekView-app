@@ -69,7 +69,6 @@
         self.videoEndTime = moment(new Date());
 
 
-
         /*功能标签选择*/
         self.selectTab = _selectTab;
         self.selectTab_LayerMenuModal = _selectTab_LayerMenuModal;
@@ -120,7 +119,7 @@
         });
 
         /*帧频改变时 调整数值显示*/
-        sliderFps.on("slideStop", function(slideEvt) {
+        sliderFps.on("slideStop", function (slideEvt) {
             angular.element(document.getElementById("slider-fps-num")).text(slideEvt.value);
             self.fpsNum = slideEvt.value;
         });
@@ -166,7 +165,7 @@
             }
             targetTime.add(x, unit)
         }
-        
+
         /**
          * 播放动画
          * @private
@@ -1132,22 +1131,24 @@
 
                     //移除上一层的显示
                     Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
-
+                    remove_layer_num++;
 
                     //若当前显示为最后一张
                     if (show_layer_num == (m_NumMax - 1)) {
-                        console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
+                        console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
                         _anime_End();
-                        callback();
+                        //返回最上层名字
+                        callback(m_DataAll[show_layer_num].LayerTimeName);
                         return;
                     } else {
                         console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
-                        //设置当前图层状态为显示模式
-                        Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
-                        Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
-                        remove_layer_num++;
+                        if (add_layer_num <= (m_NumMax - 1)) {
+                            //设置当前图层状态为显示模式
+                            Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+                            Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                            add_layer_num++;
+                        }
                         show_layer_num++;
-                        add_layer_num++;
                     }
                 }
                 else {
@@ -1194,10 +1195,11 @@
 
             remove_layer_num = 0;
             show_layer_num = 1;
-            add_layer_num = 4;
-            for (var i = remove_layer_num; i < add_layer_num - 1; i++) {
+            add_layer_num = 2;
+            for (var i = remove_layer_num; i < 4; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+                add_layer_num++;
             }
             //判断 timespan 若非数字类型
             if (typeof timespan != "number") {
@@ -1212,14 +1214,18 @@
 //测试timeline
         this._getTimelineDate = _getTimelineDate;
         function _getTimelineDate() {
-            console.log("_getTimelineDate");
-            var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
-                new Date("2017-03-20 00:00+0000"), "minute", 'http://10.24.10.108/IMAGEL2/CLT/yyyyMMdd_hhmm/');
-            console.log(m_UrlLisst);
-            _init_Anime(m_UrlLisst, 500, function () {
-                console.log("所有循环完成！");
-            });
-            console.log(m_UrlLisst);
+
+            //获取最新数据部分 test
+            var m_latestDate = timeLine.getLatestDate("云类型58ab95802f3b4377bc1cbd1d", "minute");
+            console.log("m_latestDate:" + m_latestDate);
+
+            //获取动画列表部分 test
+            /*  var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
+             new Date("2017-03-20 00:00+0000"), "minute", 'http://10.24.10.108/IMAGEL2/CLM/yyyyMMdd_hhmm/');
+
+             _init_Anime(m_UrlLisst, 500, function (m_LastLayer) {
+             console.log("所有循环完成！m_LastLayer：" + m_LastLayer);
+             });*/
         }
 
     }
