@@ -54,7 +54,7 @@
     margin-left: 14px;
 }
 
-div#screenDown{
+div#down{
     float: left;
 }
 
@@ -219,17 +219,9 @@ div#determine{
     float: left;
 }
 
-div#screenDown{
+div#down{
     float: right;
 
-}
-
-#coords .form-group{
-    margin-top: 15px;
-}
-
-.rbXY{
-    margin-top: -10px;
 }
 
 #aaa{

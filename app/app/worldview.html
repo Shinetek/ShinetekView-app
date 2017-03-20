@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="bower_components/timeline/css/TimeLine_shk.css">
     <link rel="stylesheet" href="bower_components/openlayer/dist/css/ol3.css">
+    <link rel="stylesheet" href="lib/screenshot/css/jquery.Jcrop.css">   <!--截图-->
+    <link rel="stylesheet" href="lib/screenshot/css/screenshots.css">    <!--截图封装-->
     <link rel="stylesheet" href="bower_components/openlayer/dist/css/shk-ol3.css">
     <link rel="stylesheet" href="styles/worldview.css">
     <!--全局配置文件-->
@@ -19,11 +21,19 @@
 <body style="background-color: #3c3f41; position: absolute;left: 0px;top: 0px;width: 100%;height: 100%"
       ng-controller="WorldviewController as WorldviewCtrl">
 
-<!--OpenLayer start-->
-<div class="view-area-css map" id="map">
+<div id="mapbig">
+    <!--Jcrop start-->
+    <div id="snapshot">
 
+    </div>
+    <!--Jcrop end-->
+
+    <!--OpenLayer start-->
+    <div class="view-area-css map" id="map">
+
+    </div>
+    <!--OpenLayer end-->
 </div>
-<!--OpenLayer end-->
 
 <!--右上角控制按钮 start-->
 <div>
@@ -537,6 +547,10 @@
 <script type="text/javascript" src="bower_components/openlayer/dist/js/ol3-debug.js"></script>
 <script type="text/javascript" src="bower_components/openlayer/dist/js/ol3.js"></script>
 <script type="text/javascript" src="bower_components/openlayer/dist/js/ol3-opt.js"></script>
+
+<!--Jcrop 部分引用-->
+<script src="lib/screenshot/js/jquery.Jcrop.js"></script>
+<script type="text/javascript" src="lib/screenshot/js/screenshots.js"></script>
 
 <!--Palette 部分引用-->
 <script type="text/javascript" src="bower_components/palette/dist/Palette.js"></script>
