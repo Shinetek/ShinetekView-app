@@ -156,16 +156,16 @@
          * @private
          */
         function _playVideoLatest24() {
-            //1 设置标志
+            //1 设置标志, 时间范围区域 disable
             //2 获取播放图层的数据列表
             //3 根据最新数据计算动画的时间范围
+            //4 在timeline中设置播放范围
             self.isLatest24 = ! self.isLatest24;
             if (self.isLatest24) {
                 var topsideLayer = self.baseLays[0];
-                //alert(JSON.stringify(topsideLayer));
-                timeLine.getLatestDate(topsideLayer.projectName + topsideLayer._id, "minute");
+                self.videoStartTime = timeLine.getLatestDate(topsideLayer.projectName + topsideLayer._id, "minute").add(-24, "h");
+                self.videoEndTime = timeLine.getLatestDate(topsideLayer.projectName + topsideLayer._id, "minute");
             }
-
         }
 
 
@@ -177,6 +177,9 @@
          * @private
          */
         function _setVideoTimeRange(unit, opt, targetTime) {
+
+            if (self.isLatest24) return;
+
             var x;
             if (opt === 'plus') {
                 x = 1;
@@ -728,7 +731,7 @@
          */
         function _getProjectPalette(layModule, next) {
             if (layModule.paletteUrl === undefined || layModule.paletteUrl === "") {
-                cb(null, undefined);
+                next(null, undefined);
             } else {
                 WorldviewServices.getProjectPalette(layModule.paletteUrl, function (res) {
                     next(null, res);
