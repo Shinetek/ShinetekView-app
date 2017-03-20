@@ -10,7 +10,7 @@ var screenshots={
      * @param url
      */
     init:function(url){
-        var oCamera=document.getElementsByClassName("camera")[0];
+        var oCamera=document.getElementsByClassName("sv-toolbar-button")[1];
         var oSnapshot=document.getElementById("snapshot");
         var api;
         /**
@@ -29,22 +29,21 @@ var screenshots={
                 onRelease:  screenshots.clearCoords,
             },function(){
                 api = this;
-                api.setSelect([130,65,130+350,65+285]);
+                api.setSelect([430,65,430+350,65+285]);
                 api.setOptions({ bgFade: true });
                 api.ui.selection.addClass('jcrop-selection');
             });
 
-            $('#coords').on('change','input',function(e){
-             var x1 = $('#x1').val(),
-             x2 = $('#x2').val(),
-             y1 = $('#y1').val(),
-             y2 = $('#y2').val();
-             jcrop_api.setSelect([x1,y1,x2,y2]);
-             });
-
+            /*$('#coords').on('change','input',function(e){
+                var x1 = $('#x1').val(),
+                    x2 = $('#x2').val(),
+                    y1 = $('#y1').val(),
+                    y2 = $('#y2').val();
+                jcrop_api.setSelect([x1,y1,x2,y2]);
+            });*/
         };
 
-        var oBut=document.getElementById("down");
+        var oBut=document.getElementById("screenDown");
         /**
          * 点击DownLoad下载所截图片时需要的信息
          */
@@ -65,13 +64,14 @@ var screenshots={
             //获取所选图片格式
             var oselTwo=document.getElementById("wv-image-format");
             var oformat=oselTwo.options[oselTwo.selectedIndex].text;
+            (oformat=="JPEG")?oformat="jpg":oformat="png";
             console.log(oformat);
             //获取星标仪器
             /*var oDiv=document.getElementById("baselays-zone").getElementsByTagName("div")[0].getElementsByTagName("div")[0].getElementsByTagName("div")[1];
              var oPro=oDiv.getElementsByTagName("p")[0].innerHTML;
              var oStar=oDiv.getElementsByTagName("p")[0].innerHTML;*/
             //生成新的url地址
-            var oUrl=url+"22"+".jpg";
+            var oUrl=url+"22"+"."+oformat;
             console.log(oUrl);
             //出现浏览器下载框
             screenshots.oDownLoad(oUrl);
@@ -213,14 +213,14 @@ var screenshots={
      * @param url
      */
     oDownLoad:function (url) {
-        var odownLoad=document.getElementById("downLoad");
+        var odownLoad=document.getElementById("screenDownLoad");
         if (screenshots.myBrowser()==="IE"||screenshots.myBrowser()==="Edge"){
             //IE
             odownLoad.href="#";
             var oImg=document.createElement("img");
             oImg.src=url;
             oImg.id="downImg";
-            var odown=document.getElementById("down");
+            var odown=document.getElementById("screenDown");
             odown.appendChild(oImg);
             screenshots.SaveAs5(document.getElementById('downImg').src)
         }else{
