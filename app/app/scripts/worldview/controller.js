@@ -1193,7 +1193,7 @@
                     if (show_layer_num == (m_NumMax - 1)) {
                         console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
                         //结束当前定时器
-                        _anime_End();
+                        _stopAnime();
                         //返回最上层名字 用于移除当前动画图层使用
                         callback(m_DataAll[show_layer_num].LayerTimeName);
                         return;
