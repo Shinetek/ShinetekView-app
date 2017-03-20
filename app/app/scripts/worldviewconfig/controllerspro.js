@@ -9,7 +9,7 @@
 
         .controller('ProdConfigController', ProductInfoCtrl);
 
-    function ProductInfoCtrl($scope, configservice) {
+    function ProductInfoCtrl($scope) {
 
         //初始化示例
         //未经过处理的产品
@@ -135,6 +135,13 @@
          * @constructor
          */
         $scope.SubmitChangeFunc = function () {
+            //$scope.ChangeModelData 数组处理
+            //分割显示
+            var m_paramlist = $scope.ChangeModelData.screenshotparam.toString().split(',');
+            $scope.ChangeModelData.screenshotparam = [];
+            m_paramlist.forEach(function (m_param) {
+                $scope.ChangeModelData.screenshotparam.push(m_param);
+            });
             var PostData = JSON.stringify($scope.ChangeModelData);
             if ($scope.ChangeModelData != null) {
                 //POST
@@ -149,6 +156,7 @@
                         $scope.GetInfoALL();
                     },
                     error: function (err) {
+                        $scope.GetInfoALL();
                         // alert(err);
                         //alert("数据添加失败!\n err:" + err + "\n请检查 POST api：" + $scope.UpdateProdInfoUrl);
                     },
@@ -240,7 +248,5 @@
                 });
             }
         };
-
-
     }
 })();

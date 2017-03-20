@@ -161,7 +161,7 @@
             //2 获取播放图层的数据列表
             //3 根据最新数据计算动画的时间范围
             //4 在timeline中设置播放范围
-            self.isLatest24 = ! self.isLatest24;
+            self.isLatest24 = !self.isLatest24;
             if (self.isLatest24) {
                 self.topsideLayer = self.baseLays[0];
                 self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
@@ -218,7 +218,7 @@
                 //2 重新读取控制参数
                 //3 播放动画
                 if (layerName !== null) {
-                        Shinetek.Ol3Opt.removeLayer(layerName);
+                    Shinetek.Ol3Opt.removeLayer(layerName);
                 }
                 var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                 var timespan = Math.floor(1000 / self.fpsNum);
@@ -1077,94 +1077,8 @@
         }
 
 
-        //动画部分
-        self._animeinit = _animeinit;
         //需要进行动画的数据信息
         self.animedata = [];
-        var animespeed = 500;
-        //  _animeinit();
-        /**
-         * 根据时间初始化函数
-         * @param beginDate 开始日期
-         * @param endDate 结束日期
-         * @param anime_speed 速度
-         * @param anime_mode 时次模式
-         * @private
-         */
-        function _animeinit() {
-            console.log("_animeinit");
-
-            /*首先进行数据初始化*/
-            //使用600-800 这个段数 进行
-            //beginDate, endDate, anime_speed, anime_mode
-            animespeed = 500;
-            var m_time_begin = moment("2017-03-16T00:00:00+0000").utc();
-            var m_time_end = moment("2017-03-17T04:00:00+0000").utc();
-            var layerid = "";
-            var projectUrl = "";
-            //遍历图层
-            for (var i = 0; i < self.baseLays.length; i++) {
-                if (self.baseLays[i].isShow == true) {
-                    // m_layer = self.baseLays[i];
-                    projectUrl = self.baseLays[i].projectUrl;
-                    layerid = self.baseLays[i]._id;
-                    break;
-                }
-            }
-            var m_List = [];
-            var m_TotalList = [];
-            //以最小10分钟为demo
-            var m_count = m_time_end.diff(m_time_begin) / 1000 / 60 / 10;
-            for (var i = 0; i < m_count; i++) {
-                var m_momeng_i = moment(m_time_begin).add(10.0 * i, 'minutes');
-                var m_TimeUrl = projectUrl;
-                if (m_TimeUrl.indexOf('yyyy') > 0) {
-                    m_TimeUrl = m_TimeUrl.replace('yyyy', m_momeng_i.utc().format("YYYY"));
-                }
-                if (m_TimeUrl.indexOf('MM') > 0) {
-                    m_TimeUrl = m_TimeUrl.replace('MM', m_momeng_i.utc().format("MM"));
-                }
-                if (m_TimeUrl.indexOf('dd') > 0) {
-                    m_TimeUrl = m_TimeUrl.replace('dd', m_momeng_i.utc().format("DD"));
-                }
-                if (m_TimeUrl.indexOf('hh') > 0) {
-                    m_TimeUrl = m_TimeUrl.replace('hh', m_momeng_i.utc().format("HH"));
-                }
-                if (m_TimeUrl.indexOf('mm') > 0) {
-                    m_TimeUrl = m_TimeUrl.replace('mm', m_momeng_i.utc().format("mm"));
-                }
-                //若不存在则添加
-                if (m_List.indexOf(m_TimeUrl) == -1) {
-                    m_List.push(m_TimeUrl);
-                }
-            }
-            var index_z_max = m_List.length + 650;
-            for (var i = 0; i < m_List.length; i++) {
-                var m_itemInfo = [];
-                m_itemInfo.LayerTimeUrl = m_List[i];
-                m_itemInfo.LayerTimeName = layerid + "_" + i;
-                m_itemInfo.LayerTimeIndexZ = index_z_max - i;
-                m_TotalList.push(m_itemInfo);
-                //  console.log(m_itemInfo);
-            }
-            self.animedata = m_TotalList;
-            //console.log(m_TotalList);
-            remove_layer_num = 0;
-            show_layer_num = 1;
-            add_layer_num = 4;
-            for (var i = remove_layer_num; i < add_layer_num - 1; i++) {
-                Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
-                Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
-            }
-            // _animeclick();
-        }
-
-        /**
-         * 点击事件
-         * @type {_animeclick}
-         * @private
-         */
-        self._animeclick = _anime_Begin;
 
         //定时器 动画控制 相关变量
         var anime_timer;
@@ -1174,8 +1088,6 @@
         var show_layer_num;
         //添加图层num
         var add_layer_num;
-        //当前动画状态 初始化为静止
-
 
         /**
          * 点击暂停开始等调用事件
@@ -1229,6 +1141,13 @@
         function _stopAnime() {
             console.log("循环停止");
             window.clearInterval(anime_timer);
+            var m_showList = [];
+            //根据当前的 remove_layer_num add_layer_num
+            //遍历获取 当前所有 已经添加 但是未被移除的图层名称
+            for (var w = remove_layer_num; w < add_layer_num; w++) {
+                m_showList.push(self.animedata[w].LayerTimeName);
+            }
+            return m_showList;
         }
 
         /**
@@ -1239,7 +1158,7 @@
          * @private
          */
         function _startAnime(JsonData, timespan, callback) {
-            //处理JsonData
+            //存储 JsonData
             var m_TotalList = [];
             var m_UrlList = JsonData.UrlList;
             var m_proid = JsonData._id;
@@ -1278,21 +1197,21 @@
 
 
         /*//测试timeline
-        this._getTimelineDate = _getTimelineDate;
-        function _getTimelineDate() {
+         this._getTimelineDate = _getTimelineDate;
+         function _getTimelineDate() {
 
-            //获取最新数据部分 test
-            var m_latestDate = timeLine.getLatestDate("云类型58ab95802f3b4377bc1cbd1d", "minute");
-            console.log("m_latestDate:" + m_latestDate);
+         //获取最新数据部分 test
+         var m_latestDate = timeLine.getLatestDate("云类型58ab95802f3b4377bc1cbd1d", "minute");
+         console.log("m_latestDate:" + m_latestDate);
 
-            //获取动画列表部分 test
-            /!*  var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
-             new Date("2017-03-20 00:00+0000"), "minute", 'http://10.24.10.108/IMAGEL2/CLM/yyyyMMdd_hhmm/');
+         //获取动画列表部分 test
+         /!*  var m_UrlLisst = timeLine.getDataList("云类型58ab95802f3b4377bc1cbd1d", new Date("2017-03-19 00:00+0000"),
+         new Date("2017-03-20 00:00+0000"), "minute", 'http://10.24.10.108/IMAGEL2/CLM/yyyyMMdd_hhmm/');
 
-             _init_Anime(m_UrlLisst, 500, function (m_LastLayer) {
-             console.log("所有循环完成！m_LastLayer：" + m_LastLayer);
-             });*!/
-        }*/
+         _init_Anime(m_UrlLisst, 500, function (m_LastLayer) {
+         console.log("所有循环完成！m_LastLayer：" + m_LastLayer);
+         });*!/
+         }*/
 
     }
 
