@@ -38,7 +38,7 @@
 <!--右上角控制按钮 start-->
 <div>
     <ul class="sv-toolbar">
-        <li class="sv-toolbar-button" ng-click="WorldviewCtrl.showVideoPanel()">
+        <li class="sv-toolbar-button" ng-class="{'sv-toolbar-button-active': WorldviewCtrl.isShownVideoPanel}" ng-click="WorldviewCtrl.showVideoPanel()">
             <label role="button">
                 <span class="glyphicon glyphicon-facetime-video"></span>
             </label>
@@ -55,7 +55,10 @@
         Animate Map in daily Increments
     </div>
     <a title="播放动画" class="sv-animation-widget-play" ng-click="WorldviewCtrl.playVideo()">
-        <i class="glyphicon" ng-class="{'glyphicon-play': WorldviewCtrl.isVideoPlayed === false, 'glyphicon-stop': WorldviewCtrl.isVideoPlayed === true}"></i>
+        <i class="glyphicon" ng-class="{'glyphicon-play': WorldviewCtrl.isVideoPlayed < 1, 'glyphicon-pause': WorldviewCtrl.isVideoPlayed === 0}"></i>
+    </a>
+    <a title="停止播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.stopVideo()">
+        <i class="glyphicon glyphicon-stop"></i>
     </a>
     <a title="循环播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLooped = !WorldviewCtrl.isLooped">
         <i class="glyphicon glyphicon-retweet" ng-class="{'item-start': WorldviewCtrl.isLooped === true, 'item-stop': WorldviewCtrl.isLooped === false}"></i>

@@ -437,6 +437,12 @@ a {
     color: #eee;
 }
 
+.sv-toolbar-button-active {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid #333;
+    color: rgb(40,40,40);;
+}
+
 .sv-toolbar-button:hover {
     background: rgba(255,255,255,0.85);
     border: 1px solid #333;
@@ -514,7 +520,7 @@ a {
 .sv-animation-widget .sv-animation-widget-fps {
     display: inline-block;
     margin: 7px 0 0 10px;
-    width: 260px;
+    width: 210px;
 }
 
 .sv-animation-widget .sv-animation-widget-fps-label {
@@ -524,7 +530,7 @@ a {
 }
 
 .sv-animation-widget .sv-animation-widget-fps .slider {
-    width: 260px!important;
+    width: 210px!important;
 }
 
 .sv-anim-dates-case {
