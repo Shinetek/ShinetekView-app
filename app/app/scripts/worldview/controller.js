@@ -57,8 +57,8 @@
         self.isShownVideoPanel = false;
         /*video帧频*/
         self.fpsNum = 2;
-        /*video play 标识*/
-        self.isVideoPlayed = false;
+        /*video play 标识: -1 stop; 0 pause; 1 play*/
+        self.isVideoPlayed = -1;
         /*video 循环 标识*/
         self.isLooped = false;
         /*video latest24 标识*/
@@ -102,6 +102,8 @@
         self.showVideoPanel = _showVideoPanel;
         /*播放video*/
         self.playVideo = _playVideo;
+        /*停止video*/
+        self.stopVideo = _stopVideo;
         /*设置video动画的时间范围*/
         self.setVideoTimeRange = _setVideoTimeRange;
         /*设置video动画播放最近24小时的数据*/
@@ -153,6 +155,23 @@
         };
 
         /**
+         * 停止播放动画
+         * 清除所有动画预加载图层
+         * @private
+         */
+        function _stopVideo() {
+            if (self.isVideoPlayed > -1) {
+                self.isVideoPlayed = -1;
+                var layerNames = _pauseAnime();
+                if (layerNames !== null || layerNames !== undefined) {
+                    layerNames.forEach(function (item) {
+                        Shinetek.Ol3Opt.removeLayer(item);
+                    });
+                }
+            }
+        }
+
+        /**
          * 设置video动画播放最近24小时的数据
          * @private
          */
@@ -198,22 +217,26 @@
          * @private
          */
         function _playVideo() {
-            self.isVideoPlayed = !self.isVideoPlayed;
-            if (self.isVideoPlayed) {
+            var orgFlg = self.isVideoPlayed;
+            if (orgFlg === -1 || orgFlg === 0) {
+                self.isVideoPlayed = 1;
+            } else if (orgFlg === 1){
+                self.isVideoPlayed = 0;
+            }
+            if (orgFlg === -1 && self.isVideoPlayed === 1) {
                 //1 获取数据列表
                 //2 启动动画
-                _playNextVideo(null);
-            } else {
-                _stopAnime(function (layerNames) {
-                    if (layerNames !== null || layerNames !== undefined) {
-                        layerNames.forEach(function (item) {
-                            Shinetek.Ol3Opt.removeLayer(item);
-                        });
-                    }
-                });
+                _playNextVideo(null, orgFlg);
+            } else if (orgFlg === 0 && self.isVideoPlayed === 1){
+                //1 继续动画
+                _playNextVideo(null, orgFlg);
+
+            } else if (orgFlg === 1 && self.isVideoPlayed === 0) {
+                //1 暂停动画
+                _pauseAnime();
             }
 
-            function _playNextVideo(layerName) {
+            function _playNextVideo(layerName, orgFlg) {
                 //1 移除最后加载的图层
                 //2 重新读取控制参数
                 //3 播放动画
@@ -222,11 +245,14 @@
                 }
                 var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                 var timespan = Math.floor(1000 / self.fpsNum);
-                _startAnime(dateList, timespan, function (err, layerName) {
+                if (orgFlg === -1) {
+                    _initAnime(dateList);
+                }
+                _startAnime(timespan, function (err, layerName) {
                     if (self.isLooped) {
                         setTimeout(function () {
-                            _playNextVideo(layerName);
-                        }, 3000);
+                            _playNextVideo(layerName, -1);
+                        }, 5000);
                     }
                 });
             }
@@ -1102,21 +1128,22 @@
                 var m_Flag = Shinetek.Ol3Opt.oGetStatus();
                 //若下一个图层加载成功，则进行添加和移除
                 if (Shinetek.Ol3Opt.oGetStatus()) {
+                    //  console.log("载入:" + m_DataAll[add_layer_num].LayerTimeUrl);
 
                     //移除上一层的显示
                     Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                     remove_layer_num++;
                     //若当前显示为最后一张
                     if (show_layer_num == (m_NumMax - 1)) {
-                        console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
+                        //console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
                         //结束当前定时器
-                        _stopAnime();
+                        _pauseAnime();
                         //返回最上层名字 用于移除当前动画图层使用
                         callback(m_DataAll[show_layer_num].LayerTimeName);
                         return;
                     } else {
                         //显示当前动画到了哪一张
-                        console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
+                        //console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
                         //若添加的图层非最后一张
                         if (add_layer_num <= (m_NumMax - 1)) {
                             //设置当前图层状态为显示模式
@@ -1137,12 +1164,12 @@
          * 点击暂停时钟
          * @private
          */
-        function _stopAnime() {
+        function _pauseAnime() {
             console.log("循环停止");
             window.clearInterval(anime_timer);
             var m_showList = [];
             //根据当前的 remove_layer_num add_layer_num
-            //遍历获取 当前所有 已经添加 但是未被移除的图层名称 测试ok 我的确加了那么多层QAQ
+            //遍历获取 当前所有 已经添加 但是未被移除的图层名称
             for (var w = remove_layer_num; w < add_layer_num; w++) {
                 m_showList.push(self.animedata[w].LayerTimeName);
             }
@@ -1150,13 +1177,12 @@
         }
 
         /**
-         * 被调用的开始动画函数
-         * @param JsonData json数据内容（TimeLine 返回的,需要再处理）
-         * @param callback
-         * @param timespan 时间间隔 毫秒为单位 int 例如500
+         * 初始化动画 - 预加载图层
+         * @param JsonData json数据内容（TimeLine 返回的,需要处理）
+         * @param next
          * @private
          */
-        function _startAnime(JsonData, timespan, callback) {
+        function _initAnime(JsonData) {
             //存储 JsonData
             var m_TotalList = [];
             var m_UrlList = JsonData.UrlList;
@@ -1182,16 +1208,24 @@
             for (var i = remove_layer_num; i < 4; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
-
                 add_layer_num++;
             }
+        }
+
+        /**
+         * 开始动画
+         * @param timespan 时间间隔 毫秒为单位 int 例如500
+         * @param next
+         * @private
+         */
+        function _startAnime(timespan, next) {
             //判断 timespan 若非数字类型
             if (typeof timespan != "number") {
                 timespan = parseInt(timespan);
             }
             //开始此次循环
             if (timespan > 0) {
-                _anime_Begin(timespan, callback);
+                _anime_Begin(timespan, next);
             }
         }
 
