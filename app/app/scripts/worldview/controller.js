@@ -220,14 +220,14 @@
             var orgFlg = self.isVideoPlayed;
             if (orgFlg === -1 || orgFlg === 0) {
                 self.isVideoPlayed = 1;
-            } else if (orgFlg === 1){
+            } else if (orgFlg === 1) {
                 self.isVideoPlayed = 0;
             }
             if (orgFlg === -1 && self.isVideoPlayed === 1) {
                 //1 获取数据列表
                 //2 启动动画
                 _playNextVideo(null, orgFlg);
-            } else if (orgFlg === 0 && self.isVideoPlayed === 1){
+            } else if (orgFlg === 0 && self.isVideoPlayed === 1) {
                 //1 继续动画
                 _playNextVideo(null, orgFlg);
 
@@ -1106,20 +1106,21 @@
         //需要进行动画的数据信息
         self.animedata = [];
 
-        //定时器 动画控制 相关变量
+        //定时器 动画控制 相关变量 以下变量均为未进行部分 即下一个循环需要进行的部分
         var anime_timer;
-        //移除图层的num
-        var remove_layer_num;
-        //当前现实图层num
-        var show_layer_num;
-        //添加图层num
-        var add_layer_num;
+        //移除图层的num 初始化 -- 0 （初始化 未进行移除，将要移除第0层数据）
+        var remove_layer_num = 0;
+        //当前现实图层num 初始化 -- 1 （初始化 显示图层0）
+        var show_layer_num = 1;
+        //添加图层num 初始化 -- 4 （初始化 添加 0 1 2 3 层，将要添加层数：4）
+        var add_layer_num = 4;
 
         /**
          * 点击暂停开始等调用事件
          * @private
          */
         function _anime_Begin(timespan, callback) {
+            //获取动画长度
             var m_NumMax = self.animedata.length;
             var m_DataAll = self.animedata;
             //对定时器赋值
@@ -1128,30 +1129,31 @@
                 var m_Flag = Shinetek.Ol3Opt.oGetStatus();
                 //若下一个图层加载成功，则进行添加和移除
                 if (Shinetek.Ol3Opt.oGetStatus()) {
-                    //  console.log("载入:" + m_DataAll[add_layer_num].LayerTimeUrl);
-
-                    //移除上一层的显示
-                    Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
-                    remove_layer_num++;
-                    //若当前显示为最后一张
-                    if (show_layer_num == (m_NumMax - 1)) {
-                        //console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl + " the end");
-                        //结束当前定时器
-                        _pauseAnime();
-                        //返回最上层名字 用于移除当前动画图层使用
-                        callback(m_DataAll[show_layer_num].LayerTimeName);
-                        return;
-                    } else {
-                        //显示当前动画到了哪一张
-                        //console.log("当前URL：" + m_DataAll[show_layer_num].LayerTimeUrl);
-                        //若添加的图层非最后一张
-                        if (add_layer_num <= (m_NumMax - 1)) {
-                            //设置当前图层状态为显示模式
-                            Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
-                            Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                    //判断移除值域
+                    if (remove_layer_num < m_NumMax) {
+                        //移除上一层的显示
+                        Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
+                        remove_layer_num++;
+                    }
+                    //判断当前显示值域
+                    if (show_layer_num < m_NumMax) {
+                        show_layer_num++;
+                        if (show_layer_num == m_NumMax) {
+                            //结束当前定时器
+                            _pauseAnime();
+                            //返回最上层名字 用于移除当前动画图层使用
+                            callback(m_DataAll[show_layer_num].LayerTimeName);
+                            return;
+                        }
+                    }
+                    //判断添加值域
+                    if (add_layer_num < m_NumMax) {
+                        //设置当前图层状态为显示模式
+                        Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+                        Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                        if (add_layer_num < (m_NumMax - 1)) {
                             add_layer_num++;
                         }
-                        show_layer_num++;
                     }
                 }
                 else {
@@ -1170,7 +1172,7 @@
             var m_showList = [];
             //根据当前的 remove_layer_num add_layer_num
             //遍历获取 当前所有 已经添加 但是未被移除的图层名称
-            for (var w = remove_layer_num; w < add_layer_num; w++) {
+            for (var w = remove_layer_num; w <= add_layer_num; w++) {
                 m_showList.push(self.animedata[w].LayerTimeName);
             }
             return m_showList;
@@ -1202,9 +1204,10 @@
                 self.animedata = m_TotalList;
             }
 
+            //初始化值
             remove_layer_num = 0;
             show_layer_num = 1;
-            add_layer_num = 2;
+            add_layer_num = 4;
             for (var i = remove_layer_num; i < 4; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
