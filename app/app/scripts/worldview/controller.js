@@ -1204,7 +1204,7 @@
 
             remove_layer_num = 0;
             show_layer_num = 1;
-            add_layer_num = 2;
+            add_layer_num = 4;
             for (var i = remove_layer_num; i < 4; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
