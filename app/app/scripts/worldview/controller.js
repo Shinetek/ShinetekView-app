@@ -204,7 +204,13 @@
                 //2 启动动画
                 _playNextVideo(null);
             } else {
-                _stopAnime();
+                _stopAnime(function (layerNames) {
+                    if (layerNames !== null || layerNames !== undefined) {
+                        layerNames.forEach(function (item) {
+                            Shinetek.Ol3Opt.removeLayer(item);
+                        });
+                    }
+                });
             }
 
             function _playNextVideo(layerName) {
