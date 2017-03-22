@@ -64,7 +64,7 @@
         /*video latest24 标识*/
         self.isLatest24 = false;
         /**/
-        self.topsideLayer = {};
+        self.topsideLayer = null;
         /*video 动画起始时间*/
         self.videoStartTime = moment(new Date());
         /*video 动画结束时间*/
@@ -182,6 +182,7 @@
             //4 在timeline中设置播放范围
             self.isLatest24 = !self.isLatest24;
             if (self.isLatest24) {
+                if (self.baseLays.length < 1) return alert("请先添加一个产品");
                 self.topsideLayer = self.baseLays[0];
                 self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
                 self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
@@ -207,7 +208,7 @@
                 x = -1;
             }
             if (unit === 'm') {
-                x = 15 * x;
+                x = 5 * x;
             }
             targetTime.add(x, unit)
         }
@@ -218,6 +219,8 @@
          */
         function _playVideo() {
             var orgFlg = self.isVideoPlayed;
+            if (self.baseLays.length < 1) return alert("请先添加一个产品");
+            self.topsideLayer = self.baseLays[0];
             if (orgFlg === -1 || orgFlg === 0) {
                 self.isVideoPlayed = 1;
             } else if (orgFlg === 1) {
@@ -226,17 +229,64 @@
             if (orgFlg === -1 && self.isVideoPlayed === 1) {
                 //1 获取数据列表
                 //2 启动动画
-                _playNextVideo(null, orgFlg);
+                if (self.isLatest24) {
+                    _playLatestVideo(self.topsideLayer, null, orgFlg);
+                } else {
+                    _playNextVideo(self.topsideLayer, null, orgFlg);
+                }
             } else if (orgFlg === 0 && self.isVideoPlayed === 1) {
                 //1 继续动画
-                _playNextVideo(null, orgFlg);
+                if (self.isLatest24) {
+                    _playLatestVideo(self.topsideLayer, null, orgFlg);
+                } else {
+                    _playNextVideo(self.topsideLayer, null, orgFlg);
+                }
 
             } else if (orgFlg === 1 && self.isVideoPlayed === 0) {
                 //1 暂停动画
                 _pauseAnime();
             }
 
-            function _playNextVideo(layerName, orgFlg) {
+            /**
+             * 播放最新的video
+             * @param {Object} layerModule
+             * @param {String} layerName
+             * @param {Number} orgFlg
+             * @private
+             */
+            function _playLatestVideo(layerModule, layerName, orgFlg) {
+                if (layerName !== null) {
+                    Shinetek.Ol3Opt.removeLayer(layerName);
+                }
+
+                if (layerModule !== undefined) {
+                    _getDataExistList(layerModule, function (m_timeLineList) {
+                        console.log("m_timeLineList: " + JSON.stringify(m_timeLineList));
+                        timeLine.AddMinuteData(m_timeLineList);
+                        var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+                        var timespan = Math.floor(1000 / self.fpsNum);
+                        if (orgFlg === -1) {
+                            _initAnime(dateList);
+                        }
+                        _startAnime(timespan, function (err, layerName) {
+                            if (self.isLooped) {
+                                setTimeout(function () {
+                                    _playLatestVideo(layerModule, layerName, -1);
+                                }, 5000);
+                            }
+                        });
+                    });
+                }
+            }
+
+            /**
+             * 循环播放
+             * @param {Object} layerModule
+             * @param {String} layerName
+             * @param orgFlg
+             * @private
+             */
+            function _playNextVideo(layerModule, layerName, orgFlg) {
                 //1 移除最后加载的图层
                 //2 重新读取控制参数
                 //3 播放动画
@@ -251,7 +301,7 @@
                 _startAnime(timespan, function (err, layerName) {
                     if (self.isLooped) {
                         setTimeout(function () {
-                            _playNextVideo(layerName, -1);
+                            _playNextVideo(layerModule, layerName, -1);
                         }, 5000);
                     }
                 });
