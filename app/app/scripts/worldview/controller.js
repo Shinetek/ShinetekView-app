@@ -255,6 +255,9 @@
              * @private
              */
             function _playLatestVideo(layerModule, layerName, orgFlg) {
+                if (self.baseLays.length < 1)
+                    return alert("请先添加一个产品");
+                self.topsideLayer = self.baseLays[0];
                 if (layerName !== null) {
                     Shinetek.Ol3Opt.removeLayer(layerName);
                 }
@@ -263,6 +266,8 @@
                     _getDataExistList(layerModule, function (m_timeLineList) {
                         console.log("m_timeLineList: " + JSON.stringify(m_timeLineList));
                         timeLine.AddMinuteData(m_timeLineList);
+                        self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
+                        self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
                         var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                         var timespan = Math.floor(1000 / self.fpsNum);
                         if (orgFlg === -1) {
@@ -290,6 +295,9 @@
                 //1 移除最后加载的图层
                 //2 重新读取控制参数
                 //3 播放动画
+                if (self.baseLays.length < 1)
+                    return alert("请先添加一个产品");
+                self.topsideLayer = self.baseLays[0];
                 if (layerName !== null) {
                     Shinetek.Ol3Opt.removeLayer(layerName);
                 }
