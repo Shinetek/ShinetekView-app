@@ -264,7 +264,6 @@
 
                 if (layerModule !== undefined) {
                     _getDataExistList(layerModule, function (m_timeLineList) {
-                        console.log("m_timeLineList: " + JSON.stringify(m_timeLineList));
                         timeLine.AddMinuteData(m_timeLineList);
                         self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
                         self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
@@ -818,8 +817,8 @@
 
             //todo 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType == "OVERLAYERS") {
-                var layadd = Shinetek.Ol3Opt.getZIndex(layModule.layerName) + 3000;
-                Shinetek.Ol3Opt.setZIndex(layModule.layerName, layadd)
+                var layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
+                Shinetek.Ol3Opt.setZIndex(layModule._id, layadd)
             }
             if (layModule.isShow === false) {
                 _setVisibilityFromWMS(layModule);
@@ -1195,6 +1194,7 @@
                     }
                     //判断当前显示值域
                     if (show_layer_num < m_NumMax) {
+                        Shinetek.Ol3Opt.setScreenTitle(m_DataAll[remove_layer_num].LayerTimeUrl);
                         show_layer_num++;
                         if (show_layer_num == m_NumMax) {
                             //结束当前定时器
