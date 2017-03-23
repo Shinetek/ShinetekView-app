@@ -648,13 +648,13 @@
             var layerGroupList = [];
 
             data.data.forEach(function (item) {
-                var isExistLayerGroup = false
+                var isExistLayerGroup = false;
                 for (var i = 0; i < layerGroupList.length; i++) {
                     var tmpLayerGroup = layerGroupList[i];
                     if (tmpLayerGroup.layerName === item.layerName && tmpLayerGroup.satType === item.satType) {
                         isExistLayerGroup = true;
                         //存在 此layerGroup 则看看instName 是否存在
-                        var isExistInstGroup = false
+                        var isExistInstGroup = false;
                         for (var j = 0; j < tmpLayerGroup.instGroupList.length; j++) {
                             var tmpInstGroup = tmpLayerGroup.instGroupList[j];
                             if (tmpInstGroup.instName === (item.satID + '/' + item.instID)) {
@@ -755,7 +755,14 @@
             if (projectUrl.indexOf('mm') > 0) {
                 projectUrl = projectUrl.replace('mm', moment(timeLine.GetShowDate()).utc().format("mm"));
             }
+
             Shinetek.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+
+            //todo 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
+            if (layModule.layType == "OVERLAYERS") {
+                var layadd = Shinetek.Ol3Opt.getZIndex(layModule.layerName) + 3000;
+                Shinetek.Ol3Opt.setZIndex(layModule.layerName, layadd)
+            }
             if (layModule.isShow === false) {
                 _setVisibilityFromWMS(layModule);
             }
@@ -1195,6 +1202,7 @@
                 }
                 self.animedata = m_TotalList;
             }
+            var m_HidenList = [];
             //初始化值
             remove_layer_num = 0;
             show_layer_num = 1;
@@ -1202,7 +1210,11 @@
             for (var i = remove_layer_num; i < add_layer_num; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+                Shinetek.Ol3Opt.setVisibility(self.animedata[i].LayerTimeName, "");
+                m_HidenList.push(self.animedata[i].LayerTimeName);
             }
+            return m_HidenList;
+            //根据当前图层overlayer 加入
         }
 
         /**
