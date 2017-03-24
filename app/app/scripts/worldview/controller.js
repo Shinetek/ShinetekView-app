@@ -1290,7 +1290,7 @@
                 }
                 self.animedata = m_TotalList;
             }
-            var m_HidenList = [];
+            //var m_HidenList = [];
             //初始化值
             remove_layer_num = 0;
             show_layer_num = 1;
@@ -1298,11 +1298,8 @@
             for (var i = remove_layer_num; i < add_layer_num; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
-                Shinetek.Ol3Opt.setVisibility(self.animedata[i].LayerTimeName, "");
-                m_HidenList.push(self.animedata[i].LayerTimeName);
             }
-            return m_HidenList;
-            //根据当前图层overlayer 加入
+
         }
 
         /**
