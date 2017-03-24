@@ -815,7 +815,7 @@
 
             Shinetek.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
 
-            //todo 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
+            // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType == "OVERLAYERS") {
                 var layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
                 Shinetek.Ol3Opt.setZIndex(layModule._id, layadd)
@@ -1190,11 +1190,38 @@
                         //移除上一层的显示
                         Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                         remove_layer_num++;
-
                     }
+
                     //判断当前显示值域
                     if (show_layer_num < m_NumMax) {
-                        Shinetek.Ol3Opt.setScreenTitle(m_DataAll[remove_layer_num].LayerTimeUrl);
+                        var m_TimeStr = "";
+                        //字符串拼接 反向获取数值
+                        if (self.topsideLayer != null) {
+                            var m_baseUrl = self.topsideLayer.projectUrl;
+                            var m_targetUrl = m_DataAll[show_layer_num].LayerTimeUrl;
+                            //查找年
+                            if (m_baseUrl.indexOf("yyyy") >= 0) {
+                                m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyy"), 4);
+                            }
+                            if (m_baseUrl.indexOf('MM') > 0) {
+                                m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("MM"), 2);
+                            }
+                            if (m_baseUrl.indexOf('dd') > 0) {
+                                m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("dd"), 2);
+                            }
+                            if (m_baseUrl.indexOf('hh') > 0) {
+                                m_TimeStr = m_TimeStr + " " + m_targetUrl.substr(m_baseUrl.indexOf("hh"), 2);
+                            }
+                            if (m_baseUrl.indexOf('mm') > 0) {
+                                m_TimeStr = m_TimeStr + ":" + m_targetUrl.substr(m_baseUrl.indexOf("mm"), 2);
+                            }
+                        }
+                        //拼接当前显示的title信息 使用<br> 换行
+                        var m_ShowTitle = "星标:" + self.topsideLayer.satID + " <br>"
+                            + "仪器:" + self.topsideLayer.instID + "<br>"
+                            + "产品:" + self.topsideLayer.projectName + "<br>"
+                            + "时次:" + m_TimeStr;
+                        Shinetek.Ol3Opt.setScreenTitle(m_ShowTitle);
                         show_layer_num++;
                         if (show_layer_num == m_NumMax) {
                             //结束当前定时器
@@ -1224,6 +1251,9 @@
         function _pauseAnime() {
             clearInterval(anime_timer);
             var m_showList = [];
+
+            //移除当前显示的信息 暂停的时候个人认为不需要删除显示
+            // Shinetek.Ol3Opt.setScreenTitle(" ");
             //根据当前的 remove_layer_num add_layer_num
             //遍历获取 当前所有 已经添加 但是未被移除的图层名称
             for (var w = remove_layer_num; w <= add_layer_num; w++) {
