@@ -6,9 +6,10 @@
 
     "use strict";
     angular.module('WVConfig', [])
+        .controller('ProdConfigController', ProductInfoCtrl)
+        .controller('LayerConfigController', LayerInfoCtrl);
 
-        .controller('ProdConfigController', ProductInfoCtrl);
-
+    //产品信息控制
     function ProductInfoCtrl($scope) {
 
         //初始化示例
@@ -24,8 +25,7 @@
         $scope.UpdateProdInfoUrl = Config_Total.BASEPATH + '/projectinfo/update';
         //删除产品 url
         $scope.DeleteProdInfoUrl = Config_Total.BASEPATH + '/projectinfo/delete';
-        //分组url
-        $scope.GetGroupInfoUrl = Config_Total.BASEPATH + '/layer-group';
+
         //排序条件
         $scope.orderProp = 'satID';
         //初始化数据
@@ -33,7 +33,9 @@
             //获取数据
             $scope.GetInfoALL();
             //更新 星标分组
-            $scope.GetGroupInfo();
+            //  $scope.GetGroupInfo();
+
+
         };
 
         //获取所有信息
@@ -70,45 +72,9 @@
                 $scope.groupInfoList.push(item);
             }
             $scope.$digest();
-        };
-        //获取分组信息
-        $scope.GetGroupInfo = function () {
-            $.ajax({
-                url: $scope.GetGroupInfoUrl,
-                type: "get",
-                dataType: "json",
-                async: true,
-                success: function (data) {
-                    //数据成功获取 则进行处理生成list
-                    $scope.UpdateGroupDataInfo(data.data);
-                },
-                error: function (err) {
-                    console.log("数据获取失败，请检查api" + $scope.GetGroupInfoUrl);
-                }
-            });
+
         };
 
-        $scope.LayerList = [];
-        //更新 更新LayerBase显示
-        $scope.UpdateGroupDataInfo = function (newData) {
-            var m_LayerList = [];
-            //获取ajax获取的所有图层数据
-            try {
-                for (var i = 0; i < newData.length; i++) {
-                    var item = newData[i];
-                    item.layers.forEach(function (m_Layer) {
-                        m_LayerList.push(m_Layer);
-                    })
-                }
-            }
-            catch (err) {
-                m_LayerList = [];
-            }
-            finally {
-                $scope.LayerList = m_LayerList;
-            }
-            $scope.$digest();
-        };
 
         //初始化
         $scope.InitData();
@@ -135,6 +101,10 @@
          * @constructor
          */
         $scope.SubmitChangeFunc = function () {
+
+            if (!VaildCheck($scope.AddModelData)) {
+                return false;
+            }
             //$scope.ChangeModelData 数组处理
             //分割显示
             var m_paramlist = $scope.ChangeModelData.screenshotparam.toString().split(',');
@@ -170,7 +140,7 @@
         /* 新增部分 */
 
         /**
-         * 修改 -- 修改数据Model
+         * 修改 -- 数据Model
          * @type {null}
          */
         $scope.AddModelData = {};
@@ -197,8 +167,13 @@
          * @constructor
          */
         $scope.SubmitAddFunc = function () {
+            if (!VaildCheck($scope.AddModelData)) {
+                return false;
+            }
             //非空校验 所有值都不能为空
             var PostData = JSON.stringify($scope.AddModelData);
+
+
             if ($scope.AddModelData != null) {
                 //POST
                 $.ajax({
@@ -222,6 +197,34 @@
             }
         };
 
+        /**
+         * model 有效性校验函数 若均非空 返回true
+         * @param m_Model
+         * @returns {boolean}
+         * @constructor
+         */
+        var VaildCheck = function (m_Model) {
+            if (m_Model.satID == null || m_Model.satID == "" ||
+                m_Model.satType == null || m_Model.satType == "" ||
+                m_Model.instID == null || m_Model.instID == "" ||
+                m_Model.isDefault == null || m_Model.isDefault == "" ||
+                m_Model.projectName == null || m_Model.projectName == "" ||
+                m_Model.projectUrl == null || m_Model.projectUrl == "" ||
+                m_Model.layerName == null || m_Model.layerName == "" ||
+                m_Model.layType == null || m_Model.layType == "" ||
+                m_Model.mapType == null || m_Model.mapType == "" ||
+                m_Model.dataListUrl == null || m_Model.dataListUrl == "" ||
+                m_Model.paletteUrl == null || m_Model.paletteUrl == "" ||
+                m_Model.screenshotUrl == null || m_Model.screenshotUrl == "" ||
+                m_Model.screenshotparam == null || m_Model.screenshotparam == "" ||
+                m_Model.animeUrl == null || m_Model.animeUrl == "") {
+                alert("各项参数不能为空！（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
 
         /**
          * 删除当前
@@ -248,5 +251,51 @@
                 });
             }
         };
+    }
+
+    //图层信息控制
+    function LayerInfoCtrl($scope) {
+        //所有的图层分组信息
+
+        $scope.layerInfoName = "11212";
+        $scope.layerInfoALL = {};
+
+        //分组url
+        $scope.GetGroupInfoUrl = Config_Total.BASEPATH + '/layer-group';
+
+
+        //获取分组信息
+        $scope.GetGroupInfo = function () {
+            $.ajax({
+                url: $scope.GetGroupInfoUrl,
+                type: "get",
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    //数据成功获取 则进行处理生成list
+                    $scope.UpdateGroupDataInfo(data.data);
+                },
+                error: function (err) {
+                    console.log("数据获取失败，请检查api" + $scope.GetGroupInfoUrl);
+                }
+            });
+        };
+
+        //更新 更新LayerBase显示
+        $scope.UpdateGroupDataInfo = function (newData) {
+            var m_LayerList = [];
+            $scope.layerInfoALL = newData;
+            $scope.$digest();
+        };
+
+        //更新图层列表
+        $scope.setLayerInfo = function (layerInfo) {
+        }
+
+
+    }
+
+    function PM2_List($scope) {
+
     }
 })();
