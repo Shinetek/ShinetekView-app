@@ -219,7 +219,7 @@
                 m_Model.screenshotparam == null || m_Model.screenshotparam == "" ||
                 m_Model.animeUrl == null || m_Model.animeUrl == "") {
                 alert("各项参数不能为空！（若暂时无数据，可使用空格代替）");
-                return false;
+                return true;
             }
             else {
                 return true;

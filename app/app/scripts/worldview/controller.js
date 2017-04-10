@@ -55,6 +55,7 @@
         self.currentInst = {};
         /*是否显示video面板*/
         self.isShownVideoPanel = false;
+
         /*video帧频*/
         self.fpsNum = 2;
         /*video play 标识: -1 stop; 0 pause; 1 play*/
@@ -100,6 +101,8 @@
         self.removeThisLayer = _removeThisLayer;
         /*打开video面板*/
         self.showVideoPanel = _showVideoPanel;
+
+
         /*播放video*/
         self.playVideo = _playVideo;
         /*停止video*/
@@ -108,6 +111,10 @@
         self.setVideoTimeRange = _setVideoTimeRange;
         /*设置video动画播放最近24小时的数据*/
         self.playVideoLatest24 = _playVideoLatest24;
+
+        /*   打开截图pannel*/
+        self.showScreenShots = _showScreenShots;
+
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -183,7 +190,8 @@
             self.isLatest24 = !self.isLatest24;
             if (self.isLatest24) {
                 if (self.baseLays.length < 1) return alert("请先添加一个产品");
-                self.topsideLayer = self.baseLays[0];
+                // self.topsideLayer = self.baseLays[0];
+                _getTopLayer();
                 self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
                 self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
             }
@@ -220,7 +228,8 @@
         function _playVideo() {
             var orgFlg = self.isVideoPlayed;
             if (self.baseLays.length < 1) return alert("请先添加一个产品");
-            self.topsideLayer = self.baseLays[0];
+            _getTopLayer();
+            //  self.topsideLayer = self.baseLays[0];
             if (orgFlg === -1 || orgFlg === 0) {
                 self.isVideoPlayed = 1;
             } else if (orgFlg === 1) {
@@ -257,7 +266,8 @@
             function _playLatestVideo(layerModule, layerName, orgFlg) {
                 if (self.baseLays.length < 1)
                     return alert("请先添加一个产品");
-                self.topsideLayer = self.baseLays[0];
+                // self.topsideLayer = self.baseLays[0];
+                _getTopLayer();
                 if (layerName !== null) {
                     Shinetek.Ol3Opt.removeLayer(layerName);
                 }
@@ -321,6 +331,26 @@
         function _showVideoPanel() {
             self.isShownVideoPanel = !self.isShownVideoPanel;
         }
+
+        /**
+         * 显示截图面板
+         * @private
+         */
+        function _showScreenShots() {
+            // self.isShownScreenShotPanel = !self.isShownScreenShotPanel;
+            _getTopLayer();
+            if (self.topsideLayer != null) {
+                var m_ShptAPI = self.topsideLayer.screenshotUrl;
+                var m_ShotParam = self.topsideLayer.screenshotparam;
+                screenshots.init(m_ShptAPI, m_ShotParam);
+            }
+            else {
+                console.log("topsideLayer==null")
+            }
+
+
+        }
+
 
         /**
          * 重载所有已添加的图层
@@ -982,7 +1012,12 @@
          */
         function _initMap() {
             //根据配置初始化底图
-            Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
+            Shinetek.Ol3Opt.init(null);
+//Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
+            //初始化截图框
+            $("#snapshot").load("lib/screenshot/photo.html", function () {
+                // screenshots.init("http://img1.3lian.com/2015/w7/98/d/22");
+            });
         }
 
 
@@ -1123,6 +1158,7 @@
                 //初始化时间轴控件
                 _initTimeLine();
 
+                _getTopLayer();
             });
 
 
@@ -1223,6 +1259,7 @@
                             + "时次:" + m_TimeStr;
                         Shinetek.Ol3Opt.setScreenTitle(m_ShowTitle);
                         show_layer_num++;
+                        //   Shinetek.Ol3Opt.setScreenTitle(show_layer_num);
                         if (show_layer_num == m_NumMax) {
                             //结束当前定时器
                             _pauseAnime();
@@ -1317,6 +1354,31 @@
             if (timespan > 0) {
                 _anime_Begin(timespan, next);
             }
+        }
+
+
+        /**
+         * 获取当前最新的URL
+         * @private
+         */
+        function _getTopLayer() {
+            var m_flag = false;
+            if (self.baseLays != null) {
+                for (var i = 0; i < self.baseLays.length; i++) {
+                    if (!m_flag) {
+                        if (self.baseLays[i].isShow == true) {
+                            self.topsideLayer = self.baseLays[i];
+                            m_flag = true;
+                            return true;
+                        }
+                    }
+                }
+            }
+            if (!m_flag) {
+                self.topsideLayer = null;
+                return false;
+            }
+
         }
     }
 
