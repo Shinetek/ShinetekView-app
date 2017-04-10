@@ -4,57 +4,69 @@
  */
 
 //注：使用Jcrop截图，需引入jquery.Jcrop.css、jquery.js、jquery.Jcrop.js
+
+
 var screenshots={
     /**
      * 初始化
      * @param url
      */
-    init:function(url){
-        var oCamera=document.getElementsByClassName("sv-toolbar-button")[1];
+    init:function(url,data){
         var oSnapshot=document.getElementById("snapshot");
+        var oBut=document.getElementById("screenDownLoad");
         var api;
-        /**
-         * 点击照相机截图图片时调用的函数
-         */
-        oCamera.onclick=function () {
-            //显示截图下载框
-            oSnapshot.style.display="block";
-            //创建Jcrop截图
-            $('#map').Jcrop({     //ol-viewport     //ol-unselectable
-                bgOpacity: 0.5,
-                bgColor:"black",
-                addClass: 'jcrop-normal',
-                onChange:   screenshots.showCoords,
-                onSelect:   screenshots.showCoords,
-                onRelease:  screenshots.clearCoords,
-            },function(){
-                api = this;
-                api.setSelect([430,65,430+350,65+285]);
-                api.setOptions({ bgFade: true });
-                api.ui.selection.addClass('jcrop-selection');
-            });
+        oSnapshot.style.display="block";
+        //创建Jcrop截图
+        $('#map').Jcrop({     //ol-viewport     //ol-unselectable
+            bgOpacity: 0.5,
+            bgColor:"black",
+            addClass: 'jcrop-normal',
+            onChange:   screenshots.showCoords,
+            onSelect:   screenshots.showCoords,
+            onRelease:  screenshots.clearCoords,
+        },function(){
+            api = this;
+            api.setSelect([530,165,530+350,165+285]);
+            api.setOptions({ bgFade: true });
+            api.ui.selection.addClass('jcrop-selection');
+        });
 
-            /*$('#coords').on('change','input',function(e){
-                var x1 = $('#x1').val(),
-                    x2 = $('#x2').val(),
-                    y1 = $('#y1').val(),
-                    y2 = $('#y2').val();
-                jcrop_api.setSelect([x1,y1,x2,y2]);
-            });*/
-        };
+        /*$('#coords').on('change','input',function(e){
+         var x1 = $('#x1').val(),
+         x2 = $('#x2').val(),
+         y1 = $('#y1').val(),
+         y2 = $('#y2').val();
+         jcrop_api.setSelect([x1,y1,x2,y2]);
+         });*/
 
-        var oBut=document.getElementById("screenDown");
         /**
          * 点击DownLoad下载所截图片时需要的信息
          */
+        console.log(url);
+        window.downUrl=url;
         oBut.onclick=function(){
+            console.log(downUrl);
             //获取到需要传递的参数（星标、仪器、经纬度、分辨率）
             //获取经纬度
             var leftTopXY = $('#topLeft').val(),
                 bottomRightXY = $('#bottomRight').val();
             console.log(leftTopXY);
             console.log(bottomRightXY);
-            //获取地图分辨率
+
+            var strleftTopXY= new Array(); //定义一数组
+            strleftTopXY=leftTopXY.split(","); //字符分割
+            for (i=0;i<strleftTopXY.length ;i++ ) {}
+
+            var strbottomRightXY= new Array(); //定义一数组
+            strbottomRightXY=bottomRightXY.split(","); //字符分割
+            for (i=0;i<strbottomRightXY.length ;i++ ) {}
+
+            var toplat=strbottomRightXY[0];
+            var toplon=strbottomRightXY[1];
+            var bottomlat=strbottomRightXY[0];
+            var bottomlon=strbottomRightXY[1];
+
+                //获取地图分辨率
             var oRe=Shinetek.Ol3Opt.getRe();
             console.log(Shinetek.Ol3Opt.getRe());
             //获取所选分辨率
@@ -64,18 +76,25 @@ var screenshots={
             //获取所选图片格式
             var oselTwo=document.getElementById("wv-image-format");
             var oformat=oselTwo.options[oselTwo.selectedIndex].text;
-            (oformat=="JPEG")?oformat="jpg":oformat="png";
             console.log(oformat);
             //获取星标仪器
             /*var oDiv=document.getElementById("baselays-zone").getElementsByTagName("div")[0].getElementsByTagName("div")[0].getElementsByTagName("div")[1];
              var oPro=oDiv.getElementsByTagName("p")[0].innerHTML;
              var oStar=oDiv.getElementsByTagName("p")[0].innerHTML;*/
             //生成新的url地址
-            var oUrl=url+"22"+"."+oformat;
+            var reg_toplat = new RegExp("{{toplat}}", "g");
+            var url = downUrl.replace(reg_toplat, toplat);
+            var reg_toplon = new RegExp("{{toplon}}", "g");
+            url = url.replace(reg_toplon, toplon);
+            var reg_bottomlat = new RegExp("{{bottomlat}}", "g");
+            url = url.replace(reg_bottomlat, bottomlat);
+            var reg_bottomlon = new RegExp("{{bottomlon}}", "g");
+            url = url.replace(reg_bottomlon, bottomlon);
+            var oUrl=url;
             console.log(oUrl);
             //出现浏览器下载框
-            screenshots.oDownLoad(oUrl);
-        }
+            screenshots.oDownLoad(oUrl+".png");
+    }
 
 
         var oDetermine=document.getElementById("determine");
@@ -122,6 +141,7 @@ var screenshots={
             oSnapshot.style.display="none";
         });
     },
+
 
     // Simple event handler, called from onChange and onSelect
     // event handlers, as per the Jcrop invocation above
@@ -220,7 +240,7 @@ var screenshots={
             var oImg=document.createElement("img");
             oImg.src=url;
             oImg.id="downImg";
-            var odown=document.getElementById("screenDown");
+            var odown=document.getElementById("down");
             odown.appendChild(oImg);
             screenshots.SaveAs5(document.getElementById('downImg').src)
         }else{
