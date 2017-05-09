@@ -11,13 +11,19 @@
     "port": "21",
     "user": "web",
     "password": "123",
-    "path":""
+    "path": ""
   },
-  "FirePointFTP":{
-    "host":"10.24.10.108",
-    "port":"21",
-    "uid":"fy4",
-    "pw":"fy4",
-    "path":"/FY4COMM/FY4A/L2/AGRIX/FHS/"
-  }
+  "FirePointFTP": {
+    "host": "10.24.10.108",
+    "port": "21",
+    "uid": "fy4",
+    "pw": "fy4",
+    "path": "/FY4COMM/FY4A/L2/AGRIX/FHS/"
+  },
+  "ConvertIP": {
+    "BeforeIP": "10.24.10.108",
+    "AfterIP": "10.24.4.130"
+  },
+  "POSFilePath":"/home/puus/PUUSWORK/Data/MIPSOUT"
+
 }
