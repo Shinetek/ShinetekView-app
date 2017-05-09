@@ -16,6 +16,7 @@
     var _ = require('lodash');
     var mysql = require('mysql');
     var config = require('../config.json');
+    var fs = require("fs");
 
     module.exports = function (server, BASEPATH) {
 
@@ -44,6 +45,13 @@
             path: BASEPATH + '/datalist/POS/:FTPFileName',
             verison: '0.0.1'
         }, _getDataLitsByFTPFile);
+
+
+        //从本地文件中获取！POS极轨卫星
+        server.get({
+            path: BASEPATH + '/datalist/POSFile/:FTPFileName',
+            verison: '0.0.1'
+        }, _getDataListFilePath);
     };
 
     //测试数据返回
@@ -359,7 +367,8 @@
         if (!_.isUndefined(m_FileName) && m_FileName.length > 0) {
             var client = new FTP();
             client.on('ready', function () {
-                    client.get(FtpPath + m_FileName, function (err, stream) {
+                    client.get(FtpPath + m_FileName,
+                        function (err, stream) {
                             if (err) {
                                 client.end();
                                 res.end();
@@ -437,6 +446,80 @@
             next();
         }
     }
+
+
+    function _getDataListFilePath(req, res, next) {
+        var m_Path = config.POSFilePath;
+
+        var m_FileName = req.params.FTPFileName;
+        var m_File = m_Path + "/" + m_FileName;
+
+          // m_File = "D://File_2017//GIT//ShinetekView-app//api//test//" + m_FileName;
+        // console.log(m_File);
+        if (fs.existsSync(m_File)) {
+           // console.log("m_File ok:" + m_File);
+            //文件读取
+            var m_FileStr = fs.readFileSync(m_File, 'utf8');
+
+            var m_DataList = m_FileStr.toString().split("\u0000\n\u0000");
+            m_DataList = _.uniq(m_DataList);
+            console.log(m_DataList);
+            var dataList_Min = [];
+            var dataList_Day = [];
+            var dataList_Month = [];
+            var dataList_Year = [];
+            if (m_DataList != undefined && m_DataList.length > 0) {
+
+                //循环添加
+                for (var len = 0; len < m_DataList.length; len++) {
+                    var m_Item = m_DataList[len];
+                    if (m_Item.length == 8) {
+                        //切割加入年月日
+                        //年
+                        var m_Str_Year = m_Item.substring(0, 4);
+                        dataList_Year.push(m_Str_Year);
+                        //月
+                        var m_Str_Month = m_Item.substr(0, 4) + "-" + parseInt(m_Item.substr(4, 2)).toString();
+                        dataList_Month.push(m_Str_Month);
+                        //日
+                        var m_Str_Day = m_Item.substr(0, 4) + "-" + m_Item.substr(4, 2) + "-" + m_Item.substr(6, 2);                                // console.log(m_Str_Day);
+                        dataList_Day.push(m_Str_Day);
+                    }
+                }
+                //去重复 年月日 去重复
+                dataList_Day = _.uniq(dataList_Day);
+                dataList_Month = _.uniq(dataList_Month);
+                dataList_Year = _.uniq(dataList_Year);
+                //对每日的数据进行处理扩充为分钟模式 针对去重复后的进行 减少计算次数
+                dataList_Day.forEach(function (m_Str_Day) {
+                    //扩充为分钟 一天为288个时次
+                    for (var time = 0; time < 288; time++) {
+                        var m_Str_Min = moment(new Date(m_Str_Day)).utc().add('minutes', 5 * time).format('YYYY-MM-DD HH:mm');
+                        dataList_Min.push(m_Str_Min);
+                    }
+                });
+
+                //整体加入完成后返回
+                var result = {
+                    dataList_Minute: dataList_Min,
+                    dataList_Day: dataList_Day,
+                    dataList_Month: dataList_Month,
+                    dataList_Year: dataList_Year
+                };
+                //console.log(result);
+                res.end(JSON.stringify(result));
+                next();
+
+            }
+        }
+        else {
+            res.end();
+            next();
+        }
+
+
+    }
+
 })
 ();
 
