@@ -448,6 +448,7 @@
     }
 
 
+    //从本地文件中获取数据存在状态
     function _getDataListFilePath(req, res, next) {
         var m_Path = config.POSFilePath;
 
@@ -516,10 +517,7 @@
             res.end();
             next();
         }
-
-
     }
-
 })
 ();
 
