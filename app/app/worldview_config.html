@@ -50,7 +50,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" rel="tooltip">遥感产品综合展示平台</a>
+            <a class="navbar-brand" href="{{worldviewUrl}}" data-toggle="tooltip"
+               title="{{worldviewUrl}}">遥感产品综合展示平台</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -116,14 +117,19 @@
                     </td>
                     <td class="ShowTabletd">{{Prod.layType}}</td>
                     <td class="ShowTabletd">{{Prod.mapType}}</td>
-                    <td class="ShowTabletd">{{Prod.dataListUrl}}</td>
+                    <td class="ShowTabletd">
+                        <p style="width: 200px;word-break: break-all;">{{Prod.dataListUrl}}</p></td>
 
                     <td class="ShowTabletd">
                         <p style="width: 200px;word-break: break-all;">{{Prod.paletteUrl}}</p>
                     </td>
-                    <td class="ShowTabletd">{{Prod.screenshotUrl}}</td>
+                    <td class="ShowTabletd">
+                        <p style="width: 200px;word-break: break-all;">{{Prod.screenshotUrl}}</p></td>
+                    </td>
                     <td class="ShowTabletd">{{Prod.screenshotparam}}</td>
-                    <td class="ShowTabletd">{{Prod.animeUrl}}</td>
+                    <td class="ShowTabletd">
+                        <p style="width: 200px;word-break: break-all;">{{Prod.animeUrl}}</p></td>
+                    </td>
                     <td>
                         <div style="width: 80px;">
                             <button type="button" class="btn btn-default" ng-click="ChangeModelFunc(Prod)"
@@ -268,7 +274,7 @@
 
                             <!--14 动画URL-->
                             <div class="form-group inputDiv">
-                                <label class="col-sm-2   inputLabel "  placeholder="Email address" required>动画URL</label>
+                                <label class="col-sm-2   inputLabel " placeholder="Email address" required>动画URL</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control"
                                            placeholder="{{ChangeModelData.animeUrl}}"
@@ -306,7 +312,8 @@
                                     <select ng-model="AddModelData.satID" class="form-control">
                                         <option value="FY3A">FY3A</option>
                                         <option value="FY3B">FY3B</option>
-                                        <option value="FY3C">FY3C</option>
+                                        <option value="FY3C">FY3C</option>Ｄ
+                                        <option value="FY3C">FY3</option>
                                         <option value="FY4A">FY4A</option>
                                         <option value="AQUA">AQUA</option>
                                         <option value="TERRA">TERRA</option>
