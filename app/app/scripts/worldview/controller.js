@@ -333,15 +333,35 @@
         }
 
         /**
-         * 显示截图面板
+         * 显示截图面板 并向
          * @private
          */
         function _showScreenShots() {
             // self.isShownScreenShotPanel = !self.isShownScreenShotPanel;
             _getTopLayer();
             if (self.topsideLayer != null) {
+                //获取当前最高图层信息
                 var m_ShptAPI = self.topsideLayer.screenshotUrl;
                 var m_ShotParam = self.topsideLayer.screenshotparam;
+                //获取当前选择时间
+                var m_TimeNow = moment(timeLine.GetShowDate()).utc();
+                //年月日替换
+                if (m_ShptAPI.indexOf('yyyy') > 0) {
+                    m_ShptAPI = m_ShptAPI.replace('yyyy', m_TimeNow.format("YYYY"));
+                }
+                if (m_ShptAPI.indexOf('MM') > 0) {
+                    m_ShptAPI = m_ShptAPI.replace('MM', m_TimeNow.format("MM"));
+                }
+                if (m_ShptAPI.indexOf('dd') > 0) {
+                    m_ShptAPI = m_ShptAPI.replace('dd', m_TimeNow.format("DD"));
+                }
+                if (m_ShptAPI.indexOf('hh') > 0) {
+                    m_ShptAPI = m_ShptAPI.replace('hh', m_TimeNow.format("HH"));
+                }
+                if (m_ShptAPI.indexOf('mm') > 0) {
+                    m_ShptAPI = m_ShptAPI.replace('mm', m_TimeNow.format("mm"));
+                }
+                //向init传递参数
                 screenshots.init(m_ShptAPI, m_ShotParam);
             }
             else {
