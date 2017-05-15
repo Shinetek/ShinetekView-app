@@ -403,24 +403,28 @@
             <div class="modal-body dialog-body" ng-show="WorldviewCtrl.layerMenuType === 'Tile'"
                  style="max-height: 600px;overflow-y:auto;">
                 <ul class="nav nav-tabs" role="tablist" style="margin-left: 5px; margin-right: 13px">
-                    <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')}">
-                        <a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('POS')">
-                            极轨卫星
-                        </a>
-                    </li>
-                    <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')}">
-                        <a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('GEO')">
-                            静止卫星
+                    <!--<li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')}">-->
+                        <!--<a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('POS')">-->
+                            <!--极轨卫星-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')}">-->
+                        <!--<a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('GEO')">-->
+                            <!--静止卫星-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <li ng-repeat="tabGroup in WorldviewCtrl.tabGroups" role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal(tabGroup)}">
+                        <a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal(tabGroup)">
+                            {{tabGroup.typeName}}
                         </a>
                     </li>
                 </ul>
-                <ul class="flex-container" style="padding: 0px 5px 0px 5px;"
-                    ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')">
+                <ul class="flex-container" style="padding: 0px 5px 0px 5px;">
                     <li>
                         <div class="POSItem dn-bounce" style="background-color: #212121;">
                             <h4 class="layergroup">常用</h4>
                             <ul class="layerlist" style="padding-left: 10px;">
-                                <li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;"
+                                <li ng-repeat="layer in WorldviewCtrl.currentTabGroup.frequentlyLayers" style="list-style:none;"
                                     ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">
                                     <p>
                                         <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
@@ -431,22 +435,22 @@
                             </ul>
                         </div>
                     </li>
-                    <li ng-repeat="POSItem in WorldviewCtrl.allLayGroups_POS">
+                    <li ng-repeat="item in WorldviewCtrl.currentTabGroup.allLayGroups">
                         <div class="POSItem dn-bounce" ng-class="{'dn-bounce':true}">
-                            <img class="background-img" src="" ng-src="{{POSItem.pictureUrl}}"/>
+                            <img class="background-img" src="" ng-src="{{item.pictureUrl}}"/>
                             <div class="background-mask"></div>
-                            <h4 class="layergroup">{{POSItem.name}}</h4>
+                            <h4 class="layergroup">{{item.name}}</h4>
                             <ul class="layerlist" style="padding-left: 10px;">
-                                <li ng-repeat="layer in POSItem.layers | subLayerItemList" style="list-style:none;"
-                                    ng-click="WorldviewCtrl.selectLayerItem(layer, POSItem)">
+                                <li ng-repeat="layer in item.layers | subLayerItemList" style="list-style:none;"
+                                    ng-click="WorldviewCtrl.selectLayerItem(layer, item)">
                                     <p>
                                         <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
                                             {{layer.layerName}}
                                         </a>
                                     </p>
                                 </li>
-                                <li ng-show="POSItem.layers.length > 5" style="list-style:none;"
-                                    ng-click="WorldviewCtrl.selectLayerItem('', POSItem)">
+                                <li ng-show="item.layers.length > 5" style="list-style:none;"
+                                    ng-click="WorldviewCtrl.selectLayerItem('', item)">
                                     <p>
                                         <a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>
                                             ···
@@ -457,49 +461,92 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="flex-container" style="padding: 0px 5px 0px 5px;"
-                    ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')">
-                    <li>
-                        <div class="GEOItem dn-bounce" style="background-color: #212121;">
-                            <h4 class="layergroup">常用</h4>
-                            <ul class="layerlist" style="padding-left: 10px;">
-                                <li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;"
-                                    ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">
-                                    <p>
-                                        <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
-                                            {{layer.layerName}}
-                                        </a>
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li ng-repeat="GEOItem in WorldviewCtrl.allLayGroups_GEO">
-                        <div class="GEOItem dn-bounce" ng-class="{'dn-bounce':true}">
-                            <img class="background-img" src="" ng-src="{{GEOItem.pictureUrl}}"/>
-                            <div class="background-mask"></div>
-                            <h4 class="layergroup">{{GEOItem.name}}</h4>
-                            <ul class="layerlist" style="padding-left: 10px;">
-                                <li ng-repeat="layer in GEOItem.layers | subLayerItemList" style="list-style:none;"
-                                    ng-click="WorldviewCtrl.selectLayerItem(layer, GEOItem)">
-                                    <p>
-                                        <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
-                                            {{layer.layerName}}
-                                        </a>
-                                    </p>
-                                </li>
-                                <li ng-show="GEOItem.layers.length > 5" style="list-style:none;"
-                                    ng-click="WorldviewCtrl.selectLayerItem('', GEOItem)">
-                                    <p>
-                                        <a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>
-                                            ···
-                                        </a>
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+                <!--<ul class="flex-container" style="padding: 0px 5px 0px 5px;"-->
+                    <!--ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')">-->
+                    <!--<li>-->
+                        <!--<div class="POSItem dn-bounce" style="background-color: #212121;">-->
+                            <!--<h4 class="layergroup">常用</h4>-->
+                            <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                                <!--<li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;"-->
+                                    <!--ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">-->
+                                    <!--<p>-->
+                                        <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                                            <!--{{layer.layerName}}-->
+                                        <!--</a>-->
+                                    <!--</p>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li ng-repeat="POSItem in WorldviewCtrl.allLayGroups_POS">-->
+                        <!--<div class="POSItem dn-bounce" ng-class="{'dn-bounce':true}">-->
+                            <!--<img class="background-img" src="" ng-src="{{POSItem.pictureUrl}}"/>-->
+                            <!--<div class="background-mask"></div>-->
+                            <!--<h4 class="layergroup">{{POSItem.name}}</h4>-->
+                            <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                                <!--<li ng-repeat="layer in POSItem.layers | subLayerItemList" style="list-style:none;"-->
+                                    <!--ng-click="WorldviewCtrl.selectLayerItem(layer, POSItem)">-->
+                                    <!--<p>-->
+                                        <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                                            <!--{{layer.layerName}}-->
+                                        <!--</a>-->
+                                    <!--</p>-->
+                                <!--</li>-->
+                                <!--<li ng-show="POSItem.layers.length > 5" style="list-style:none;"-->
+                                    <!--ng-click="WorldviewCtrl.selectLayerItem('', POSItem)">-->
+                                    <!--<p>-->
+                                        <!--<a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>-->
+                                            <!--···-->
+                                        <!--</a>-->
+                                    <!--</p>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="flex-container" style="padding: 0px 5px 0px 5px;"-->
+                    <!--ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')">-->
+                    <!--<li>-->
+                        <!--<div class="GEOItem dn-bounce" style="background-color: #212121;">-->
+                            <!--<h4 class="layergroup">常用</h4>-->
+                            <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                                <!--<li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;"-->
+                                    <!--ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">-->
+                                    <!--<p>-->
+                                        <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                                            <!--{{layer.layerName}}-->
+                                        <!--</a>-->
+                                    <!--</p>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li ng-repeat="GEOItem in WorldviewCtrl.allLayGroups_GEO">-->
+                        <!--<div class="GEOItem dn-bounce" ng-class="{'dn-bounce':true}">-->
+                            <!--<img class="background-img" src="" ng-src="{{GEOItem.pictureUrl}}"/>-->
+                            <!--<div class="background-mask"></div>-->
+                            <!--<h4 class="layergroup">{{GEOItem.name}}</h4>-->
+                            <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                                <!--<li ng-repeat="layer in GEOItem.layers | subLayerItemList" style="list-style:none;"-->
+                                    <!--ng-click="WorldviewCtrl.selectLayerItem(layer, GEOItem)">-->
+                                    <!--<p>-->
+                                        <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                                            <!--{{layer.layerName}}-->
+                                        <!--</a>-->
+                                    <!--</p>-->
+                                <!--</li>-->
+                                <!--<li ng-show="GEOItem.layers.length > 5" style="list-style:none;"-->
+                                    <!--ng-click="WorldviewCtrl.selectLayerItem('', GEOItem)">-->
+                                    <!--<p>-->
+                                        <!--<a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>-->
+                                            <!--···-->
+                                        <!--</a>-->
+                                    <!--</p>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</ul>-->
             </div>
             <div class="modal-body dialog-body" ng-show="WorldviewCtrl.layerMenuType === 'Collapse'"
                  style="max-height: 600px;overflow-y:auto;">
@@ -507,8 +554,7 @@
                     <li><a ng-click="WorldviewCtrl.layerMenuType = 'Tile'">产品分类</a></li>
                     <li><a>{{WorldviewCtrl.currentGroup.name}}</a></li>
                 </ol>
-                <div class="panel-group" id="layer-accordion" role="tablist" aria-multiselectable="true"
-                >
+                <div class="panel-group" id="layer-accordion" role="tablist" aria-multiselectable="true">
                     <div ng-repeat="layer in WorldviewCtrl.currentGroup.layers" class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title"

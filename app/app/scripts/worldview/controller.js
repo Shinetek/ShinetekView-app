@@ -34,15 +34,18 @@
         /*var overlaysZone = angular.element(document.getElementById('overlays-zone'));*/
 
         self.currentTab = "Layer";
-        self.currentTab_LayerMenuModal = "POS";
+        // self.currentTab_LayerMenuModal = {};
         self.overLays = [];
         self.baseLays = [];
         /**标记菜单是否折叠 */
         self.isMenuCollapse = false;
+        /*top tab group list*/
+        self.tabGroups = [];
+        self.currentTabGroup = {};
         /*模态框中的 灾害类图层分组列表*/
-        self.allLayGroups_POS = [];
+        //self.allLayGroups_POS = [];
         /*模态框中的 科研类图层分组列表*/
-        self.allLayGroups_GEO = [];
+        //self.allLayGroups_GEO = [];
 
         /*模态框中的 常用图层列表*/
         self.frequentlyLayers = [];
@@ -513,13 +516,13 @@
             //默认第一个仪器被选中
             self.currentInst = (layer.group === undefined || layer.group.instGroupList.length < 1) ? undefined : layer.group.instGroupList[0];
             //每次点击 都要在$cookies.frequentlyUsed 中增加依次计数
-            _frequentlyCount(layer.layerName);
+            _frequentlyCount(layer, group.type);
         }
 
-        function _frequentlyCount(layerName) {
+        function _frequentlyCount(layer, satType) {
             var frequentlyUsed = $cookies.getObject('frequently-used');
             frequentlyUsed.forEach(function (item) {
-                if (item.layerName === layerName) {
+                if (item.layerName === layer.layerName && item.satType === satType) {
                     item.frequently++;
                 }
             });
@@ -537,21 +540,47 @@
          */
         function _initLayerMenuModal(cb) {
             WorldviewServices.getLayerGroupList(function (data) {
-                self.allLayGroups_POS.splice(0, self.allLayGroups_POS.length);
-                self.allLayGroups_GEO.splice(0, self.allLayGroups_GEO.length);
+                //self.allLayGroups_POS.splice(0, self.allLayGroups_POS.length);
+                //self.allLayGroups_GEO.splice(0, self.allLayGroups_GEO.length);
+                self.tabGroups.splice(0, self.tabGroups.length);
                 data.data.forEach(function (item) {
-                    if (item.type === 'POS') {
-                        if (item.pictureUrl === "") {
-                            item.pictureUrl = 'publics/Black.png'
+                    // if (item.type === 'POS') {
+                    //     if (item.pictureUrl === "") {
+                    //         item.pictureUrl = 'publics/Black.png'
+                    //     }
+                    //     self.allLayGroups_POS.push(item);
+                    // } else if (item.type === 'GEO') {
+                    //     if (item.pictureUrl === "") {
+                    //         item.pictureUrl = 'publics/Black.png'
+                    //     }
+                    //     self.allLayGroups_GEO.push(item);
+                    // }
+                    if (item.pictureUrl === "") {
+                        item.pictureUrl = 'publics/Black.png';
+                    }
+                    var isExistTabGroup = false;
+                    for (var i = 0; i < self.tabGroups.length; i++) {
+                        if (self.tabGroups[i].type === item.type) {
+                            self.tabGroups[i].allLayGroups.push(item);
+                            isExistTabGroup = true;
+                            break;
                         }
-                        self.allLayGroups_POS.push(item);
-                    } else if (item.type === 'GEO') {
-                        if (item.pictureUrl === "") {
-                            item.pictureUrl = 'publics/Black.png'
-                        }
-                        self.allLayGroups_GEO.push(item);
+                    }
+                    if (!isExistTabGroup) {
+                        var tabGroup = {
+                            type: item.type,
+                            typeName: item.typeName,
+                            allLayGroups: [],
+                            frequentlyLayers: []
+                        };
+                        tabGroup.allLayGroups.push(item);
+                        self.tabGroups.push(tabGroup);
                     }
                 });
+                if (self.tabGroups !== null && self.tabGroups !== undefined && self.tabGroups.length > 0) {
+                    self.currentTabGroup = self.tabGroups[0];
+                }
+                console.log(JSON.stringify(self.tabGroups));
 
                 /**
                  * 初始化常用图层
@@ -577,41 +606,60 @@
                     var layerGroupList = _groupProjectList(data);
 
                     //2. 将结果放入对应的分组
-                    self.allLayGroups_POS.forEach(function (item) {
-                        for (var i = 0; i < item.layers.length; i++) {
-                            var layer = item.layers[i];
-                            for (var j = 0; j < layerGroupList.length; j++) {
-                                var layerGroup = layerGroupList[j];
-                                if (layer.layerName === layerGroup.layerName && layerGroup.satType === 'POS') {
-                                    layer.group = layerGroup;
-                                    layer.instString = '';
-                                    var instGroup = layerGroup.instGroupList;
-                                    instGroup.forEach(function (inst) {
-                                        layer.instString += inst.instName + ' ';
-                                    });
-                                    break;
+                    for (var xi = 0; xi < self.tabGroups.length; xi++) {
+                        self.tabGroups[xi].allLayGroups.forEach(function (item) {
+                            for (var i = 0; i < item.layers.length; i++) {
+                                var layer = item.layers[i];
+                                for (var j = 0; j < layerGroupList.length; j++) {
+                                    var layerGroup = layerGroupList[j];
+                                    if (layer.layerName === layerGroup.layerName && layerGroup.satType === item.type) {
+                                        layer.group = layerGroup;
+                                        layer.instString = '';
+                                        var instGroup = layerGroup.instGroupList;
+                                        instGroup.forEach(function (inst) {
+                                            layer.instString += inst.instName + ' ';
+                                        });
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                    });
-
-                    self.allLayGroups_GEO.forEach(function (item) {
-                        for (var i = 0; i < item.layers.length; i++) {
-                            var layer = item.layers[i];
-                            for (var j = 0; j < layerGroupList.length; j++) {
-                                var layerGroup = layerGroupList[j];
-                                if (layer.layerName === layerGroup.layerName && layerGroup.satType === 'GEO') {
-                                    layer.group = layerGroup;
-                                    layer.instString = '';
-                                    var instGroup = layerGroup.instGroupList;
-                                    instGroup.forEach(function (inst) {
-                                        layer.instString += inst.instName + ' ';
-                                    });
-                                    break;
-                                }
-                            }
-                        }
-                    });
+                        });
+                    }
+                    // self.allLayGroups_POS.forEach(function (item) {
+                    //     for (var i = 0; i < item.layers.length; i++) {
+                    //         var layer = item.layers[i];
+                    //         for (var j = 0; j < layerGroupList.length; j++) {
+                    //             var layerGroup = layerGroupList[j];
+                    //             if (layer.layerName === layerGroup.layerName && layerGroup.satType === 'POS') {
+                    //                 layer.group = layerGroup;
+                    //                 layer.instString = '';
+                    //                 var instGroup = layerGroup.instGroupList;
+                    //                 instGroup.forEach(function (inst) {
+                    //                     layer.instString += inst.instName + ' ';
+                    //                 });
+                    //                 break;
+                    //             }
+                    //         }
+                    //     }
+                    // });
+                    //
+                    // self.allLayGroups_GEO.forEach(function (item) {
+                    //     for (var i = 0; i < item.layers.length; i++) {
+                    //         var layer = item.layers[i];
+                    //         for (var j = 0; j < layerGroupList.length; j++) {
+                    //             var layerGroup = layerGroupList[j];
+                    //             if (layer.layerName === layerGroup.layerName && layerGroup.satType === 'GEO') {
+                    //                 layer.group = layerGroup;
+                    //                 layer.instString = '';
+                    //                 var instGroup = layerGroup.instGroupList;
+                    //                 instGroup.forEach(function (inst) {
+                    //                     layer.instString += inst.instName + ' ';
+                    //                 });
+                    //                 break;
+                    //             }
+                    //         }
+                    //     }
+                    // });
 
                     //3. 别忘了常用图层列表
                     self.frequentlyLayers.forEach(function (layer) {
@@ -680,38 +728,59 @@
             if (frequentlyUsed === undefined) {
                 // cookie 如果不存在常用图层 则创建一个
                 var frequentlyUsed = [];
-                self.allLayGroups_POS.forEach(function (item) {
-                    for (var i = 0; i < item.layers.length; i++) {
-                        var layer = item.layers[i];
-                        var isExistLayer = false;
-                        for (var j = 0; j < frequentlyUsed.length; j++) {
-                            if (frequentlyUsed[j].layerName === layer.layerName) {
-                                isExistLayer = true;
-                                break;
+
+                for (var xi = 0; xi < self.tabGroups.length; xi++) {
+                    self.tabGroups[xi].allLayGroups.forEach(function (item) {
+                        for (var i = 0; i < item.layers.length; i++) {
+                            var layer = item.layers[i];
+                            var isExistLayer = false;
+                            for (var j = 0; j < frequentlyUsed.length; j++) {
+                                if (frequentlyUsed[j].layerName === layer.layerName && frequentlyUsed[j].satType === layer.satType) {
+                                    isExistLayer = true;
+                                    break;
+                                }
+                            }
+                            if (isExistLayer === false) {
+                                layer.frequently = 0;
+                                layer.satType = item.type;
+                                frequentlyUsed.push(layer);
                             }
                         }
-                        if (isExistLayer === false) {
-                            layer.frequently = 0;
-                            frequentlyUsed.push(layer);
-                        }
-                    }
-                });
-                self.allLayGroups_GEO.forEach(function (item) {
-                    for (var i = 0; i < item.layers.length; i++) {
-                        var layer = item.layers[i];
-                        var isExistLayer = false;
-                        for (var j = 0; j < frequentlyUsed.length; j++) {
-                            if (frequentlyUsed[j].layerName === layer.layerName) {
-                                isExistLayer = true;
-                                break;
-                            }
-                        }
-                        if (isExistLayer === false) {
-                            layer.frequently = 0;
-                            frequentlyUsed.push(layer);
-                        }
-                    }
-                });
+                    });
+                }
+
+                // self.allLayGroups_POS.forEach(function (item) {
+                //     for (var i = 0; i < item.layers.length; i++) {
+                //         var layer = item.layers[i];
+                //         var isExistLayer = false;
+                //         for (var j = 0; j < frequentlyUsed.length; j++) {
+                //             if (frequentlyUsed[j].layerName === layer.layerName) {
+                //                 isExistLayer = true;
+                //                 break;
+                //             }
+                //         }
+                //         if (isExistLayer === false) {
+                //             layer.frequently = 0;
+                //             frequentlyUsed.push(layer);
+                //         }
+                //     }
+                // });
+                // self.allLayGroups_GEO.forEach(function (item) {
+                //     for (var i = 0; i < item.layers.length; i++) {
+                //         var layer = item.layers[i];
+                //         var isExistLayer = false;
+                //         for (var j = 0; j < frequentlyUsed.length; j++) {
+                //             if (frequentlyUsed[j].layerName === layer.layerName) {
+                //                 isExistLayer = true;
+                //                 break;
+                //             }
+                //         }
+                //         if (isExistLayer === false) {
+                //             layer.frequently = 0;
+                //             frequentlyUsed.push(layer);
+                //         }
+                //     }
+                // });
 
                 var expireTime = new Date();
                 expireTime.setDate(expireTime.getDate() + 7000);
@@ -719,16 +788,37 @@
                     'expires': expireTime
                 });
             } else {
-                frequentlyUsed.sort(function (a, b) {
-                    return -(a.frequently - b.frequently);
-                });
-                self.frequentlyLayers.splice(0, self.frequentlyLayers.length);
-                var maxLength = (frequentlyUsed.length > 5) ? 5 : frequentlyUsed.length;
-                for (var k = 0; k < maxLength; k++) {
-                    if (frequentlyUsed[k].frequently != 0) {
-                        self.frequentlyLayers.push(frequentlyUsed[k]);
+                // filter data by satType
+                for (var xi = 0; xi < self.tabGroups.length; xi++) {
+                    var tmp = [];
+                    var satType = self.tabGroups[xi].type;
+                    frequentlyUsed.forEach(function (item) {
+                        if (item.satType === satType) {
+                            tmp.push(item);
+                        }
+                    });
+                    tmp.sort(function (a, b) {
+                        return -(a.frequently - b.frequently);
+                    });
+                    self.tabGroups[xi].frequentlyLayers.splice(0, self.frequentlyLayers.length);
+                    var maxLength = (tmp.length > 5) ? 5 : tmp.length;
+                    for (var k = 0; k < maxLength; k++) {
+                        if (tmp[k].frequently != 0) {
+                            self.tabGroups[xi].frequentlyLayers.push(tmp[k]);
+                        }
                     }
                 }
+
+                // frequentlyUsed.sort(function (a, b) {
+                //     return -(a.frequently - b.frequently);
+                // });
+                // self.frequentlyLayers.splice(0, self.frequentlyLayers.length);
+                // var maxLength = (frequentlyUsed.length > 5) ? 5 : frequentlyUsed.length;
+                // for (var k = 0; k < maxLength; k++) {
+                //     if (frequentlyUsed[k].frequently != 0) {
+                //         self.frequentlyLayers.push(frequentlyUsed[k]);
+                //     }
+                // }
             }
         }
 
@@ -1193,12 +1283,15 @@
             self.currentTab = tabName;
         }
 
-        function _isSelectedTab_LayerMenuModal(tabName) {
-            return self.currentTab_LayerMenuModal === tabName;
+        function _isSelectedTab_LayerMenuModal(tabGroupModule) {
+            // if (self.currentTabGroup === undefined) {
+            //     self.currentTabGroup = self.tabGroups[0];
+            // }
+            return self.currentTabGroup === tabGroupModule;
         }
 
-        function _selectTab_LayerMenuModal(tabName) {
-            self.currentTab_LayerMenuModal = tabName;
+        function _selectTab_LayerMenuModal(tabGroupModule) {
+            self.currentTabGroup = tabGroupModule;
         }
 
         /**
