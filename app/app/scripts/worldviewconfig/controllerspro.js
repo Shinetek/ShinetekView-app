@@ -28,14 +28,15 @@
 
         //排序条件
         $scope.orderProp = 'satID';
+
+        $scope.worldviewUrl = "#";
         //初始化数据
         $scope.InitData = function () {
             //获取数据
             $scope.GetInfoALL();
-            //更新 星标分组
-            //  $scope.GetGroupInfo();
 
-
+            //获取主界面url
+            $scope.worldviewUrl = window.location.href.substring(0, (window.location.href.length - 7));
         };
 
         //获取所有信息
@@ -102,7 +103,7 @@
          */
         $scope.SubmitChangeFunc = function () {
 
-            if (!VaildCheck($scope.AddModelData)) {
+            if (!VaildCheck($scope.ChangeModelData)) {
                 return false;
             }
             //$scope.ChangeModelData 数组处理
@@ -167,12 +168,13 @@
          * @constructor
          */
         $scope.SubmitAddFunc = function () {
+            console.log('SubmitAddFunc');
+            var PostData = JSON.stringify($scope.AddModelData);
+            console.log(PostData);
             if (!VaildCheck($scope.AddModelData)) {
                 return false;
             }
             //非空校验 所有值都不能为空
-            var PostData = JSON.stringify($scope.AddModelData);
-
 
             if ($scope.AddModelData != null) {
                 //POST
@@ -204,22 +206,65 @@
          * @constructor
          */
         var VaildCheck = function (m_Model) {
-            if (m_Model.satID == null || m_Model.satID == "" ||
-                m_Model.satType == null || m_Model.satType == "" ||
-                m_Model.instID == null || m_Model.instID == "" ||
-                m_Model.isDefault == null || m_Model.isDefault == "" ||
-                m_Model.projectName == null || m_Model.projectName == "" ||
-                m_Model.projectUrl == null || m_Model.projectUrl == "" ||
-                m_Model.layerName == null || m_Model.layerName == "" ||
-                m_Model.layType == null || m_Model.layType == "" ||
-                m_Model.mapType == null || m_Model.mapType == "" ||
-                m_Model.dataListUrl == null || m_Model.dataListUrl == "" ||
-                m_Model.paletteUrl == null || m_Model.paletteUrl == "" ||
-                m_Model.screenshotUrl == null || m_Model.screenshotUrl == "" ||
-                m_Model.screenshotparam == null || m_Model.screenshotparam == "" ||
-                m_Model.animeUrl == null || m_Model.animeUrl == "") {
-                alert("各项参数不能为空！（若暂时无数据，可使用空格代替）");
-                return true;
+            console.log(m_Model);
+            if (m_Model.satID == null) {
+                alert("卫星标识不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.satType == null) {
+                alert("卫星类型不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+
+            if (m_Model.instID == null) {
+                alert("仪器名称不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+
+            if (m_Model.isDefault == null) {
+                alert("默认显示不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+
+            if (m_Model.projectName == null) {
+                alert("产品名称不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.projectUrl == null) {
+                alert("产品路径不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.layerName == null) {
+                alert("layerName不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.layType == null) {
+                alert("layType不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.mapType == null) {
+                alert("mapType不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.dataListUrl == null) {
+                alert("dataListUrl不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.paletteUrl == null) {
+                alert("paletteUrl不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.screenshotUrl == null) {
+                alert("screenshotUrl不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.screenshotparam == null) {
+                alert("screenshotparam不能为空！（若暂时无数据，可使用空格代替）");
+                return false;
+            }
+            if (m_Model.animeUrl == null) {
+                alert("animeUrl不能为空。（若暂时无数据，可使用空格代替）");
+                return false;
             }
             else {
                 return true;
@@ -227,10 +272,15 @@
         };
 
         /**
-         * 删除当前
+         * 删除当前选择的产品
          * @constructor
          */
         $scope.DeleteProd = function (ChangeModel) {
+            if (!confirm("确认要删除" + ChangeModel.satID + "  " + ChangeModel.projectName + "?")) {
+                //alert("false");
+                return false;
+                //  window.event.returnValue = false;
+            }
             var PostData = JSON.stringify(ChangeModel);
             if (ChangeModel != null) {
                 //POST
@@ -240,11 +290,11 @@
                     data: PostData,
                     contentType: "application/json",
                     success: function (data, textStatus, jqXHR) {
-                        alert("删除完成");
+                        //alert("删除完成");
                         $scope.GetInfoALL();
                     },
                     error: function (err) {
-                        alert("数据删除失败");
+                        //alert("数据删除失败");
                         $scope.GetInfoALL();
                     },
                     dataType: "json"

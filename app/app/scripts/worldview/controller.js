@@ -37,8 +37,8 @@
         // self.currentTab_LayerMenuModal = {};
         self.overLays = [];
         self.baseLays = [];
-        /**标记菜单是否折叠 */
-        self.isMenuCollapse = false;
+        /**标记菜单是否折叠 0 显示 1 隐藏 2动画模式 20170517*/
+        self.isMenuCollapse = 0;
         /*top tab group list*/
         self.tabGroups = [];
         self.currentTabGroup = {};
@@ -178,6 +178,8 @@
                         Shinetek.Ol3Opt.removeLayer(item);
                     });
                 }
+                //停止动画 可以恢复 菜单栏
+                self.isMenuCollapse = 0;
             }
         }
 
@@ -229,6 +231,8 @@
          * @private
          */
         function _playVideo() {
+            //开始动画 隐藏菜单栏
+            self.isMenuCollapse = 2;
             var orgFlg = self.isVideoPlayed;
             if (self.baseLays.length < 1) return alert("请先添加一个产品");
             _getTopLayer();
@@ -257,6 +261,7 @@
             } else if (orgFlg === 1 && self.isVideoPlayed === 0) {
                 //1 暂停动画
                 _pauseAnime();
+                self.isMenuCollapse = 0;
             }
 
             /**
@@ -365,13 +370,12 @@
                     m_ShptAPI = m_ShptAPI.replace('mm', m_TimeNow.format("mm"));
                 }
                 //向init传递参数
+                console.log(m_ShptAPI);
                 screenshots.init(m_ShptAPI, m_ShotParam);
             }
             else {
                 console.log("topsideLayer==null")
             }
-
-
         }
 
 
@@ -1295,17 +1299,17 @@
         }
 
         /**
-         * 折叠菜单栏
+         * 折叠菜单栏 1隐藏
          */
         function _collapseMenu() {
-            self.isMenuCollapse = true;
+            self.isMenuCollapse = 1;
         }
 
         /**
-         * 展开菜单栏
+         * 展开菜单栏 0显示
          */
         function _extendMenu() {
-            self.isMenuCollapse = false;
+            self.isMenuCollapse = 0;
         }
 
         //需要进行动画的数据信息
@@ -1424,6 +1428,7 @@
             //存储 JsonData
             var m_TotalList = [];
             self.animedata = [];
+            //去重复
             var m_UrlList = JsonData.UrlList;
             var m_proid = JsonData._id;
             var index_z_max = 550;
@@ -1445,6 +1450,12 @@
             remove_layer_num = 0;
             show_layer_num = 1;
             add_layer_num = 4;
+            // var m_NumNow = self.animedata.length;
+            //20170517 修改最小动画范围小于 4的情况
+            if (self.animedata.length < add_layer_num) {
+                console.warn("当前设置动画最小帧数为:" + add_layer_num + "。\n当前选择时间范围内，有效数据数为：" + self.animedata.length);
+                add_layer_num = self.animedata.length;
+            }
             for (var i = remove_layer_num; i < add_layer_num; i++) {
                 Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
                 Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);

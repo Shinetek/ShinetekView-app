@@ -17,13 +17,13 @@ a {
     /*min-height: 500px;
     margin-top: -980px;
     margin-left: 15px;*/
-    z-index: 1600!important;
+    z-index: 1600 !important;
 }
 
 .view-area-css {
     width: 100%;
     height: 100%;
-    z-index: 1!important;
+    z-index: 1 !important;
     /*background-image: url(../publics/MapDay.jpg);*/
 }
 
@@ -41,7 +41,7 @@ a {
     border-right: 0.3px solid rgb(71, 76, 80);
 }
 
-.func-css {    
+.func-css {
     margin-top: 5px;
     border-radius: 0 0 5px 5px;
     border-bottom: 0.3px solid rgb(71, 76, 80);
@@ -87,6 +87,20 @@ a {
     font-size: 1.1em;
 }
 
+/*动画Label*/
+.aminite-label {
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    top: 8px;
+}
+
+.aminite-label p {
+    font-size: 1.1em;
+}
 
 .nav-tabs a {
     color: #f2f2f2;
@@ -267,8 +281,8 @@ a {
     color: #696969;
     width: 400px;
     height: auto;
-    border:none;
-    outline:medium;
+    border: none;
+    outline: medium;
     margin-left: -10px;
     background-color: #dcdcdc;
 }
@@ -280,7 +294,6 @@ a {
     flex-wrap: wrap;
 }
 
-
 #layerMenu .nav-tabs a {
     color: #2f2f2f;
     font-size: 1em;
@@ -288,6 +301,7 @@ a {
 
 #layerMenu .nav > li > a:focus,
 #layerMenu .nav > li > a:hover {
+    color: #ffffff;
     text-decoration: none;
     background-color: #00457b;
     border: 1px solid #00457b;
@@ -307,10 +321,10 @@ a {
     border-bottom: 5.5px solid #00457b
 }
 
-.loading-mask{
-    position:absolute;
-    left:0;
-    top:0;
+.loading-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 255px;
     height: 250px;
     /*z-index:2;*/
@@ -327,7 +341,7 @@ a {
 }
 
 .POSItem .background-img,
-.GEOItem .background-img{
+.GEOItem .background-img {
     position: absolute;
     left: 0;
     top: 0;
@@ -390,15 +404,14 @@ a {
 }
 
 #layer-accordion .layer-accordion-content-instlist {
-    list-style:none;
+    list-style: none;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.2em;
     font-weight: 500;
 }
 
-
 #layer-accordion .layer-accordion-content-projectlist {
-    list-style:none;
+    list-style: none;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.2em;
     font-weight: 500;
@@ -431,24 +444,23 @@ a {
 .sv-toolbar-button {
     display: inline-block;
     margin: 0;
-    background: rgba(40,40,40,0.85);
+    background: rgba(40, 40, 40, 0.85);
     border: 1px solid #eee;
-    border-radius: 6px;    
+    border-radius: 6px;
     color: #eee;
 }
 
 .sv-toolbar-button-active {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
     border: 1px solid #333;
-    color: rgb(40,40,40);;
+    color: rgb(40, 40, 40);;
 }
 
 .sv-toolbar-button:hover {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
     border: 1px solid #333;
-    color: rgb(40,40,40);;
+    color: rgb(40, 40, 40);;
 }
-
 
 .sv-toolbar-button label {
     border-radius: 5px;
@@ -472,7 +484,7 @@ a {
     width: 510px;
     border-radius: 8px;
     height: 135px;
-    background: rgba(21,21,21,0.95);
+    background: rgba(21, 21, 21, 0.95);
     position: absolute;
     bottom: 140px;
     left: 50%;
@@ -530,7 +542,7 @@ a {
 }
 
 .sv-animation-widget .sv-animation-widget-fps .slider {
-    width: 210px!important;
+    width: 210px !important;
 }
 
 .sv-anim-dates-case {
@@ -611,7 +623,7 @@ a {
     color: #fff;
     background: 0 0;
     border: 0;
-    font-family: ‘Lucida Console’,Monaco,monospace;
+    font-family: ‘Lucida Console’, Monaco, monospace;
     font-size: 16px;
     font-weight: 500;
     vertical-align: middle;
