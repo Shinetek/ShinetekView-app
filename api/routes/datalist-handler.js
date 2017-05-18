@@ -210,6 +210,7 @@
     }
 
 
+    //从本地文件目录中获取 数据存在 TXT 文件
     function _getDataListByConditionDay(req, res, next) {
 
         if (_.isUndefined(req.params.SatID)
