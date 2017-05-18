@@ -118,6 +118,8 @@
         /*   打开截图pannel*/
         self.showScreenShots = _showScreenShots;
 
+        /*等待框显示*/
+        self.isWaitingShow = false;
 
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
@@ -179,7 +181,13 @@
                     });
                 }
                 //停止动画 可以恢复 菜单栏
+
+            }
+            if (self.isMenuCollapse != 0) {
                 self.isMenuCollapse = 0;
+            }
+            if (self.isWaitingShow) {
+                self.isWaitingShow = false;
             }
         }
 
@@ -1338,6 +1346,7 @@
                 var m_Flag = Shinetek.Ol3Opt.oGetStatus();
                 //若下一个图层加载成功，则进行添加和移除
                 if (Shinetek.Ol3Opt.oGetStatus()) {
+                    self.isWaitingShow = false;
                     //判断移除值域
                     if (remove_layer_num < m_NumMax) {
                         //移除上一层的显示
@@ -1393,7 +1402,8 @@
                     }
                 }
                 else {
-                    console.log("载入false:" + m_Flag);
+                    self.isWaitingShow = true;
+                    // console.log("当前所有图层 未加载完成 标志位:" + m_Flag);
                 }
             }, timespan);
         }

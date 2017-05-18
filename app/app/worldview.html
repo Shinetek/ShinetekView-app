@@ -38,6 +38,7 @@
 <!--右上角控制按钮 start-->
 <div>
     <ul class="sv-toolbar">
+
         <li class="sv-toolbar-button" ng-class="{'sv-toolbar-button-active': WorldviewCtrl.isShownVideoPanel}"
             ng-click="WorldviewCtrl.showVideoPanel()">
             <label role="button">
@@ -49,6 +50,12 @@
                 <span class="glyphicon glyphicon-camera"></span>
             </label>
         </li>
+        <!--   <li class="sv-toolbar-button" ng-show="WorldviewCtrl.isWaitingShow">
+               <label role="button">
+                   <img src="./publics/wait.gif"/>
+               </label>
+           </li>-->
+
     </ul>
 </div>
 <div class="sv-animation-widget" ng-show="WorldviewCtrl.isShownVideoPanel">
@@ -615,6 +622,7 @@
     </div>
 </div>
 <!--layer菜单模态框 end-->
+
 
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
