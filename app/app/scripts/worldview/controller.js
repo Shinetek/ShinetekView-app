@@ -121,6 +121,9 @@
         /*等待框显示*/
         self.isWaitingShow = false;
 
+        /*用于显示当前动画状态*/
+        self.showAnimeTitle = "";
+
         //关闭事件 调用刷新cookies
         window.onbeforeunload = function (e) {
             e = e || window.event;
@@ -180,8 +183,8 @@
                         Shinetek.Ol3Opt.removeLayer(item);
                     });
                 }
-                //停止动画 可以恢复 菜单栏
-
+                //对opanlayer 中待加载的所有数值清零20170518
+                Shinetek.Ol3Opt.clearAnimate();
             }
             if (self.isMenuCollapse != 0) {
                 self.isMenuCollapse = 0;
@@ -243,16 +246,19 @@
             self.isMenuCollapse = 2;
             var orgFlg = self.isVideoPlayed;
             if (self.baseLays.length < 1) return alert("请先添加一个产品");
-            _getTopLayer();
+
+
             //  self.topsideLayer = self.baseLays[0];
             if (orgFlg === -1 || orgFlg === 0) {
                 self.isVideoPlayed = 1;
             } else if (orgFlg === 1) {
                 self.isVideoPlayed = 0;
             }
+
             if (orgFlg === -1 && self.isVideoPlayed === 1) {
                 //1 获取数据列表
                 //2 启动动画
+                _getTopLayer();
                 if (self.isLatest24) {
                     _playLatestVideo(self.topsideLayer, null, orgFlg);
                 } else {
@@ -283,7 +289,12 @@
                 if (self.baseLays.length < 1)
                     return alert("请先添加一个产品");
                 // self.topsideLayer = self.baseLays[0];
-                _getTopLayer();
+
+                //只有在停止的时候 -->暂停的时候 不进行最上层 查找转化
+                if (orgFlg != 0) {
+                    _getTopLayer();
+                }
+
                 if (layerName !== null) {
                     Shinetek.Ol3Opt.removeLayer(layerName);
                 }
@@ -322,7 +333,12 @@
                 //3 播放动画
                 if (self.baseLays.length < 1)
                     return alert("请先添加一个产品");
-                self.topsideLayer = self.baseLays[0];
+                //self.topsideLayer = self.baseLays[0];
+                //使用 函数查找最上面的可见图层
+                //只有在暂停的情况下 才不再次确认最新图层
+                if (orgFlg != 0) {
+                    _getTopLayer();
+                }
                 if (layerName !== null) {
                     Shinetek.Ol3Opt.removeLayer(layerName);
                 }
@@ -1342,8 +1358,6 @@
             var m_DataAll = self.animedata;
             //对定时器赋值
             anime_timer = setInterval(function () {
-                //是否加载成功
-                var m_Flag = Shinetek.Ol3Opt.oGetStatus();
                 //若下一个图层加载成功，则进行添加和移除
                 if (Shinetek.Ol3Opt.oGetStatus()) {
                     self.isWaitingShow = false;
@@ -1379,6 +1393,8 @@
                             }
                         }
                         //拼接当前显示的title信息 使用<br> 换行
+
+                        self.showAnimeTitle = self.topsideLayer.projectName + "(" + show_layer_num + "/" + m_DataAll.length + ")";
                         var m_ShowTitle = "星标:" + self.topsideLayer.satID + " <br>"
                             + "仪器:" + self.topsideLayer.instID + "<br>"
                             + "产品:" + self.topsideLayer.projectName + "<br>"
@@ -1459,7 +1475,7 @@
             //初始化值
             remove_layer_num = 0;
             show_layer_num = 1;
-            add_layer_num = 4;
+            add_layer_num = 2;
             // var m_NumNow = self.animedata.length;
             //20170517 修改最小动画范围小于 4的情况
             if (self.animedata.length < add_layer_num) {
