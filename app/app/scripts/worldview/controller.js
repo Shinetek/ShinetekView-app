@@ -402,7 +402,7 @@
                     m_ShptAPI = m_ShptAPI.replace('mm', m_TimeNow.format("mm"));
                 }
                 //向init传递参数
-                console.log(m_ShptAPI);
+                //  console.log(m_ShptAPI);
                 screenshots.init(m_ShptAPI, m_ShotParam);
             }
             else {
@@ -617,7 +617,7 @@
                 if (self.tabGroups !== null && self.tabGroups !== undefined && self.tabGroups.length > 0) {
                     self.currentTabGroup = self.tabGroups[0];
                 }
-                console.log(JSON.stringify(self.tabGroups));
+                // console.log(JSON.stringify(self.tabGroups));
 
                 /**
                  * 初始化常用图层
