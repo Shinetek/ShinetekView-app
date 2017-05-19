@@ -373,7 +373,15 @@
             _getTopLayer();
             if (self.topsideLayer != null) {
                 //获取当前最高图层信息
-                var m_ShptAPI = self.topsideLayer.screenshotUrl;
+
+                var m_ShptAPI = '';
+                if (self.topsideLayer.screenshotUrl) {
+                    m_ShptAPI = self.topsideLayer.screenshotUrl;
+                }
+                else {
+                    console.log('当前截图图层为空！');
+                }
+
                 var m_ShotParam = self.topsideLayer.screenshotparam;
                 //获取当前选择时间
                 var m_TimeNow = moment(timeLine.GetShowDate()).utc();
@@ -398,7 +406,8 @@
                 screenshots.init(m_ShptAPI, m_ShotParam);
             }
             else {
-                console.log("topsideLayer==null")
+                console.log("显示图层为空！");
+                screenshots.init('', '');
             }
         }
 
