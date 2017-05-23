@@ -121,6 +121,9 @@
         /*等待框显示*/
         self.isWaitingShow = false;
 
+        /* 当前是否 3D模式*/
+        self.isShown3D = false;
+
         /*用于显示当前动画状态*/
         self.showAnimeTitle = "";
 
@@ -377,11 +380,11 @@
                 var m_ShptAPI = '';
                 if (self.topsideLayer.screenshotUrl) {
                     m_ShptAPI = self.topsideLayer.screenshotUrl;
-                    console.log("截图配置URL:");
-                    console.log(self.topsideLayer.screenshotUrl);
+                    /*     console.log("截图配置URL:");
+                     console.log(self.topsideLayer.screenshotUrl);*/
                 }
                 else {
-                    console.log('当前截图图层为空！');
+                    /*   console.log('当前截图图层为空！');*/
                 }
 
                 var m_ShotParam = self.topsideLayer.screenshotparam;
@@ -408,11 +411,34 @@
                 screenshots.init(m_ShptAPI, m_ShotParam);
             }
             else {
-                console.log("显示图层为空！");
+                // console.log("显示图层为空！");
                 screenshots.init('', '');
             }
         }
 
+        self.switch3D = _switch3D;
+        function _switch3D() {
+            console.log("_switch3D");
+            if (self.isShown3D == false) {
+                self.isShown3D = true;
+                document.getElementsByClassName("glyphicon-mapType")[0].innerText = "2D";
+                Shinetek.Ol3Opt.setMapFun("3D");
+                Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
+                //切换回2d
+                // _refreshLayers();
+            }
+            else {
+                self.isShown3D = false;
+                document.getElementsByClassName("glyphicon-mapType")[0].innerText = "3D";
+                Shinetek.Ol3Opt.setMapFun("2D");
+                _refreshLayers();
+            }
+
+
+            //  Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
+
+
+        }
 
         /**
          * 重载所有已添加的图层
@@ -993,10 +1019,16 @@
             }
 
             Shinetek.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
-
+            //Shinetek2D.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+            //Shinetek3D.CesiumOpt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+            /*    Shinetek2D.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
+             Shinetek3D.CesiumOpt.removeLayer(layModule._id, layModule.mapType);*/
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType == "OVERLAYERS") {
-                var layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
+                var layadd = 3000;
+                if (Shinetek.Ol3Opt.getZIndex(layModule._id)) {
+                    layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
+                }
                 Shinetek.Ol3Opt.setZIndex(layModule._id, layadd)
             }
             if (layModule.isShow === false) {
@@ -1048,6 +1080,9 @@
          */
         function _removeLayFromWMS(layModule) {
             Shinetek.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
+
+            /*   Shinetek2D.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
+             Shinetek3D.CesiumOpt.removeLayer(layModule._id, layModule.mapType);*/
             //对基准图进行操作不影响数据图层
             if (layModule.layType != "OVERLAYERS") {
                 _removeDataExistList(layModule);
@@ -1161,8 +1196,8 @@
          */
         function _initMap() {
             //根据配置初始化底图
-            Shinetek.Ol3Opt.init(null);
-//Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
+            Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
+            //Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
             //初始化截图框
             $("#snapshot").load("lib/screenshot/photo.html", function () {
                 // screenshots.init("http://img1.3lian.com/2015/w7/98/d/22");
@@ -1298,16 +1333,19 @@
             //初始化图层列表
             _initLayerMenuModal(function () {
 
-                //根据默认图层初始化openlayer
-                _initMap();
+                try {
+                    //根据默认图层初始化openlayer
+                    _initMap();
 
-                //根据当前COOKIES条件对图层信息进行初始化，若当前不存在图层信息缓存，则使用数据库返回默认配置信息刷新
-                _initLaysbycondition();
-
-                //初始化时间轴控件
-                _initTimeLine();
-
-                _getTopLayer();
+                    //根据当前COOKIES条件对图层信息进行初始化，若当前不存在图层信息缓存，则使用数据库返回默认配置信息刷新
+                    _initLaysbycondition();
+                } catch (err) {
+                }
+                finally {
+                    //初始化时间轴控件
+                    _initTimeLine();
+                    _getTopLayer();
+                }
             });
 
 

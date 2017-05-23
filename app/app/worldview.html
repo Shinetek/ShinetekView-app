@@ -12,8 +12,12 @@
     <link rel="stylesheet" href="bower_components/openlayer/dist/css/ol3.css">
     <link rel="stylesheet" href="lib/screenshot/css/jquery.Jcrop.css">   <!--截图-->
     <link rel="stylesheet" href="lib/screenshot/css/screenshots.css">    <!--截图封装-->
+
     <link rel="stylesheet" href="bower_components/openlayer/dist/css/shk-ol3.css">
     <link rel="stylesheet" href="styles/worldview.css">
+
+    <link rel="stylesheet" href="lib/Cesium/css/shk-cesium.css">   <!--openlayer封装-->
+    <link rel="stylesheet" href="lib/Cesium/css/ol-cesium.css">   <!--openlayer封装-->
     <!--全局配置文件-->
     <script type="text/javascript" src="scripts/config.js"></script>
 </head>
@@ -29,16 +33,22 @@
     <!--Jcrop end-->
 
     <!--OpenLayer start-->
-    <div class="view-area-css map" id="map">
+    <div class="view-area-css map map2D" id="map" ng-show="WorldviewCtrl.isShown3D==false">
 
     </div>
     <!--OpenLayer end-->
+
+    <!--3D 模型显示 start-->
+    <div class="view-area-css map map3D" style="width: 100%;height: 100%;"
+         id="cesiumContainer" ng-show="WorldviewCtrl.isShown3D">
+
+    </div>
+    <!--3D 模型显示  end-->
 </div>
 
 <!--右上角控制按钮 start-->
 <div>
     <ul class="sv-toolbar">
-
         <li class="sv-toolbar-button" ng-class="{'sv-toolbar-button-active': WorldviewCtrl.isShownVideoPanel}"
             ng-click="WorldviewCtrl.showVideoPanel()">
             <label role="button">
@@ -50,13 +60,11 @@
                 <span class="glyphicon glyphicon-camera"></span>
             </label>
         </li>
-        <!--   <li class="sv-toolbar-button" ng-show="WorldviewCtrl.isWaitingShow">
-               <label role="button">
-                   <img src="./publics/wait.gif"/>
-               </label>
-           </li>
-           -->
-
+        <li class="sv-toolbar-button">
+            <label role="button">
+                <span class="glyphicon glyphicon-mapType" ng-click="WorldviewCtrl.switch3D()">3D</span>
+            </label>
+        </li>
     </ul>
 </div>
 <div class="sv-animation-widget" ng-show="WorldviewCtrl.isShownVideoPanel">
@@ -640,13 +648,18 @@
 
 
 <!--　TimeLine 部分引用　-->
-<script type="text/javascript" src="bower_components/timeline/dist/moment.min.js"></script>
-<script type="text/javascript" src="bower_components/timeline/TimeLine_shk.js"></script>
+<script type="text/javascript" src="bower_components/timeline/lib/moment.min.js"></script>
+<script type="text/javascript" src="bower_components/timeline/js/TimeLine_shk.js"></script>
 
 <!--Openlayer 部分引用-->
+
 <script type="text/javascript" src="bower_components/openlayer/dist/js/ol3-debug.js"></script>
 <script type="text/javascript" src="bower_components/openlayer/dist/js/ol3.js"></script>
 <script type="text/javascript" src="bower_components/openlayer/dist/js/ol3-opt.js"></script>
+<script type="text/javascript" src="bower_components/requirejs-2.1.20/require.min.js"></script>
+<script type="text/javascript" src="lib/Cesium/Build/Cesium/Cesium.js"></script>
+<script type="text/javascript" src="lib/Cesium/js/myCesium.js"></script>
+<script type="text/javascript" src="lib/Cesium/js/ol-cesium-opt.js"></script>
 
 <!--Jcrop 部分引用-->
 <script src="lib/screenshot/js/jquery.Jcrop.js"></script>

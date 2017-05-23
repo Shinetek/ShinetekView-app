@@ -160,7 +160,7 @@
                     <div class=" modal-body row">
                         <div class="col-sm-12">
                             <!--1 卫星标识-->
-                            <div class=" inputDiv col-sm-6">
+                            <div class=" form-group inputDiv">
                                 <label class="col-sm-2 control-label inputLabel ">分组名称</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" placeholder="{{ChangeModelData.satID}}"
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                             <!--2 卫星类型-->
-                            <div class=" inputDiv col-sm-6">
+                            <div class="form-group inputDiv">
                                 <label class="col-sm-2 control-label  inputLabel ">分组类型</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" placeholder="{{ChangeModelData.satType}}"
@@ -310,11 +310,10 @@
                                            placeholder="{{AddModelData.satID}}"
                                            ng-model="AddModelData.satID">
                                     <select ng-model="AddModelData.satID" class="form-control">
+                                        <option value="FY3D">FY3D</option>
                                         <option value="FY3A">FY3A</option>
                                         <option value="FY3B">FY3B</option>
                                         <option value="FY3C">FY3C</option>
-                                        Ｄ
-                                        <option value="FY3C">FY3</option>
                                         <option value="FY4A">FY4A</option>
                                         <option value="AQUA">AQUA</option>
                                         <option value="TERRA">TERRA</option>
@@ -333,7 +332,6 @@
                                     <input type="text" class="form-control" style="display: none;"
                                            placeholder="{{AddModelData.satType}}"
                                            ng-model="AddModelData.satType">
-
                                     <select ng-model="AddModelData.satType" class="form-control">
                                         <option value="GEO">GEO</option>
                                         <option value="POS">POS</option>
