@@ -291,11 +291,11 @@
                     contentType: "application/json",
                     success: function (data, textStatus, jqXHR) {
                         //alert("删除完成");
-                        $scope.GetInfoALL();
+                        $scope.GetGroupInfo();
                     },
                     error: function (err) {
                         //alert("数据删除失败");
-                        $scope.GetInfoALL();
+                        $scope.GetGroupInfo();
                     },
                     dataType: "json"
                 });
@@ -307,11 +307,13 @@
     function LayerInfoCtrl($scope) {
         //所有的图层分组信息
 
-        $scope.layerInfoName = "11212";
+        $scope.layerInfoName = " ";
         $scope.layerInfoALL = {};
 
         //分组url
         $scope.GetGroupInfoUrl = Config_Total.BASEPATH + '/layer-group';
+        $scope.updateGroupInfoUrl = 'http://10.24.4.121:4001/api' + '/layer-group/update';
+        $scope.deleteGroupInfoUrl = 'http://10.24.4.121:4001/api' + '/layer-group/delete';
 
 
         //获取分组信息
@@ -323,7 +325,7 @@
                 async: true,
                 success: function (data) {
                     //数据成功获取 则进行处理生成list
-                    $scope.UpdateGroupDataInfo(data.data);
+                    UpdateGroupDataInfo(data.data);
                 },
                 error: function (err) {
                     console.log("数据获取失败，请检查api" + $scope.GetGroupInfoUrl);
@@ -332,16 +334,135 @@
         };
 
         //更新 更新LayerBase显示
-        $scope.UpdateGroupDataInfo = function (newData) {
-            var m_LayerList = [];
+        function UpdateGroupDataInfo(newData) {
             $scope.layerInfoALL = newData;
+            $scope.layerInfoName = $scope.layerInfoALL.length;
+            $scope.$digest();
+        }
+
+
+        //被修改的图层
+        $scope.ChangeModelLayerInfo = {};
+        //被添加的图层
+        $scope.AddModelLayerInfo = {};
+
+        /**
+         * 修改当前 图层 --前导
+         */
+        $scope.ChangeModelLayer = function (newData) {
+            $scope.ChangeModelLayerInfo = newData;
+            $scope.$digest();
+        };
+        //添加图层 --前导
+        $scope.AddModelLayer = function (layerInfo) {
+            $scope.AddModelLayerInfo = {};
             $scope.$digest();
         };
 
-        //更新图层列表
-        $scope.setLayerInfo = function (layerInfo) {
-        }
 
+        /**
+         *修改图层
+         */
+        $scope.SubmitChangeLayerFunc = function (layerInfo) {
+
+            $scope.$digest();
+
+        };
+
+
+        //添加图层
+        $scope.SubmitAddLayerFunc = function (layerInfo) {
+            var m_AddInfo = {};
+            m_AddInfo.index = layerInfo.index;
+            m_AddInfo.layerName = layerInfo.layerName;
+            $scope.ChangeModelData.layers.push(m_AddInfo);
+            $scope.$digest();
+
+        };
+
+        /**
+         * 删除图层
+         * @param layerInfo
+         * @constructor
+         */
+        $scope.DeleteLayer = function (layerInfo) {
+            if (!confirm("确认要删除" + "编号" + layerInfo.index + " 图层名称： " + layerInfo.layerName + "?")) {
+                //alert("false");
+                return false;
+                //  window.event.returnValue = false;
+            }
+            var m_index = null;
+            for (var i = 0; i < $scope.ChangeModelData.layers.length; i++) {
+                if (layerInfo.index == $scope.ChangeModelData.layers[i].index
+                    && layerInfo.layerName == $scope.ChangeModelData.layers[i].layerName) {
+                    m_index = i;
+                    break;
+                }
+            }
+            if (m_index != null) {
+                $scope.ChangeModelData.layers.splice(m_index, 1);//开始位置,删除个数
+            }
+        };
+
+        /* 分组级别的 增删改*/
+
+        /* 分组级别的  改  start */
+        //修改 整体分组信息 前导
+        $scope.ChangeGroupModelFunc = function (newData) {
+            $scope.ChangeModelData = newData;
+            $scope.ChangeModelData.ID = newData._id;
+            $scope.$digest();
+        };
+        /**
+         *提交当前修改后的Group
+         * @param GroupInfo
+         * @constructor
+         */
+        $scope.SubmitChangeGroupFunc = function (GroupInfo) {
+            var m_UpGroupInfo = GroupInfo;
+            var PostData = JSON.stringify(m_UpGroupInfo);
+            if (m_UpGroupInfo != null) {
+                //POST
+                $.ajax({
+                    type: 'POST',
+                    url: $scope.updateGroupInfoUrl,
+                    data: PostData,
+                    contentType: "application/json",
+                    success: function (data, textStatus, jqXHR) {
+                        $scope.GetInfoALL();
+                    },
+                    error: function (err) {
+                        $scope.GetInfoALL();
+                    },
+                    dataType: "json"
+                });
+            }
+
+        };
+
+        /* 分组级别的  改  end */
+
+        /* 分组级别的  增加  start */
+        $scope.AddGroupModelData =
+        {
+            "name": "",
+            "pictureUrl": "publics/Black.png",
+            "layers": [],
+            "type": " ",
+            "typeName": ""
+        };
+
+        $scope.SubmitAddGroupFunc = function (m_AddGroupModelData) {
+      
+            m_AddGroupModelData.layer = JSON.parse(m_AddGroupModelData.layer);
+            console.log(m_AddGroupModelData);
+
+        };
+
+        /* 分组级别的  增加  end */
+        /* 分组级别的  删除  start */
+
+        /* 分组级别的  删除  start */
 
     }
 

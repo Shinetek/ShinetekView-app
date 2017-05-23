@@ -27,11 +27,12 @@
 
     var PATH = '/firepoint';
 
+    //火点kml模块
     var FirePointKML = require('./modules/FirePointKML.js');
 
+    //geojson 返回模块
     var GeoJson = require('./modules/geojson.js');
 
-    // datastatusFuncSta._TimingCalculation();
     /**
      *  获取火点信息
      */

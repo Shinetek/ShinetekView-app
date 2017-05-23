@@ -112,7 +112,6 @@
             _.isUndefined(body.animeUrl)) {
             return false;
         } else {
-
             return true;
         }
 

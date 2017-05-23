@@ -377,6 +377,8 @@
                 var m_ShptAPI = '';
                 if (self.topsideLayer.screenshotUrl) {
                     m_ShptAPI = self.topsideLayer.screenshotUrl;
+                    console.log("截图配置URL:");
+                    console.log(self.topsideLayer.screenshotUrl);
                 }
                 else {
                     console.log('当前截图图层为空！');

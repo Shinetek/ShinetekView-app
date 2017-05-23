@@ -456,16 +456,16 @@
         var m_FileName = req.params.FTPFileName;
         var m_File = m_Path + "/" + m_FileName;
 
-          // m_File = "D://File_2017//GIT//ShinetekView-app//api//test//" + m_FileName;
+        // m_File = "D://File_2017//GIT//ShinetekView-app//api//test//" + m_FileName;
         // console.log(m_File);
         if (fs.existsSync(m_File)) {
-           // console.log("m_File ok:" + m_File);
+            // console.log("m_File ok:" + m_File);
             //文件读取
             var m_FileStr = fs.readFileSync(m_File, 'utf8');
 
             var m_DataList = m_FileStr.toString().split("\u0000\n\u0000");
             m_DataList = _.uniq(m_DataList);
-            console.log(m_DataList);
+            // console.log(m_DataList);
             var dataList_Min = [];
             var dataList_Day = [];
             var dataList_Month = [];

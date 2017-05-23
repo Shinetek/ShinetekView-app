@@ -4,10 +4,11 @@
 
 (function () {
 
-    'use strict'
+    'use strict';
 
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
+    var _ = require('lodash');
 
     /**
      * LayerGroup Module
@@ -31,6 +32,11 @@
         type: {type: String},
 
         /**
+         * 图层分组名称  用于界面显示的字段
+         */
+        typeName: {type: String},
+
+        /**
          * 图层列表
          */
         layers: [{
@@ -39,6 +45,8 @@
              */
             layerID: {type: String},
 
+
+            index: {type: Number},
             /**
              * 图层描述名
              */
@@ -52,11 +60,33 @@
      */
     LayerGroupSchema.methods.initData = function (body) {
         var self = this;
-        for(var prop in body) {
+        for (var prop in body) {
             self[prop] = body[prop];
         }
-    }
+    };
 
+    //内容正确性校验
+    LayerGroupSchema.methods.reportVerify = function (body) {
+
+        return reportVerify(body);
+    };
     module.exports = mongoose.model('LayerGroup', LayerGroupSchema);
 
+
+    //是否存在各个必须字段 update使用
+    function reportVerify(body) {
+        if (_.isNull(body) || _.isUndefined(body)) {
+            return false;
+        }
+        //校验update
+        if (_.isUndefined(body.name) ||
+            _.isUndefined(body.pictureUrl) ||
+            _.isUndefined(body.layers) ||
+            _.isUndefined(body.type) ||
+            _.isUndefined(body.typeName)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 })();
