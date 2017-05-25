@@ -33,15 +33,15 @@
     <!--Jcrop end-->
 
     <!--OpenLayer start-->
-    <div class="view-area-css map map2D" id="map" ng-show="WorldviewCtrl.isShown3D==false">
+
+    <div class="view-area-css map map2D" id="map" style="width: 100% " ng-show="WorldviewCtrl.isShown3D===false">
 
     </div>
     <!--OpenLayer end-->
 
     <!--3D 模型显示 start-->
-    <div class="view-area-css map map3D" style="width: 100%;height: 100%;"
-         id="cesiumContainer" ng-show="WorldviewCtrl.isShown3D">
-
+    <div class="view-area-css map map3D" style="width: 100%;height: 100%;" id="cesiumContainer"
+         ng-show="WorldviewCtrl.isShown3D">
     </div>
     <!--3D 模型显示  end-->
 </div>
@@ -50,12 +50,13 @@
 <div>
     <ul class="sv-toolbar">
         <li class="sv-toolbar-button" ng-class="{'sv-toolbar-button-active': WorldviewCtrl.isShownVideoPanel}"
-            ng-click="WorldviewCtrl.showVideoPanel()">
+            ng-click="WorldviewCtrl.showVideoPanel()" ng-show="WorldviewCtrl.isShown3D===false">
             <label role="button">
                 <span class="glyphicon glyphicon-facetime-video"></span>
             </label>
         </li>
-        <li class="sv-toolbar-button" ng-click="WorldviewCtrl.showScreenShots()">
+        <li class="sv-toolbar-button" ng-click="WorldviewCtrl.showScreenShots()"
+            ng-show="WorldviewCtrl.isShown3D===false">
             <label role="button">
                 <span class="glyphicon glyphicon-camera"></span>
             </label>

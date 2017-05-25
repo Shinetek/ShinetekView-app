@@ -416,16 +416,28 @@
             }
         }
 
+        self.is3Dinit = false;
         self.switch3D = _switch3D;
+        /*3D 切换函数*/
         function _switch3D() {
             console.log("_switch3D");
             if (self.isShown3D == false) {
+                //当前为2D 显示 切换显示3D
+                //_clearLayers();
                 self.isShown3D = true;
                 document.getElementsByClassName("glyphicon-mapType")[0].innerText = "2D";
                 Shinetek.Ol3Opt.setMapFun("3D");
-                Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
-                //切换回2d
-                // _refreshLayers();
+                //若未进行初始化 则 初始化
+                if (!self.is3Dinit) {
+                    Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
+                    self.is3Dinit = true;
+                    _refreshLayers();
+                }
+                else {
+                    //若已经初始化 则移除当前所有显示图层 并重新刷新加载
+                    Shinetek.Ol3Opt.removeAllLayer();
+                    _refreshLayers();
+                }
             }
             else {
                 self.isShown3D = false;
@@ -438,6 +450,21 @@
             //  Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
 
 
+        }
+
+        /* 切换时 删除所有当前图层*/
+        function _clearLayers() {
+
+            self.overLays.forEach(function (layModule) {
+                _removeLayFromWMS(layModule);
+
+            });
+            self.overLays = [];
+            self.baseLays.forEach(function (layModule) {
+                _removeLayFromWMS(layModule);
+
+            });
+            self.baseLays = [];
         }
 
         /**
@@ -1019,10 +1046,8 @@
             }
 
             Shinetek.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
-            //Shinetek2D.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
-            //Shinetek3D.CesiumOpt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
-            /*    Shinetek2D.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
-             Shinetek3D.CesiumOpt.removeLayer(layModule._id, layModule.mapType);*/
+
+
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType == "OVERLAYERS") {
                 var layadd = 3000;
@@ -1081,8 +1106,7 @@
         function _removeLayFromWMS(layModule) {
             Shinetek.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
 
-            /*   Shinetek2D.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
-             Shinetek3D.CesiumOpt.removeLayer(layModule._id, layModule.mapType);*/
+
             //对基准图进行操作不影响数据图层
             if (layModule.layType != "OVERLAYERS") {
                 _removeDataExistList(layModule);

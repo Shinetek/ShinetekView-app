@@ -106,6 +106,13 @@ Shinetek.Ol3Opt = {
         } else {
             return Shinetek3D.CesiumOpt.oGetStatus();
         }
+    },
+    removeAllLayer: function () {
+        //todo 目前使用 3D模式清除
+        if (this.getMapFun() == "0") {
+            return Shinetek3D.CesiumOpt.removeSomeLayer("");
+            // return Shinetek3D.CesiumOpt.removeSomeLayer("");
+        }
     }
 
 

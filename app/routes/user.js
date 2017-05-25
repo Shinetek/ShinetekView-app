@@ -16,16 +16,23 @@
         //主界面3
         //router.route('/worldview3').get(_startApp3);
         //测试动画demo
-        router.route('/worldview_trans').get(_startApp_trans);
+        //  router.route('/worldview_trans').get(_startApp_trans);
         //配置界面
-        router.route('/worldview_config').get(_startConfigAPP);
+        router.route('/worldview_config').get(_startRemoveConfig);
+
+        router.route('/shinetekview_config').get(_startConfigAPP);
         return router;
     };
     function _startRemove(req, res, next) {
         /*  var m_Url = window.location.href;
          var m_URLNEW = m_Url.replace('worldview', "shinetekview");*/
-        res.send(' URL已经迁移到 /shinetekview\n' + m_URLNEW);
+        res.send('此 URL已经迁移到 /shinetekview\n');
+    }
 
+    function _startRemoveConfig(req, res, next) {
+        /*  var m_Url = window.location.href;
+         var m_URLNEW = m_Url.replace('worldview', "shinetekview");*/
+        res.send('此 URL已经迁移到 /shinetekview_config\n');
     }
 
     function _startApp(req, res, next) {

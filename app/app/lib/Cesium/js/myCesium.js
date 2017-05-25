@@ -1,12 +1,14 @@
 /**
  * Created by johm-z on 2017/3/7.
  */
-var cesiumObj = new Object();
+//var cesiumObj = new Object();
 var Shinetek3D = {};
+//用于存储当前 图层的 obj
+Shinetek3D.cesiumObj = new Object();
 Shinetek3D.CesiumOpt = {
     init: function (url) {
         console.log("Shinetek3D.CesiumOpt init");
-        console.log(url);
+        //  console.log(url);
         /*  var tms0 = new Cesium.createTileMapServiceImageryProvider({
          url: url,
          fileExtension: 'png'
@@ -65,7 +67,8 @@ Shinetek3D.CesiumOpt = {
         });
 
         //地形图
-        /*var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
+        /*
+         var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
          url : 'https://assets.agi.com/stk-terrain/world',
          requestWaterMask : true,
          requestVertexNormals : true
@@ -123,7 +126,7 @@ Shinetek3D.CesiumOpt = {
      */
     addLayer: function (nameFun, nameLayer, oURL, isBase, WorT) {
         console.log("3D add!");
-        console.log(WorT);
+        console.log(nameFun);
         if (WorT === "WMS") {
             var layer = new Cesium.WebMapServiceImageryProvider({
                 url: oURL,
@@ -134,7 +137,8 @@ Shinetek3D.CesiumOpt = {
                 }
             });
             wmsLayers.addImageryProvider(layer);
-            window.cesiumObj[nameFun] = layer;
+            Shinetek3D.cesiumObj[nameFun] = layer;
+
             /* var wms = new Cesium.UrlTemplateImageryProvider({
              url : 'https://programs.communications.gov.au/geoserver/ows?tiled=true&' +
              'transparent=true&format=image%2Fpng&exceptions=application%2Fvnd.ogc.se_xml&' +
@@ -164,9 +168,10 @@ Shinetek3D.CesiumOpt = {
                 show: "false",
             });
             wmsLayers.addImageryProvider(layer);
-            window.cesiumObj[nameFun] = layer;
+            Shinetek3D.cesiumObj[nameFun] = layer;
         }
         else if (WorT === "TMS") {
+            //若为天地图 则对后缀名称进行修改
             oURL.indexOf("tianditu/WMS_20160820/") > -1 ? oPhoto = "png" : oPhoto = "jpg";
             var layer = new Cesium.ImageryLayer(
                 new Cesium.createTileMapServiceImageryProvider({
@@ -175,7 +180,8 @@ Shinetek3D.CesiumOpt = {
                 })
             );
             tmsLayers.add(layer);
-            window.cesiumObj[nameFun] = layer;
+
+            Shinetek3D.cesiumObj[nameFun] = layer;
             //设置图层的透明度
             //nameFun.alpha = 0.5;
             //设置图层的亮度
@@ -185,8 +191,9 @@ Shinetek3D.CesiumOpt = {
 
         }
         else if (WorT === "GEOJSON") {
-            var layer = Cesium.GeoJsonDataSource.load(oURL);
-            window.viewer.dataSources.add(layer);
+            /*var layer = Cesium.GeoJsonDataSource.load(oURL);
+             window.viewer.dataSources.add(layer);
+             */
             /*console.log(window.viewer.dataSources);*/
         }
         else if (WorT == "Tile_Coordinates") {
@@ -200,9 +207,16 @@ Shinetek3D.CesiumOpt = {
      * @param WorT
      */
     removeLayer: function (nameFun, WorT) {
-        var layer = window.cesiumObj[nameFun];
-        tmsLayers.remove(layer, true);
-        delete window.cesiumObj[nameFun];
+
+        try {
+
+            var layer = Shinetek3D.cesiumObj[nameFun];
+            //viewer.scene.imageryLayers
+            tmsLayers.remove(layer, true);
+            delete Shinetek3D.cesiumObj[nameFun];
+        } catch (err) {
+            console.log(err);
+        }
     },
 
     /**
@@ -210,12 +224,12 @@ Shinetek3D.CesiumOpt = {
      * @param nameFun
      */
     removeSomeLayer: function (nameFun) {
-        var layer = window.cesiumObj[nameFun];
+
         var myName = nameFun;
-        var layers = window.cesiumObj;
-        for (i in layers) {
-            if (myName.indexOf(i) >= 0) {
-                tmsLayers.remove(i, "WorT");
+        var layers = Shinetek3D.cesiumObj;
+        for (m_layer in layers) {
+            if (m_layer.indexOf(myName) > -1) {
+                Shinetek3D.CesiumOpt.removeLayer(m_layer, "WorT");
             }
         }
     },
@@ -224,8 +238,13 @@ Shinetek3D.CesiumOpt = {
      * 移除所有图层
      */
     removeAll: function () {
-        tmsLayers.removeAll(true);
-        window.cesiumObj = null;
+        //  tmsLayers.removeAll(true);
+        //  window.cesiumObj = new Object();
+        var layers = Shinetek3D.cesiumObj;
+        for (m_layer in layers) {
+            Shinetek3D.CesiumOpt.removeLayer(m_layer, "WorT");
+        }
+        Shinetek3D.cesiumObJ = new Object();
     },
 
     /**
@@ -265,7 +284,8 @@ Shinetek3D.CesiumOpt = {
      * @param nameFun 图层名
      */
     indexOf: function (nameFun) {
-        var layer = window.cesiumObj[nameFun];
+        //var layer = window.cesiumObj[nameFun];
+        var layer = Shinetek3D.cesiumObj[nameFun];
         return tmsLayers.indexOf(layer);
     },
 
@@ -275,7 +295,8 @@ Shinetek3D.CesiumOpt = {
      * @param zIndex
      */
     setZIndex: function (nameFun, zIndex) {
-        var layer = window.cesiumObj[nameFun];
+
+        var layer = Shinetek3D.cesiumObj[nameFun];
         tmsLayers.add(layer, zIndex);
     },
 
@@ -284,7 +305,7 @@ Shinetek3D.CesiumOpt = {
      * @param nameFun
      */
     getZIndex: function (nameFun) {
-        var layer = window.cesiumObj[nameFun];
+        //    var layer = window.cesiumObj[nameFun];
         var index = this.indexOf(nameFun);
         tmsLayers.get(index);
         console.log(tmsLayers.get(index));

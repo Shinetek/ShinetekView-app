@@ -13,6 +13,7 @@
     var debug = require('debug')('Worldview:' + process.pid);
 
     debug('Initializing express');
+    debug('Initializing express');
     var app = express();
 
     debug('Attaching plugins');
