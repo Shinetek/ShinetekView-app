@@ -13,16 +13,17 @@
     <div class="wv-image-header">
         <select id="wv-image-resolution">
             <option value="">200m</option>
-            <option value="" selected="selected">500m</option>
-            <option value="">1km</option>
+            <option value="" >500m</option>
+            <option value="" selected="selected">1km</option>
             <option value="">2km</option>
         </select>
-        分辨率 (像素)
+        分辨率
     </div>
     <div class="wv-image-header">
         <select id="wv-image-format">
             <option value="image/jpeg" selected="selected">JPEG</option>
             <option value="image/png">PNG</option>
+            <option value="image/png">TIF</option>
         </select>
         格式
     </div>
@@ -38,8 +39,10 @@
                 <label>W</label><input class="form-control" type="text" id="w" name="w" /><br>
                 <label>H</label><input class="form-control" type="text" id="h" name="h" /><br>
             </div>
-            <label>左上角经纬度</label><input class="form-control" type="text" id="topLeft" name="topLeft" /><br>
-            <label class="rbXY">右下角经纬度</label><input class="form-control" type="text" id="bottomRight" name="bottomRight" />
+            <label>起始位置</label><br/><p class="lonlat">经度：</p><input class="form-control" type="text" id="topLeft" name="topLeft" />
+            <p class="lonlat">纬度：</p><input class="form-control" type="text" id="topLefty" name="topLefty" /><br>
+
+            <label class="rbXY">结束位置</label><br/><p class="lonlat">经度：</p><input class="form-control" type="text" id="bottomRight" name="bottomRight" /><p class="lonlat">纬度：</p><input class="form-control" type="text" id="bottomRighty" name="bottomRighty" />
         </div>
     </form>
     <div class="myBut" id="determine">
