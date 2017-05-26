@@ -430,6 +430,7 @@
                 //若未进行初始化 则 初始化
                 if (!self.is3Dinit) {
                     Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
+                    //将初始化 标志位
                     self.is3Dinit = true;
                     _refreshLayers();
                 }
@@ -1050,11 +1051,13 @@
 
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType == "OVERLAYERS") {
+                // var m_id=layModule._id
+                /*
                 var layadd = 3000;
-                if (Shinetek.Ol3Opt.getZIndex(layModule._id)) {
-                    layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
-                }
-                Shinetek.Ol3Opt.setZIndex(layModule._id, layadd)
+                 if (Shinetek.Ol3Opt.getZIndex(layModule._id)) {
+                 layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
+                 }
+                 Shinetek.Ol3Opt.setZIndex(layModule._id, layadd);*/
             }
             if (layModule.isShow === false) {
                 _setVisibilityFromWMS(layModule);
@@ -1340,7 +1343,7 @@
          * @private
          */
         function _initTimeLine() {
-            timeLine.Init("timeLine", "MINUTE");
+            timeLine.Init("timeLine", "DAY");
         }
 
         /**
