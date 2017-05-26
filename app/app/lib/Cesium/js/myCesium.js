@@ -191,10 +191,26 @@ Shinetek3D.CesiumOpt = {
 
         }
         else if (WorT === "GEOJSON") {
-            /*var layer = Cesium.GeoJsonDataSource.load(oURL);
-             window.viewer.dataSources.add(layer);
-             */
+            console.log("GEOJSON");
+            Cesium.GeoJsonDataSource.load(oURL, {
+                stroke: Cesium.Color.BLUE,
+                fill: Cesium.Color.TRANSPARENT,
+                strokeWidth: 3,
+                markerSymbol: '?'
+            }).then(function (myDataSource) {
+                // Add it to the viewer
+                window.viewer.dataSources.add(myDataSource);
+                // Remember the data source by ID so we can delete later
+                // loadedGeometries[geometryID] = myDataSource;
+                Shinetek3D.cesiumObj[nameFun] = myDataSource;
+                console.log("add layer " + nameFun);
+            });
+            //window.viewer.dataSources.add(layer);
+            // tmsLayers.add(layer);
             /*console.log(window.viewer.dataSources);*/
+
+
+            //Shinetek3D.cesiumObj[nameFun] = layer;
         }
         else if (WorT == "Tile_Coordinates") {
             var layer = new Cesium.TileCoordinatesImageryProvider();
@@ -208,14 +224,25 @@ Shinetek3D.CesiumOpt = {
      */
     removeLayer: function (nameFun, WorT) {
 
-        try {
+        if (WorT == "GEOJSON") {
+            try {
+                var layer = Shinetek3D.cesiumObj[nameFun];
+                window.viewer.dataSources.remove(layer, true);
+                delete Shinetek3D.cesiumObj[nameFun];
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        else {
+            try {
 
-            var layer = Shinetek3D.cesiumObj[nameFun];
-            //viewer.scene.imageryLayers
-            tmsLayers.remove(layer, true);
-            delete Shinetek3D.cesiumObj[nameFun];
-        } catch (err) {
-            console.log(err);
+                var layer = Shinetek3D.cesiumObj[nameFun];
+                //viewer.scene.imageryLayers
+                tmsLayers.remove(layer, true);
+                delete Shinetek3D.cesiumObj[nameFun];
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
 
@@ -306,9 +333,12 @@ Shinetek3D.CesiumOpt = {
      */
     getZIndex: function (nameFun) {
         //    var layer = window.cesiumObj[nameFun];
-        var index = this.indexOf(nameFun);
+        // var index = this.indexOf(nameFun);
+
+        var index = Shinetek3D.cesiumObj.indexOf(nameFun);
         tmsLayers.get(index);
         console.log(tmsLayers.get(index));
+        return tmsLayers.get(index);
     },
 
     /**
