@@ -113,6 +113,12 @@ Shinetek.Ol3Opt = {
             return Shinetek3D.CesiumOpt.removeSomeLayer("");
             // return Shinetek3D.CesiumOpt.removeSomeLayer("");
         }
+    },
+    clearAnimate: function () {
+        if (this.getMapFun() == "1") {
+            return Shinetek2D.Ol3Opt.clearAnimate();
+            // return Shinetek3D.CesiumOpt.removeSomeLayer("");
+        }
     }
 
 
