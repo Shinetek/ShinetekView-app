@@ -24,7 +24,7 @@ Shinetek2D.Ol3Opt = {
             ],
             target: 'map',
             controls: ol.control.defaults({
-                attribution: false,
+                attribution: false
             }).extend([
                 new ol.control.FullScreen(), //全屏
                 new ol.control.MousePosition({
@@ -50,9 +50,9 @@ Shinetek2D.Ol3Opt = {
                 /*extent: [102, 29, 104, 31],*/
                 // 设置成都为地图中心
                 /*center: [104.06, 30.67],*/
-                resolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625, 0.0439453125, 0.0219726562, 0.010986328125, 0.0054931640625], //设置分辨率
-                extent: [-180, -90, 180, 90],
-            }),
+                resolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625, 0.0439453125, 0.0219726562, 0.010986328125, 0.0054931640625, 0.00274658203125], //设置分辨率
+                extent: [-180, -90, 180, 90]
+            })
         });
         /*//地图渲染未开始事件
          map.on('precompose',function (e) {
@@ -155,9 +155,9 @@ Shinetek2D.Ol3Opt = {
                 projection: 'EPSG:4326',
                 tileGrid: new ol.tilegrid.TileGrid({
                     origin: ol.extent.getBottomLeft(new ol.proj.get("EPSG:4326").getExtent()),    // 设置原点坐标
-                    resolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625, 0.0439453125, 0.0219726562, 0.010986328125, 0.0054931640625  /*, 0.00244140625*/], //设置分辨率
+                    resolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625, 0.0439453125, 0.0219726562, 0.010986328125, 0.0054931640625, 0.00274658203125  /*, 0.00244140625*/], //设置分辨率
                     /*extent: [-180, -90, 180, 90],*/
-                    tileSize: [256, 256],
+                    tileSize: [256, 256]
                 }),
                 wrapX: false,
                 tileUrlFunction: function (tileCoord, pixelRatio, projection) {
@@ -177,11 +177,11 @@ Shinetek2D.Ol3Opt = {
                     return urlTemplate.replace('{z}', z.toString())
                         .replace('{y}', y.toString())
                         .replace('{x}', x.toString());
-                },
-            }),
+                }
+            })
         });
         layer.getSource().on('tileloadstart', function () {
-            window.tileLoadStart++;
+           // window.tileLoadStart++;
         });
         layer.getSource().on('tileloadend', function () {
             window.tileLoadEnd++;
@@ -399,14 +399,14 @@ Shinetek2D.Ol3Opt = {
         /*console.log(window.tileAllNum);
          console.log(window.tileLoadEnd);
          console.log(window.tileLoadError);*/
-        if (window.tileAllNum <= tileLoadEnd + tileLoadError) {
+        if (window.tileAllNum <= window.tileLoadEnd + window.tileLoadError) {
             console.log("true");
-            var olMapLoadStatus = true;
+
             Shinetek2D.Ol3Opt.clearAnimate();
-            return olMapLoadStatus;
+            return true;
         } else {
-            var olMapLoadStatus = false;
-            return olMapLoadStatus;
+
+            return false;
         }
     },
 
@@ -534,23 +534,44 @@ Shinetek2D.Ol3Opt = {
         //resolutions:[/*0.703125, 0.3515625,*/ 0.17578125, 0.087890625, 0.0439453125, 0.0219726562, 0.010986328125, 0.0054931640625/*, 0.00244140625,0.001220703125,0.0006103515625*/], //设置分辨率
         switch (res) {
             case 0.17578125:
+            {
                 res = "16000M";
                 break;
+            }
             case 0.087890625:
+            {
                 res = "8000M";
                 break;
+            }
             case 0.0439453125:
                 res = "4000M";
                 break;
             case 0.0219726562:
+            {
                 res = "2000M";
                 break;
+            }
             case 0.010986328125:
+            {
                 res = "1000M";
                 break;
+            }
             case 0.0054931640625:
+            {
                 res = "500M";
                 break;
+            }
+            case 0.00274658203125:
+            {
+                res = "250M";
+                break;
+            }
+            default:
+            {
+                res = "";
+                break;
+            }
+
         }
         myResolution.innerHTML = "分辨率：" + res;
         oResParent.appendChild(myResolution);
@@ -576,7 +597,8 @@ Shinetek2D.Ol3Opt = {
     clearAnimate: function () {
         window.tileAllNum = 0;
         window.tileLoadEnd = 0;
+        /*    http://10.24.10.96/FY3B_MERSI_321/MERSI/yyyyMMdd/*/
         window.tileLoadError = 0;
-    },
+    }
 }
 

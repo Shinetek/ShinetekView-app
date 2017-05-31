@@ -67,9 +67,9 @@
         return res.status(code).json(msg);
     });
 
-    debug("Creating HTTP server on port: %s", 4000);
-    require('http').createServer(app).listen(4000, function () {
-        console.log("HTTP Server listening on port: %s, in %s mode", 4000, app.get('env'));
+    debug("Creating HTTP server on port: %s", 4010);
+    require('http').createServer(app).listen(4010, function () {
+        console.log("HTTP Server listening on port: %s, in %s mode", 4010, app.get('env'));
     });
 
 })();

@@ -26,26 +26,22 @@
     function _startRemove(req, res, next) {
         /*  var m_Url = window.location.href;
          var m_URLNEW = m_Url.replace('worldview', "shinetekview");*/
-        res.send('此 URL已经迁移到 /shinetekview\n');
+        res.sendfile('此 URL已经迁移到 /shinetekview\n');
     }
 
     function _startRemoveConfig(req, res, next) {
         /*  var m_Url = window.location.href;
          var m_URLNEW = m_Url.replace('worldview', "shinetekview");*/
-        res.send('此 URL已经迁移到 /shinetekview_config\n');
+        res.sendfile('此 URL已经迁移到 /shinetekview_config\n');
     }
 
     function _startApp(req, res, next) {
         res.sendfile('app/worldview.html');
     }
 
-    function _startApp3(req, res, next) {
-        res.sendfile('app/worldview.html');
-    }
 
-    function _startApp_trans(req, res, next) {
-        res.sendfile('app/Timer_demo.html');
-    }
+
+
 
     function _startConfigAPP(req, res, next) {
         res.sendfile('app/worldview_config.html');

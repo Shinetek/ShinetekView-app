@@ -172,7 +172,7 @@ Shinetek3D.CesiumOpt = {
         }
         else if (WorT === "TMS") {
             //若为天地图 则对后缀名称进行修改
-            oURL.indexOf("tianditu/WMS_20160820/") > -1 ? oPhoto = "png" : oPhoto = "jpg";
+            oURL.indexOf("tianditu") > -1 ? oPhoto = "png" : oPhoto = "jpg";
             var layer = new Cesium.ImageryLayer(
                 new Cesium.createTileMapServiceImageryProvider({
                     url: oURL,
@@ -254,7 +254,8 @@ Shinetek3D.CesiumOpt = {
 
         var myName = nameFun;
         var layers = Shinetek3D.cesiumObj;
-        for (m_layer in layers) {
+        //遍历当前图层 并对其进行移除
+        for (var m_layer in layers) {
             if (m_layer.indexOf(myName) > -1) {
                 Shinetek3D.CesiumOpt.removeLayer(m_layer, "WorT");
             }
