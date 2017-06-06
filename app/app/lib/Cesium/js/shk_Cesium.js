@@ -176,7 +176,8 @@ Shinetek3D.CesiumOpt = {
             var layer = new Cesium.ImageryLayer(
                 new Cesium.createTileMapServiceImageryProvider({
                     url: oURL,
-                    fileExtension: oPhoto
+                    fileExtension: oPhoto,
+                    tileMatrixLabels:["1","2","3","4","5","6","7"]
                 })
             );
             tmsLayers.add(layer);
@@ -214,6 +215,8 @@ Shinetek3D.CesiumOpt = {
         }
         else if (WorT == "Tile_Coordinates") {
             var layer = new Cesium.TileCoordinatesImageryProvider();
+            tmsLayers.add(layer);
+            Shinetek3D.cesiumObj[nameFun] = layer;
         }
     },
 
