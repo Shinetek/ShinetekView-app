@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="description" content="Use the mouse to select and manipulate objects in the scene.">
+    <meta name="cesium-sandcastle-labels" content="Showcases">
+    <!--3D-->
+    <!--<script src="http://127.0.0.1:4080/app/app/bower_components/ol-cesium/dist/js/appinit.js"></script>-->
+    <link rel="stylesheet" href="http://123.56.135.196:4080/app/app/bower_components/ol-cesium/dist/css/shk-cesium.css">
+</head>
+<body>
+<!--<script>
+    var cssOptions=[];
+    cssOptions.push(
+        "Shinetek-Cesium/dist/css/shk-cesium.css"
+    );
+    appinit.initCss(cssOptions);
+</script>-->
+<!--3D开始-->
+
+<div id="cesiumContainer" class="fullSize"></div>
+<div id="loadingOverlay"><h1>Loading...</h1></div>
+<div id="toolbar">
+    <div id="zoomButtons"></div>
+</div>
+<!--3D结束-->
+</body>
+</html>
+<!--3D控制-->
+<script type="text/javascript" src="http://10.24.4.121:4080/Build/Cesium/Cesium.js"></script>
+<script type="text/javascript" src="http://10.24.4.121:4080/Apps/Sandcastle/Sandcastle-header.js"></script>
+<script type="text/javascript" src="http://10.24.4.121:4080/ThirdParty/requirejs-2.1.20/require.js"></script>
+<script type="text/javascript"
+        src="http://10.24.4.121:4080/app/app/bower_components/ol-cesium/dist/js/shk_Cesium.js"></script>
+<script>
+    //  Shinetek3D.CesiumOpt.init('http://10.24.10.108/IMAGEL2/GBAL/');
+</script>
+

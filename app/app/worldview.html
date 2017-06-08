@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html  >
 <html lang="en" ng-app="Worldview">
 
 <head>
@@ -6,359 +6,677 @@
     <title>遥感产品综合展示平台</title>
     <link rel="shortcut icon" href="./publics/logo2.ico">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css">
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="bower_components/timeline/css/TimeLine_shk.css">
-    <link rel="stylesheet" href="bower_components/openlayer/css/ol3.css">
-    <link rel="stylesheet" href="bower_components/openlayer/css/shk3.css">
+    <link rel="stylesheet" href="bower_components/openlayer/dist/css/ol3.css">
+    <link rel="stylesheet" href="lib/screenshot/css/jquery.Jcrop.css">   <!--截图-->
+    <link rel="stylesheet" href="lib/screenshot/css/screenshots.css">    <!--截图封装-->
+
+    <link rel="stylesheet" href="bower_components/openlayer/dist/css/shk-ol3.css">
     <link rel="stylesheet" href="styles/worldview.css">
+
+    <link rel="stylesheet" href="lib/Cesium/css/shk-cesium.css">   <!--openlayer封装-->
+    <link rel="stylesheet" href="lib/Cesium/css/ol-cesium.css">   <!--openlayer封装-->
+    <!--全局配置文件-->
+    <script type="text/javascript" src="scripts/config.js"></script>
 </head>
 
-<body style="background-color: #3c3f41; position: absolute;left: 0px;top: 0px;width: 100%;height: 100%" ng-controller="WorldviewController as WorldviewCtrl">
+<body style="background-color: #3c3f41; position: absolute;left: 0px;top: 0px;width: 100%;height: 100%"
+      ng-controller="WorldviewController as WorldviewCtrl">
+
+<div id="mapbig">
+    <!--Jcrop start-->
+    <div id="snapshot">
+
+    </div>
+    <!--Jcrop end-->
 
     <!--OpenLayer start-->
-    <div class="view-area-css map" id="map">
+
+    <div class="view-area-css map map2D" id="map" style="width: 100% " ng-show="WorldviewCtrl.isShown3D===false">
 
     </div>
     <!--OpenLayer end-->
 
-    <!--右上角控制按钮 start-->
-    <div>
-
+    <!--3D 模型显示 start-->
+    <div class="view-area-css map map3D" style="width: 100%;height: 100%;" id="cesiumContainer"
+         ng-show="WorldviewCtrl.isShown3D">
     </div>
-    <!--右上角控制按钮 end-->
+    <!--3D 模型显示  end-->
+</div>
 
-    <!--功能区 start-->
-    <div class="func-area-css">
-
-        <!--标题 图标 start-->
-        <div class="title-ico-css">
-            <div class="row" style="margin-left: 10px; width: 330px; height: 100%;">
-                <img class="col-xs-3" src="publics/logo1.png" height="80px" />
-                <h1 class="col-xs-9" style="margin-left: -10px; font-family: Impact;">ShinetekView</h1>
+<!--右上角控制按钮 start-->
+<div>
+    <ul class="sv-toolbar">
+        <li class="sv-toolbar-button" ng-class="{'sv-toolbar-button-active': WorldviewCtrl.isShownVideoPanel}"
+            ng-click="WorldviewCtrl.showVideoPanel()" ng-show="false===true">
+            <label role="button">
+                <span class="glyphicon glyphicon-facetime-video"></span>
+            </label>
+        </li>
+        <li class="sv-toolbar-button" ng-click="WorldviewCtrl.showScreenShots()"
+            ng-show="WorldviewCtrl.isShown3D===false">
+            <label role="button">
+                <span class="glyphicon glyphicon-camera"></span>
+            </label>
+        </li>
+        <li class="sv-toolbar-button">
+            <label role="button">
+                <span class="glyphicon glyphicon-mapType" ng-click="WorldviewCtrl.switch3D()">3D</span>
+            </label>
+        </li>
+    </ul>
+</div>
+<div class="sv-animation-widget" ng-show="WorldviewCtrl.isShownVideoPanel">
+    <div class="sv-animation-widget-header">
+        Animate Map in daily Increments
+    </div>
+    <a title="播放动画" class="sv-animation-widget-play" ng-click="WorldviewCtrl.playVideo()">
+        <i class="glyphicon"
+           ng-class="{'glyphicon-play': WorldviewCtrl.isVideoPlayed < 1, 'glyphicon-pause': WorldviewCtrl.isVideoPlayed === 1}"></i>
+    </a>
+    <a title="停止播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.stopVideo()">
+        <i class="glyphicon glyphicon-stop"></i>
+    </a>
+    <a title="循环播放" class="sv-animation-widget-play" ng-click="WorldviewCtrl.isLooped = !WorldviewCtrl.isLooped">
+        <i class="glyphicon glyphicon-retweet"
+           ng-class="{'item-start': WorldviewCtrl.isLooped === true, 'item-stop': WorldviewCtrl.isLooped === false}"></i>
+    </a>
+    <a title="播放24小时内的最新数据" class="sv-animation-widget-play" ng-click="WorldviewCtrl.playVideoLatest24()">
+        <i class="glyphicon glyphicon-time"
+           ng-class="{'item-start': WorldviewCtrl.isLatest24 === true, 'item-stop': WorldviewCtrl.isLatest24 === false}"></i>
+    </a>
+    <div class="sv-animation-widget-fps">
+        <input id="slider-fps" type="text" data-provide="slider" data-slider-min="0.5" data-slider-max="4"
+               data-slider-ticks="[0.5, 1, 2, 3, 4]"
+               data-slider-step="0.5" data-slider-value="2"/>
+        <div class="sv-animation-widget-fps-label" style="font-size: 12px;">
+            <i id="slider-fps-num">2</i> Frames Per Second
+        </div>
+    </div>
+    <a title="生成GIF文件" class="sv-animation-widget-play">
+        <i class="glyphicon glyphicon-film"></i>
+    </a>
+    <div class="sv-anim-dates-case">
+        <div class="sv-date-selector-widget">
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('y', 'plus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="4" maxlength="4"
+                       ng-value="WorldviewCtrl.videoStartTime.format('YYYY')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('y', 'minus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('M', 'plus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="4" maxlength="4"
+                       ng-value="WorldviewCtrl.videoStartTime.format('MM')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('M', 'minus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('d', 'plus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="4" maxlength="4"
+                       ng-value="WorldviewCtrl.videoStartTime.format('DD')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('d', 'minus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('m', 'plus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="5" maxlength="5"
+                       ng-value="WorldviewCtrl.videoStartTime.format('HH:mm')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('m', 'minus', WorldviewCtrl.videoStartTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
             </div>
         </div>
-        <!--标题 图标  end-->
-
-        <!--功能 start-->
-        <div class="func-css" ng-class="{'extend': WorldviewCtrl.isMenuCollapse===false, 'collapse': WorldviewCtrl.isMenuCollapse===true}">
-
-            <!--菜单 start-->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab('Layer')}">
-                    <a href ng-click="WorldviewCtrl.selectTab('Layer')">
-                        <span class="glyphicon glyphicon-align-justify glyphicon-size-middle"></span> Layer
-                    </a>
-                </li>
-                <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab('Events')}">
-                    <a href ng-click="WorldviewCtrl.selectTab('Events')">
-                        <span class="glyphicon glyphicon-calendar glyphicon-size-middle"></span> Events
-                    </a>
-                </li>
-                <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab('Data')}">
-                    <a href ng-click="WorldviewCtrl.selectTab('Data')">
-                        <span class="glyphicon glyphicon-save glyphicon-size-middle"></span> Data
-                    </a>
-                </li>
-            </ul>
-
-            <!--菜单 end-->
-
-            <!--Layers start-->
-            <div class="layers" ng-show="WorldviewCtrl.isSelectedTab('Layer')">
-                <h5 style="margin-left: 5px">OVERLAYS</h5>
-                <ul id="overlays-zone" ui-sortable="WorldviewCtrl.sortableOptions" ng-model="WorldviewCtrl.overLays" class="overlays">
-                    <!--layItem start-->
-                    <div class="item" ng-repeat="lay in WorldviewCtrl.overLays" id="{{lay._id}}" ng-class="{'lay-item':true, 'bk-show': lay.isShow, 'bk-noshow': !lay.isShow}">
-                        <div style="display: block; position: relative;">
-                            <!--eye start-->
-                            <div class="eye" title="隐藏图层" ng-click="WorldviewCtrl.eyeClick(lay)">
-                                <div>
-                                    <h4 ng-class="{'close-color': !lay.isShow, 'open-color': lay.isShow}">
-                                        <span ng-class="{'glyphicon':true, 'glyphicon-eye-open': lay.isShow, 'glyphicon glyphicon-eye-close': !lay.isShow}"></span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <!--eye end-->
-
-                            <!--info start-->
-                            <div style="min-height: 58px; margin-left: 50px;">
-                                <p class="info-projectName" style="width: 250px; padding-top: 3px">
-                                    {{lay.projectName}}</p>
-                                <p class="info-inst">{{lay.satID}}/{{lay.instID}}</p>
-                                <div class="info-pallet"></div>
-                                <div style="height: 5px"></div>
-                            </div>
-                            <div style="position: absolute; left: 300px; top: 3px; bottom: 3px;">
-                                <a class="ctrl-options" title="Layer options for {{lay.projectName}}" href><span
-                                    class="glyphicon glyphicon-tasks"></span></a>
-                                <a class="ctrl-options" title="移除图层" href ng-click="WorldviewCtrl.removeThisLayer(lay, WorldviewCtrl.overLays)"><span
-                                    class="glyphicon glyphicon-remove-circle"></span></a>
-                            </div>
-                            <!--info end-->
-                        </div>
-                    </div>
-                    <!--layItem end-->
-                </ul>
-                <h5 style="margin-left: 5px">BASELAYERS</h5>
-                <ul id="baselays-zone" ui-sortable="WorldviewCtrl.sortableOptions" ng-model="WorldviewCtrl.baseLays" class="baselays">
-                    <!--layItem start-->
-                    <div ng-repeat="lay in WorldviewCtrl.baseLays" class="" ng-class="{'lay-item':true, 'bk-show': lay.isShow, 'bk-noshow': !lay.isShow}">
-                        <div style="display: block; position: relative;">
-                            <!--eye start-->
-                            <div class="eye" title="隐藏图层" ng-click="WorldviewCtrl.eyeClick(lay)">
-                                <div>
-                                    <h4 ng-class="{'close-color': !lay.isShow, 'open-color': lay.isShow}">
-                                        <span ng-class="{'glyphicon':true, 'glyphicon-eye-open': lay.isShow, 'glyphicon glyphicon-eye-close': !lay.isShow}"></span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <!--eye end-->
-
-                            <!--info start-->
-                            <div style="min-height: 58px; margin-left: 50px;">
-                                <p class="info-projectName" style="width: 250px; padding-top: 3px">
-                                    {{lay.projectName}}</p>
-                                <p class="info-inst">{{lay.satID}}/{{lay.instID}}</p>
-                                <div class="info-pallet"></div>
-                                <div style="height: 5px"></div>
-                            </div>
-                            <div style="position: absolute; left: 300px; top: 3px; bottom: 3px;">
-                                <a class="ctrl-options" title="Layer options for {{lay.projectName}}" href><span
-                                    class="glyphicon glyphicon-tasks"></span></a>
-                                <a class="ctrl-options" title="移除图层" href ng-click="WorldviewCtrl.removeThisLayer(lay, WorldviewCtrl.baseLays)"><span
-                                    class="glyphicon glyphicon-remove-circle"></span></a>
-                            </div>
-                            <!--info end-->
-                        </div>
-                    </div>
-                    <!--layItem end-->
-                </ul>
+        <div class="thru-label">To</div>
+        <div class="sv-date-selector-widget">
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('y', 'plus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="4" maxlength="4"
+                       ng-value="WorldviewCtrl.videoEndTime.format('YYYY')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('y', 'minus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
             </div>
-            <!--Layers end-->
-
-            <!--Events start-->
-            <div class="events" ng-show="WorldviewCtrl.isSelectedTab('Events')">
-
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('M', 'plus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="4" maxlength="4"
+                       ng-value="WorldviewCtrl.videoEndTime.format('MM')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('M', 'minus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
             </div>
-            <!--Events end-->
-
-            <!--Data start-->
-            <div class="data" ng-show="WorldviewCtrl.isSelectedTab('Data')">
-
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('d', 'plus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="4" maxlength="4"
+                       ng-value="WorldviewCtrl.videoEndTime.format('DD')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('d', 'minus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
             </div>
-            <!--Data end-->
+            <div class="input-wrapper">
+                <div class="date-arrows date-arrows-up"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('m', 'plus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="uparrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+                <input tabindex="1" type="text" size="5" maxlength="5"
+                       ng-value="WorldviewCtrl.videoEndTime.format('HH:mm')">
+                <div class="date-arrows date-arrows-down"
+                     ng-click="WorldviewCtrl.setVideoTimeRange('m', 'minus', WorldviewCtrl.videoEndTime)">
+                    <svg width="25" height="8">
+                        <path class="downarrow" d="M 12.5 0 L 25 8 L 0 8 Z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--右上角控制按钮 end-->
 
-            <!--foot start-->
-            <div class="foot row" id="menu-extend-foot">
-                <button type="button" class="btn btn-success col-xs-6 addlayers-btn" ng-click="WorldviewCtrl.showLayerMenu()">
-                    <span class="glyphicon glyphicon-plus"></span>Add Layers
-                </button>
-                <a href class="col-xs-1 col-xs-offset-4 collapse-btn" ng-click="WorldviewCtrl.collapseMenu()" style="font-weight: 500; font-size: 1.8em; margin-top: 5px; color: #c1c1c1">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
+
+<!--功能区 start-->
+<div class="func-area-css">
+
+    <!--标题 图标 start-->
+    <div class="title-ico-css">
+        <div class="row" style="margin-left: 10px; width: 330px; height: 100%;">
+            <img class="col-xs-3" src="publics/logo1.png" height="80px"/>
+            <h1 class="col-xs-9" style="margin-left: -10px; font-family: Impact;">ShinetekView</h1>
+        </div>
+    </div>
+    <!--标题 图标  end-->
+
+    <!--功能 start-->
+    <div class="func-css"
+         ng-class="{'extend': WorldviewCtrl.isMenuCollapse===0, 'collapse': WorldviewCtrl.isMenuCollapse!=0}">
+
+        <!--菜单 start-->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab('Layer')}">
+                <a href ng-click="WorldviewCtrl.selectTab('Layer')">
+                    <span class="glyphicon glyphicon-align-justify glyphicon-size-middle"></span> Layer
                 </a>
-            </div>
-            <!--foot end-->
-        </div>
-        <!--功能 end-->
+            </li>
+            <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab('Events')}">
+                <!--<a href ng-click="WorldviewCtrl.selectTab('Events')">-->
+                <a href ng-click="WorldviewCtrl._animeclick()">
+                    <span class="glyphicon glyphicon-calendar glyphicon-size-middle"></span> Events
+                </a>
+            </li>
+            <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab('Data')}">
+                <!-- <a href ng-click="WorldviewCtrl.selectTab('Data')">-->
+                <a href ng-click="WorldviewCtrl._animeinit()">
+                    <span class="glyphicon glyphicon-save glyphicon-size-middle"></span> Data
+                </a>
+            </li>
+        </ul>
 
-        <!--Collapse Area start-->
-        <div class="func-css collapse-area" ng-show="WorldviewCtrl.isMenuCollapse===true" ng-click="WorldviewCtrl.extendMenu()" title="Show Layer Selector">
-            <span class="extend-icon glyphicon glyphicon-chevron-down"></span>
-            <p href class="extend-label">Layers({{WorldviewCtrl.overLays.length + WorldviewCtrl.baseLays.length}})</p>
-        </div>
-        <!--Collapse Area end-->
+        <!--菜单 end-->
 
-    </div>
-    <!--功能区 end-->
-
-    <!--timeLine start-->
-    <div id="timeLine" style="position: absolute; bottom: 3px; left: 0px; z-index: 1500">
-
-    </div>
-    <!--timeLine end-->
-
-    <!--layer菜单模态框 start-->
-    <div class="modal fade" id="layerMenu">
-        <div class="modal-dialog" style="width: 837px; height: 880px">
-            <div class="modal-content">
-                <!--标题 start-->
-                <div class="modal-header dialog-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <div class="row">
-                        <div class="col-xs-1">
-                            <span class="glyphicon glyphicon-search search-layer-btn" ng-click="WorldviewCtrl.eyeClick()"></span>
-                        </div>
-                        <input class="col-xs-3 search-input" placeholder="Search" />
-                    </div>
-                </div>
-                <!--标题 end-->
-
-                <!--内容 start-->
-                <div class="modal-body dialog-body" ng-show="WorldviewCtrl.layerMenuType === 'Tile'">
-                    <ul class="nav nav-tabs" role="tablist" style="margin-left: 5px; margin-right: 13px">
-                        <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')}">
-                            <a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('POS')">
-                            极轨卫星
-                        </a>
-                        </li>
-                        <li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')}">
-                            <a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('GEO')">
-                            静止卫星
-                        </a>
-                        </li>
-                    </ul>
-                    <ul class="flex-container" style="padding: 0px 5px 0px 5px;" ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')">
-                        <li>
-                            <div class="POSItem dn-bounce" style="background-color: #212121;">
-                                <h4 class="layergroup">常用</h4>
-                                <ul class="layerlist" style="padding-left: 10px;">
-                                    <li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;" ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">
-                                        <p>
-                                            <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
-                                            {{layer.layerName}}
-                                        </a>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li ng-repeat="POSItem in WorldviewCtrl.allLayGroups_POS">
-                            <div class="POSItem dn-bounce" ng-class="{'dn-bounce':true}">
-                                <img class="background-img" src="" ng-src="{{POSItem.pictureUrl}}" />
-                                <div class="background-mask"></div>
-                                <h4 class="layergroup">{{POSItem.name}}</h4>
-                                <ul class="layerlist" style="padding-left: 10px;">
-                                    <li ng-repeat="layer in POSItem.layers | subLayerItemList" style="list-style:none;" ng-click="WorldviewCtrl.selectLayerItem(layer, POSItem)">
-                                        <p>
-                                            <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
-                                            {{layer.layerName}}
-                                            </a>
-                                        </p>
-                                    </li>
-                                    <li ng-show="POSItem.layers.length > 5" style="list-style:none;" ng-click="WorldviewCtrl.selectLayerItem('', POSItem)">
-                                        <p>
-                                            <a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>
-                                                ···
-                                            </a>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="flex-container" style="padding: 0px 5px 0px 5px;" ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')">
-                        <li>
-                            <div class="GEOItem dn-bounce" style="background-color: #212121;">
-                                <h4 class="layergroup">常用</h4>
-                                <ul class="layerlist" style="padding-left: 10px;">
-                                    <li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;" ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">
-                                        <p>
-                                            <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
-                                                {{layer.layerName}}
-                                            </a>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li ng-repeat="GEOItem in WorldviewCtrl.allLayGroups_GEO">
-                            <div class="GEOItem dn-bounce" ng-class="{'dn-bounce':true}">
-                                <img class="background-img" src="" ng-src="{{GEOItem.pictureUrl}}" />
-                                <div class="background-mask"></div>
-                                <h4 class="layergroup">{{GEOItem.name}}</h4>
-                                <ul class="layerlist" style="padding-left: 10px;">
-                                    <li ng-repeat="layer in GEOItem.layers | subLayerItemList" style="list-style:none;" ng-click="WorldviewCtrl.selectLayerItem(layer, GEOItem)">
-                                        <p>
-                                            <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
-                                                {{layer.layerName}}
-                                            </a>
-                                        </p>
-                                    </li>
-                                    <li ng-show="GEOItem.layers.length > 5" style="list-style:none;" ng-click="WorldviewCtrl.selectLayerItem('', GEOItem)">
-                                        <p>
-                                            <a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>
-                                                ···
-                                            </a>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-body dialog-body" ng-show="WorldviewCtrl.layerMenuType === 'Collapse'">
-                    <ol class="breadcrumb" style="background-color: #c1c1c1; margin-bottom: 5px; padding-bottom: 0px;">
-                        <li><a ng-click="WorldviewCtrl.layerMenuType = 'Tile'">产品分类</a></li>
-                        <li><a>{{WorldviewCtrl.currentGroup.name}}</a></li>
-                    </ol>
-                    <div class="panel-group" id="layer-accordion" role="tablist" aria-multiselectable="true">
-                        <div ng-repeat="layer in WorldviewCtrl.currentGroup.layers" class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title" ng-click="WorldviewCtrl.selectLayerItem(layer, WorldviewCtrl.currentGroup)">
-                                    <a data-toggle="collapse" data-parent="#layer-accordion" href="#{{layer.layerID}}" aria-expanded="true" aria-controls="collapseOne">
-                                    {{layer.layerName}}
-                                </a>
-                                    <p class="sub-name" style="margin-bottom: 0px;">{{layer.instString}}</p>
+        <!--Layers start-->
+        <div class="layers" ng-show="WorldviewCtrl.isSelectedTab('Layer')">
+            <h5 style="margin-left: 5px">OVERLAYS</h5>
+            <ul id="overlays-zone" ui-sortable="WorldviewCtrl.sortableOptions" ng-model="WorldviewCtrl.overLays"
+                class="overlays">
+                <!--layItem start-->
+                <div class="item" ng-repeat="lay in WorldviewCtrl.overLays" id="{{lay._id}}"
+                     ng-class="{'lay-item':true, 'bk-show': lay.isShow, 'bk-noshow': !lay.isShow}">
+                    <div style="display: block; position: relative;">
+                        <!--eye start-->
+                        <div class="eye" title="隐藏图层" ng-click="WorldviewCtrl.eyeClick(lay)">
+                            <div>
+                                <h4 ng-class="{'close-color': !lay.isShow, 'open-color': lay.isShow}">
+                                    <span ng-class="{'glyphicon':true, 'glyphicon-eye-open': lay.isShow, 'glyphicon glyphicon-eye-close': !lay.isShow}"></span>
                                 </h4>
                             </div>
-                            <div id="{{layer.layerID}}" class="panel-collapse collapse" ng-class="{'in': layer.layerName === WorldviewCtrl.currentLayer.layerName}"
-                                role="tabpanel" aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <div class="col-xs-3 layer-accordion-content">
-                                        <ul class="nav nav-pills nav-stacked" style="padding-left: 0px;" role="tablist">
-                                            <li ng-repeat="inst in layer.group.instGroupList" class="layer-accordion-content-instlist" role="presentation" ng-class="{'active': WorldviewCtrl.isInstSelected(inst.instName)}">
-                                                <a ng-click="WorldviewCtrl.selectInstonAboveLayer(inst)">{{inst.instName}}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-xs-9 layer-accordion-content" style="margin-top: 12px" ng-show="WorldviewCtrl.currentInst !== undefined">
-                                        <ul style="padding-left: 0px;">
-                                            <li ng-repeat="project in WorldviewCtrl.currentInst.projectList" class="layer-accordion-content-projectlist">
-                                                <p ng-click="WorldviewCtrl.addThisProject(project)">
+                        </div>
+                        <!--eye end-->
+
+                        <!--info start-->
+                        <div style="min-height: 58px; margin-left: 50px;">
+                            <p class="info-projectName" style="width: 250px; padding-top: 3px">
+                                {{lay.projectName}}</p>
+                            <p class="info-inst">{{lay.satID}}/{{lay.instID}}</p>
+                            <div id="palette{{lay._id}}" class="info-pallet"></div>
+                            <div style="height: 5px"></div>
+                        </div>
+                        <div style="position: absolute; left: 300px; top: 3px; bottom: 3px;">
+                            <a class="ctrl-options" title="Layer options for {{lay.projectName}}" href><span
+                                    class="glyphicon glyphicon-tasks"></span></a>
+                            <a class="ctrl-options" title="移除图层" href
+                               ng-click="WorldviewCtrl.removeThisLayer(lay, WorldviewCtrl.overLays)"><span
+                                    class="glyphicon glyphicon-remove-circle"></span></a>
+                        </div>
+                        <!--info end-->
+                    </div>
+                </div>
+                <!--layItem end-->
+            </ul>
+            <h5 style="margin-left: 5px">BASELAYERS</h5>
+            <ul id="baselays-zone" ui-sortable="WorldviewCtrl.sortableOptions" ng-model="WorldviewCtrl.baseLays"
+                class="baselays">
+                <!--layItem start-->
+                <div ng-repeat="lay in WorldviewCtrl.baseLays" class=""
+                     ng-class="{'lay-item':true, 'bk-show': lay.isShow, 'bk-noshow': !lay.isShow}">
+                    <div style="display: block; position: relative;">
+                        <!--eye start-->
+                        <div class="eye" title="隐藏图层" ng-click="WorldviewCtrl.eyeClick(lay)">
+                            <div>
+                                <h4 ng-class="{'close-color': !lay.isShow, 'open-color': lay.isShow}">
+                                    <span ng-class="{'glyphicon':true, 'glyphicon-eye-open': lay.isShow, 'glyphicon glyphicon-eye-close': !lay.isShow}"></span>
+                                </h4>
+                            </div>
+                        </div>
+                        <!--eye end-->
+
+                        <!--info start-->
+                        <div style="min-height: 58px; margin-left: 50px;">
+                            <p class="info-projectName" style="width: 250px; padding-top: 3px">
+                                {{lay.projectName}}</p>
+                            <p class="info-inst">{{lay.satID}}/{{lay.instID}}</p>
+                            <div id="palette{{lay._id}}" class="info-pallet"></div>
+                            <div style="height: 5px"></div>
+                        </div>
+                        <div style="position: absolute; left: 300px; top: 3px; bottom: 3px;">
+                            <a class="ctrl-options" title="Layer options for {{lay.projectName}}" href><span
+                                    class="glyphicon glyphicon-tasks"></span></a>
+                            <a class="ctrl-options" title="移除图层" href
+                               ng-click="WorldviewCtrl.removeThisLayer(lay, WorldviewCtrl.baseLays)"><span
+                                    class="glyphicon glyphicon-remove-circle"></span></a>
+                        </div>
+                        <!--info end-->
+                    </div>
+                </div>
+                <!--layItem end-->
+            </ul>
+        </div>
+        <!--Layers end-->
+
+        <!--Events start-->
+        <div class="events" ng-show="WorldviewCtrl.isSelectedTab('Events')">
+
+        </div>
+        <!--Events end-->
+
+        <!--Data start-->
+        <div class="data" ng-show="WorldviewCtrl.isSelectedTab('Data')">
+
+        </div>
+        <!--Data end-->
+
+        <!--foot start-->
+        <div class="foot row" id="menu-extend-foot">
+            <button type="button" class="btn btn-success col-xs-6 addlayers-btn"
+                    ng-click="WorldviewCtrl.showLayerMenu()">
+                <span class="glyphicon glyphicon-plus"></span>Add Layers
+            </button>
+            <a href class="col-xs-1 col-xs-offset-4 collapse-btn" ng-click="WorldviewCtrl.collapseMenu()"
+               style="font-weight: 500; font-size: 1.8em; margin-top: 5px; color: #c1c1c1">
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </a>
+        </div>
+        <!--foot end-->
+    </div>
+    <!--功能 end-->
+
+    <!--　动画显示部分 div  start -->
+    <div class="func-css collapse-area" ng-show="WorldviewCtrl.isMenuCollapse===2"
+         title="Show Layer Selector">
+        <!-- 设置居中显示-->
+        <div class="aminite-label">
+            <p>动画模式--{{ WorldviewCtrl.topsideLayer.projectName}}</p>
+        </div>
+    </div>
+    <!--动画显示部分 div end-->
+
+    <!--Collapse Area start-->
+    <div class="func-css collapse-area"
+         ng-show="WorldviewCtrl.isMenuCollapse===1 "
+         ng-click="WorldviewCtrl.extendMenu()" title="Show Layer Selector">
+        <span class="extend-icon glyphicon glyphicon-chevron-down"></span>
+        <p href class="extend-label">Layers({{WorldviewCtrl.overLays.length + WorldviewCtrl.baseLays.length}})</p>
+    </div>
+    <!--Collapse Area end-->
+
+</div>
+<!--功能区 end-->
+
+<!--timeLine start-->
+<div id="timeLine" style="position: absolute; bottom: 3px; left: 0px; z-index: 1500">
+
+</div>
+<!--timeLine end-->
+
+<!--layer菜单模态框 start-->
+<div class="modal fade" id="layerMenu" style="z-index: 3000">
+    <div class="modal-dialog" style="width: 857px; height: 880px">
+        <div class="modal-content">
+            <!--标题 start-->
+            <div class="modal-header dialog-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span class="glyphicon glyphicon-search search-layer-btn"
+                              ng-click="WorldviewCtrl.eyeClick()"></span>
+                    </div>
+                    <input class="col-xs-3 search-input" placeholder="Search"/>
+                </div>
+            </div>
+            <!--标题 end-->
+
+            <!--内容 start-->
+            <div class="modal-body dialog-body" ng-show="WorldviewCtrl.layerMenuType === 'Tile'"
+                 style="max-height: 600px;overflow-y:auto;">
+                <ul class="nav nav-tabs" role="tablist" style="margin-left: 5px; margin-right: 13px">
+                    <!--<li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')}">-->
+                    <!--<a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('POS')">-->
+                    <!--极轨卫星-->
+                    <!--</a>-->
+                    <!--</li>-->
+                    <!--<li role="presentation" ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')}">-->
+                    <!--<a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal('GEO')">-->
+                    <!--静止卫星-->
+                    <!--</a>-->
+                    <!--</li>-->
+                    <li ng-repeat="tabGroup in WorldviewCtrl.tabGroups" role="presentation"
+                        ng-class="{active: WorldviewCtrl.isSelectedTab_LayerMenuModal(tabGroup)}">
+                        <a href class="tab-font" ng-click="WorldviewCtrl.selectTab_LayerMenuModal(tabGroup)">
+                            {{tabGroup.typeName}}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="flex-container" style="padding: 0px 5px 0px 5px;">
+                    <li>
+                        <div class="POSItem dn-bounce" style="background-color: #212121;">
+                            <h4 class="layergroup">常用</h4>
+                            <ul class="layerlist" style="padding-left: 10px;">
+                                <li ng-repeat="layer in WorldviewCtrl.currentTabGroup.frequentlyLayers"
+                                    style="list-style:none;"
+                                    ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">
+                                    <p>
+                                        <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
+                                            {{layer.layerName}}
+                                        </a>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li ng-repeat="item in WorldviewCtrl.currentTabGroup.allLayGroups">
+                        <div class="POSItem dn-bounce" ng-class="{'dn-bounce':true}">
+                            <img class="background-img" src="" ng-src="{{item.pictureUrl}}"/>
+                            <div class="background-mask"></div>
+                            <h4 class="layergroup">{{item.name}}</h4>
+                            <ul class="layerlist" style="padding-left: 10px;">
+                                <li ng-repeat="layer in item.layers | subLayerItemList" style="list-style:none;"
+                                    ng-click="WorldviewCtrl.selectLayerItem(layer, item)">
+                                    <p>
+                                        <a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>
+                                            {{layer.layerName}}
+                                        </a>
+                                    </p>
+                                </li>
+                                <li ng-show="item.layers.length > 5" style="list-style:none;"
+                                    ng-click="WorldviewCtrl.selectLayerItem('', item)">
+                                    <p>
+                                        <a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>
+                                            ···
+                                        </a>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <!--<ul class="flex-container" style="padding: 0px 5px 0px 5px;"-->
+                <!--ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('POS')">-->
+                <!--<li>-->
+                <!--<div class="POSItem dn-bounce" style="background-color: #212121;">-->
+                <!--<h4 class="layergroup">常用</h4>-->
+                <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                <!--<li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;"-->
+                <!--ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">-->
+                <!--<p>-->
+                <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                <!--{{layer.layerName}}-->
+                <!--</a>-->
+                <!--</p>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--<li ng-repeat="POSItem in WorldviewCtrl.allLayGroups_POS">-->
+                <!--<div class="POSItem dn-bounce" ng-class="{'dn-bounce':true}">-->
+                <!--<img class="background-img" src="" ng-src="{{POSItem.pictureUrl}}"/>-->
+                <!--<div class="background-mask"></div>-->
+                <!--<h4 class="layergroup">{{POSItem.name}}</h4>-->
+                <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                <!--<li ng-repeat="layer in POSItem.layers | subLayerItemList" style="list-style:none;"-->
+                <!--ng-click="WorldviewCtrl.selectLayerItem(layer, POSItem)">-->
+                <!--<p>-->
+                <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                <!--{{layer.layerName}}-->
+                <!--</a>-->
+                <!--</p>-->
+                <!--</li>-->
+                <!--<li ng-show="POSItem.layers.length > 5" style="list-style:none;"-->
+                <!--ng-click="WorldviewCtrl.selectLayerItem('', POSItem)">-->
+                <!--<p>-->
+                <!--<a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>-->
+                <!--···-->
+                <!--</a>-->
+                <!--</p>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="flex-container" style="padding: 0px 5px 0px 5px;"-->
+                <!--ng-show="WorldviewCtrl.isSelectedTab_LayerMenuModal('GEO')">-->
+                <!--<li>-->
+                <!--<div class="GEOItem dn-bounce" style="background-color: #212121;">-->
+                <!--<h4 class="layergroup">常用</h4>-->
+                <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                <!--<li ng-repeat="layer in WorldviewCtrl.frequentlyLayers" style="list-style:none;"-->
+                <!--ng-click="WorldviewCtrl.selectLayerItem(layer, {'name': '常用', 'layers': WorldviewCtrl.frequentlyLayers})">-->
+                <!--<p>-->
+                <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                <!--{{layer.layerName}}-->
+                <!--</a>-->
+                <!--</p>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--<li ng-repeat="GEOItem in WorldviewCtrl.allLayGroups_GEO">-->
+                <!--<div class="GEOItem dn-bounce" ng-class="{'dn-bounce':true}">-->
+                <!--<img class="background-img" src="" ng-src="{{GEOItem.pictureUrl}}"/>-->
+                <!--<div class="background-mask"></div>-->
+                <!--<h4 class="layergroup">{{GEOItem.name}}</h4>-->
+                <!--<ul class="layerlist" style="padding-left: 10px;">-->
+                <!--<li ng-repeat="layer in GEOItem.layers | subLayerItemList" style="list-style:none;"-->
+                <!--ng-click="WorldviewCtrl.selectLayerItem(layer, GEOItem)">-->
+                <!--<p>-->
+                <!--<a style="color: #e2e2e2; font-weight: 500; font-size: 1.1em" href>-->
+                <!--{{layer.layerName}}-->
+                <!--</a>-->
+                <!--</p>-->
+                <!--</li>-->
+                <!--<li ng-show="GEOItem.layers.length > 5" style="list-style:none;"-->
+                <!--ng-click="WorldviewCtrl.selectLayerItem('', GEOItem)">-->
+                <!--<p>-->
+                <!--<a style="color: #e2e2e2; font-weight: 700; font-size: 1.1em" href>-->
+                <!--···-->
+                <!--</a>-->
+                <!--</p>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--</ul>-->
+            </div>
+            <div class="modal-body dialog-body" ng-show="WorldviewCtrl.layerMenuType === 'Collapse'"
+                 style="max-height: 600px;overflow-y:auto;">
+                <ol class="breadcrumb" style="background-color: #c1c1c1; margin-bottom: 5px; padding-bottom: 0px;">
+                    <li><a ng-click="WorldviewCtrl.layerMenuType = 'Tile'">产品分类</a></li>
+                    <li><a>{{WorldviewCtrl.currentGroup.name}}</a></li>
+                </ol>
+                <div class="panel-group" id="layer-accordion" role="tablist" aria-multiselectable="true">
+                    <div ng-repeat="layer in WorldviewCtrl.currentGroup.layers" class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title"
+                                ng-click="WorldviewCtrl.selectLayerItem(layer, WorldviewCtrl.currentGroup)">
+                                <a data-toggle="collapse" data-parent="#layer-accordion" href="#{{layer.layerID}}"
+                                   aria-expanded="true" aria-controls="collapseOne">
+                                    {{layer.layerName}}
+                                </a>
+                                <p class="sub-name" style="margin-bottom: 0px;">{{layer.instString}}</p>
+                            </h4>
+                        </div>
+                        <div id="{{layer.layerID}}" class="panel-collapse collapse"
+                             ng-class="{'in': layer.layerName === WorldviewCtrl.currentLayer.layerName}"
+                             role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <div class="col-xs-3 layer-accordion-content">
+                                    <ul class="nav nav-pills nav-stacked" style="padding-left: 0px;" role="tablist">
+                                        <li ng-repeat="inst in layer.group.instGroupList"
+                                            class="layer-accordion-content-instlist" role="presentation"
+                                            ng-class="{'active': WorldviewCtrl.isInstSelected(inst.instName)}">
+                                            <a ng-click="WorldviewCtrl.selectInstonAboveLayer(inst)">{{inst.instName}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-9 layer-accordion-content" style="margin-top: 12px"
+                                     ng-show="WorldviewCtrl.currentInst !== undefined">
+                                    <ul style="padding-left: 0px;">
+                                        <li ng-repeat="project in WorldviewCtrl.currentInst.projectList"
+                                            class="layer-accordion-content-projectlist">
+                                            <p ng-click="WorldviewCtrl.addThisProject(project)">
                                                     <span ng-class="{'glyphicon': true, 'glyphicon-check': project.isSelected === true, 'glyphicon-unchecked': project.isSelected === false}"
-                                                        style="margin-left: 3px"></span>                                                    &nbsp&nbsp{{project.projectName}}
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                          style="margin-left: 3px"></span>
+                                                &nbsp&nbsp{{project.projectName}}
+                                            </p>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--内容 end-->
             </div>
+            <!--内容 end-->
         </div>
     </div>
-    <!--layer菜单模态框 end-->
-
-    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script type="text/javascript" src="bower_components/ngAnimate-animate.css/animate.js"></script>
-    <script type="text/javascript" src="bower_components/angular-ui-sortable/sortable.js"></script>
-    <script type="text/javascript" src="bower_components/openlayer/js/ol3-debug.js"></script>
-    <script type="text/javascript" src="bower_components/openlayer/js/ol3.js"></script>
-    <script type="text/javascript" src="bower_components/openlayer/js/FY4System-3.0.0.js"></script>
-    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
-
-    <!--　TimeLine 部分引用　-->
-    <script type="text/javascript" src="bower_components/timeline/dist/moment.min.js"></script>
-    <script type="text/javascript" src="bower_components/timeline/TimeLine_shk.js"></script>
+</div>
+<!--layer菜单模态框 end-->
 
 
-    <script type="text/javascript" src="scripts/worldview/module.js"></script>
-    <script type="text/javascript" src="scripts/worldview/config.js"></script>
-    <script type="text/javascript" src="scripts/worldview/run.js"></script>
-    <script type="text/javascript" src="scripts/worldview/route.js"></script>
-    <script type="text/javascript" src="scripts/worldview/services.js"></script>
-    <script type="text/javascript" src="scripts/worldview/controller.js"></script>
-    <script type="text/javascript" src="scripts/worldview/filters.js"></script>
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+<!--<script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>-->
+<script type="text/javascript" src="bower_components/ngAnimate-animate.css/animate.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-sortable/sortable.js"></script>
+<script type="text/javascript" src="bower_components/moment/moment.js"></script>
+<script type="text/javascript" src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+
+
+<!--　TimeLine 部分引用　-->
+<script type="text/javascript" src="bower_components/timeline/lib/moment.min.js"></script>
+<script type="text/javascript" src="bower_components/timeline/js/TimeLine_shk.js"></script>
+
+<!--Openlayer 部分引用-->
+
+<script type="text/javascript" src="lib/openlayer/dist/js/ol3-debug.js"></script>
+<script type="text/javascript" src="lib/openlayer/dist/js/ol3.js"></script>
+<script type="text/javascript" src="lib/openlayer/dist/js/ol3-opt.js"></script>
+<script type="text/javascript" src="bower_components/requirejs-2.1.20/require.min.js"></script>
+<script type="text/javascript" src="lib/Cesium/Build/Cesium/Cesium.js"></script>
+<script type="text/javascript" src="lib/Cesium/js/shk_Cesium.js"></script>
+<script type="text/javascript" src="lib/Cesium/js/shk_ol_cesium_opt.js"></script>
+
+<!--Jcrop 部分引用-->
+<script src="lib/screenshot/js/jquery.Jcrop.js"></script>
+<script type="text/javascript" src="lib/screenshot/js/screenshots.js"></script>
+
+<!--Palette 部分引用-->
+<script type="text/javascript" src="bower_components/palette/dist/Palette.js"></script>
+
+
+<script type="text/javascript" src="scripts/worldview/module.js"></script>
+<script type="text/javascript" src="scripts/worldview/config.js"></script>
+<script type="text/javascript" src="scripts/worldview/run.js"></script>
+<script type="text/javascript" src="scripts/worldview/route.js"></script>
+<script type="text/javascript" src="scripts/worldview/services.js"></script>
+<script type="text/javascript" src="scripts/worldview/controller.js"></script>
+<script type="text/javascript" src="scripts/worldview/filters.js"></script>
 </body>
 
 </html>

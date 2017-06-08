@@ -13,15 +13,26 @@
 
     function WorldviewServices($http) {
 
-        var BASEPATH = 'http://10.24.4.130:4001/api';
+        var BASEPATH = Config_Total.BASEPATH;
 
         var self = {
             getLayerGroupList: _getLayerGroupList,
             getProjectInfoList: _getProjectInfoList,
-            getDataExistList: _getDataExistList
+            getDataExistList: _getDataExistList,
+            getProjectPalette: _getProjectPalette
         };
 
         return self;
+
+        /**
+         * 获取产品调色板信息
+         * @param {String} url 
+         * @param {Function} successFn 
+         * @param {Function} errorFn 
+         */
+        function _getProjectPalette(url, successFn, errorFn) {
+            $http.get(url).success(successFn).error(errorFn);
+        }
 
         /**
          * 获取产品信息列表
@@ -32,10 +43,21 @@
             $http.get(BASEPATH + "/projectinfo").success(successFn).error(errorFn);
         }
 
+        /**
+         * 获取图层分组列表
+         * @param {Function} successFn 
+         * @param {Function} errorFn 
+         */
         function _getLayerGroupList(successFn, errorFn) {
             $http.get(BASEPATH + '/layer-group').success(successFn).error(errorFn);
         }
 
+        /**
+         * 获取数据有无列表
+         * @param {String} url 
+         * @param {Function} successFn 
+         * @param {Function} errorFn 
+         */
         function _getDataExistList(url, successFn, errorFn) {
             $http.get(url).success(successFn).error(errorFn);
         }

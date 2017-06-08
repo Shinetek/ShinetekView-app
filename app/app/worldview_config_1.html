@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="WVConfig">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引用angular -->
+    <title>遥感产品综合展示平台配置</title>
+    <link rel="shortcut icon" href="./publics/logo2.ico">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <style type="text/css">
+        .inputDiv {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            height: 40px;
+        }
+
+        .inputLabel {
+            text-align: right;
+            vertical-align: middle !important;
+            font-size: 16px;
+            display: block;
+            line-height: 40px;
+        }
+
+        .ShowTabletd {
+            text-align: center;
+            vertical-align: middle !important;
+            word-break: break-all;
+        }
+
+        .ShowTableth {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+    </style>
+</head>
+<body>
+
+<!--导航栏部分-->
+<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#" rel="tooltip">遥感产品综合展示平台</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#ProListdiv" data-toggle="tab">产品详情配置</a></li>
+                <li><a href="#PM2_List" data-toggle="tab">产品分组配置</a></li>
+
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div id="myTabContent" class="tab-content">
+    <!--主体显示列表部分-->
+    <!--title部分 及 检索部分-->
+    <div class="tab-pane active row" id="ProListdiv" ng-controller="ProdConfigController">>
+        <div class="projects-header page-header row" style="text-align: center;">
+            <h3> 产品详情配置 -- 配置产品总数： {{ProdInfonum}}<span></span></h3>
+            <form class="navbar-form  " role="search" style="text-align: center;">
+                <input type="text" class="form-control" placeholder="请输入检索内容" ng-model="queryprod">
+                <select ng-model="orderProp" class="form-control">
+                    <option value="satID">星标</option>
+                    <option value="instID">仪器名称</option>
+                    <option value="projectName">产品名称</option>
+                    <option value="layerName">图层名称</option>
+                </select>
+                <button class="btn btn-success" data-toggle="modal" data-target="#AddModal">添加</button>
+                <button class="btn btn-primary" ng-click="GetInfoALL()">刷新</button>
+            </form>
+        </div>
+        <div class="row" id="ProConfigdiv" style="margin: 20px 0px;">
+            <!-- 产品列表-->
+            <div class="col-lg-12  ">
+                <table class="table table-bordered" style="visibility: visible;">
+                    <thead>
+                    <tr>
+                        <th class="ShowTableth">卫星标识</th>
+                        <th class="ShowTableth">卫星类型</th>
+                        <th class="ShowTableth">仪器名称</th>
+                        <th class="ShowTableth">默认显示</th>
+                        <th class="ShowTableth">产品名称</th>
+                        <th class="ShowTableth">产品路径</th>
+                        <th class="ShowTableth">图层名称</th>
+                        <th class="ShowTableth">图层类型</th>
+                        <th class="ShowTableth">MAP类型</th>
+                        <th class="ShowTableth">数据API</th>
+                        <th class="ShowTableth">调色板URL</th>
+                        <th class="ShowTableth">截图URL</th>
+                        <th class="ShowTableth">截图配置</th>
+                        <th class="ShowTableth">动画URL</th>
+                        <th class="ShowTableth">相关操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="Prod in groupInfoList | filter:queryprod| orderBy:orderProp">
+                        <td class="ShowTabletd">{{Prod.satID}}</td>
+                        <td class="ShowTabletd">{{Prod.satType}}</td>
+                        <td class="ShowTabletd">{{Prod.instID}}</td>
+                        <td class="ShowTabletd">{{Prod.isDefault}}</td>
+                        <td class="ShowTabletd">{{Prod.projectName}}</td>
+                        <td class="ShowTabletd">
+                            <p style="width: 200px;word-break: break-all;">{{Prod.projectUrl}}</p>
+                        </td>
+                        <td class="ShowTabletd">
+                            <p style="width: 100px;word-break: break-all;">{{Prod.layerName}}</p>
+                        </td>
+                        <td class="ShowTabletd">{{Prod.layType}}</td>
+                        <td class="ShowTabletd">{{Prod.mapType}}</td>
+                        <td class="ShowTabletd">
+                            <p style="width: 200px;word-break: break-all;">{{Prod.dataListUrl}}</p></td>
+
+                        <td class="ShowTabletd">
+                            <p style="width: 200px;word-break: break-all;">{{Prod.paletteUrl}}</p>
+                        </td>
+                        <td class="ShowTabletd">
+                            <p style="width: 200px;word-break: break-all;">{{Prod.screenshotUrl}}</p></td>
+                        </td>
+                        <td class="ShowTabletd">{{Prod.screenshotparam}}</td>
+                        <td class="ShowTabletd">
+                            <p style="width: 200px;word-break: break-all;">{{Prod.animeUrl}}</p></td>
+                        </td>
+                        <td>
+                            <div style="width: 80px;">
+                                <button type="button" class="btn btn-default" ng-click="ChangeModelFunc(Prod)"
+                                        date-ChangeInfo={{Prod}} data-toggle="modal"
+                                        data-target="#ChangeModal" style="float: left ;margin: 2px;">
+                                    <span class="glyphicon glyphicon-pencil"></span> 修改
+                                </button>
+                                <button class="btn btn-default" ng-click="DeleteProd(Prod)"
+                                        style="float: left ;margin: 2px;">
+                                    <span class="glyphicon glyphicon-remove"></span> 删除
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 修改DIV-->
+            <div class="modal fade" id="ChangeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" style="width: 800px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">修改产品 ID:{{ChangeModelData.ID}}</h4>
+                        </div>
+                        <div class=" modal-body row">
+                            <div class="col-sm-12">
+                                <!--1 卫星标识-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 control-label inputLabel ">卫星标识</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="{{ChangeModelData.satID}}"
+                                               ng-model="ChangeModelData.satID">
+                                    </div>
+                                </div>
+                                <!--2 卫星类型-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 control-label  inputLabel ">卫星类型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.satType}}"
+                                               ng-model="ChangeModelData.satType">
+                                    </div>
+                                </div>
+                                <!--3 仪器名称-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2  control-label inputLabel">仪器名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="{{ChangeModelData.instID}}"
+                                               ng-model="ChangeModelData.instID">
+                                    </div>
+                                </div>
+                                <!--4 是否默认加载-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 control-label inputLabel  ">是否默认</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.isDefault}}"
+                                               ng-model="ChangeModelData.isDefault">
+                                    </div>
+                                </div>
+                                <!--5 产品名称-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2  inputLabel  ">产品名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.projectName}}"
+                                               ng-model="ChangeModelData.projectName">
+                                    </div>
+                                </div>
+                                <!--6 产品路径-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 inputLabel">产品路径</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.projectUrl}}"
+                                               ng-model="ChangeModelData.projectUrl">
+                                    </div>
+                                </div>
+                                <!--7 图层名称-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2  inputLabel  ">图层名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.layerName}}"
+                                               ng-model="ChangeModelData.layerName">
+                                    </div>
+                                </div>
+                                <!--8 图层类型-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">图层类型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.layType}}"
+                                               ng-model="ChangeModelData.layType">
+                                    </div>
+                                </div>
+                                <!--9 map类型-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">map类型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.mapType}}"
+                                               ng-model="ChangeModelData.mapType">
+                                    </div>
+                                </div>
+                                <!--10 数据API-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">数据API</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.dataListUrl}}"
+                                               ng-model="ChangeModelData.dataListUrl">
+                                    </div>
+                                </div>
+                                <!--11 调色板URL-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">调色板URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.paletteUrl}}"
+                                               ng-model="ChangeModelData.paletteUrl">
+                                    </div>
+                                </div>
+
+                                <!--12 截图URL-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">截图URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.screenshotUrl}}"
+                                               ng-model="ChangeModelData.screenshotUrl">
+                                    </div>
+                                </div>
+
+                                <!--13 截图参数-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">截图参数</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.screenshotparam}}"
+                                               ng-model="ChangeModelData.screenshotparam">
+                                    </div>
+                                </div>
+
+                                <!--14 动画URL-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">动画URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{ChangeModelData.animeUrl}}"
+                                               ng-model="ChangeModelData.animeUrl">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" ng-click="SubmitChangeFunc()">提交更改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新建 DIV-->
+            <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" style="width: 800px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="Add_ModalLabel">添加新产品配置 </h4>
+                        </div>
+                        <div class="modal-body row">
+                            <div class="col-sm-10">
+                                <!--1卫星标识-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 control-label inputLabel ">卫星标识</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" style="display: none;"
+                                               placeholder="{{AddModelData.satID}}"
+                                               ng-model="AddModelData.satID">
+                                        <select ng-model="AddModelData.satID" class="form-control">
+                                            <option value="FY3A">FY3A</option>
+                                            <option value="FY3B">FY3B</option>
+                                            <option value="FY3C">FY3C</option>
+                                            <option value="FY4A">FY4A</option>
+                                            <option value="AQUA">AQUA</option>
+                                            <option value="TERRA">TERRA</option>
+                                            <option value="NPP">NPP</option>
+                                            <option value="NOAA18">NOAA18</option>
+                                            <option value="NOAA19">NOAA19</option>
+                                            <option value="NAN">NAN</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--2卫星类型-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 control-label  inputLabel ">卫星类型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" style="display: none;"
+                                               placeholder="{{AddModelData.satType}}"
+                                               ng-model="AddModelData.satType">
+
+                                        <select ng-model="AddModelData.satType" class="form-control">
+                                            <option value="GEO">GEO</option>
+                                            <option value="POS">POS</option>
+                                            <option value="NAN">NAN</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--3仪器名称-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2  control-label inputLabel">仪器名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="{{AddModelData.instID}}"
+                                               style="display: none;" ng-model="AddModelData.instID">
+                                        <select ng-model="AddModelData.instID" class="form-control">
+                                            <option value="MODIS">MODIS</option>
+                                            <option value="MERSI">MERSI</option>
+                                            <option value="VIRR">VIRR</option>
+                                            <option value="AGRI">AGRI</option>
+                                            <option value="AVHRR">AVHRR</option>
+                                            <option value="VIIRS">VIIRS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--4 是否默认加载-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 control-label inputLabel  ">是否默认</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="{{AddModelData.isDefault}}"
+                                               style="display: none;" ng-model="AddModelData.isDefault">
+                                        <select ng-model="AddModelData.isDefault" class="form-control">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--5 产品名称-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2  inputLabel ">产品名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.projectName}}"
+                                               ng-model="AddModelData.projectName">
+                                    </div>
+                                </div>
+                                <!--6 产品路径-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2 inputLabel">产品路径</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.projectUrl}}"
+                                               ng-model="AddModelData.projectUrl">
+                                    </div>
+                                </div>
+                                <!--7 图层名称-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2  inputLabel  ">图层名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="{{AddModelData.layerName}}"
+                                               ng-model="AddModelData.layerName">
+                                    </div>
+                                </div>
+                                <!--8 图层类型-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">图层类型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" style="display: none;"
+                                               placeholder="{{AddModelData.layType}}"
+                                               ng-model="AddModelData.layType">
+                                        <select ng-model="AddModelData.layType" class="form-control">
+                                            <option value="BASELAYERS">BASELAYERS</option>
+                                            <option value="OVERLAYERS">OVERLAYERS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--9 map类型-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">map类型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" style="display: none;"
+                                               placeholder="{{AddModelData.mapType}}"
+                                               ng-model="AddModelData.mapType">
+                                        <select ng-model="AddModelData.mapType" class="form-control">
+                                            <option value="TMS">TMS</option>
+                                            <option value="WMS">WMS</option>
+                                            <option value="XYZ">XYZ</option>
+                                            <option value="KML">KML</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--10 数据API-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">数据API</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.dataListUrl}}"
+                                               ng-model="AddModelData.dataListUrl">
+                                    </div>
+                                </div>
+
+                                <!--11 调色板URL-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">调色板</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.paletteUrl}}"
+                                               ng-model="AddModelData.paletteUrl">
+                                    </div>
+                                </div>
+
+                                <!--12 截图URL-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">截图URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.screenshotUrl}}"
+                                               ng-model="AddModelData.screenshotUrl">
+                                    </div>
+                                </div>
+
+                                <!--13 截图参数-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">截图参数</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.screenshotparam}}"
+                                               ng-model="AddModelData.screenshotparam">
+                                    </div>
+                                </div>
+
+                                <!--14 动画URL-->
+                                <div class="form-group inputDiv">
+                                    <label class="col-sm-2   inputLabel ">动画URL</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{AddModelData.animeUrl}}"
+                                               ng-model="AddModelData.animeUrl">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" ng-click="SubmitAddFunc()">提交添加内容</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 删除DIV-->
+        </div>
+    </div>
+    <!--分组列表 start -->
+    <div class="tab-pane row" ng-init="GetGroupInfo()" id="PM2_List" ng-controller="LayerConfigController">
+        <div class="projects-header page-header row" style="text-align: center;">
+            <h3> 产品分组配置 -- 配置总数： {{layerInfoName}}<span></span></h3>
+
+            <form class="navbar-form  " role="search" style="text-align: center;">
+                <select ng-model="orderProp" class="form-control" ng-view="false" style="display: none;">
+                    <option value="type" selected>type</option>
+                </select>
+                <input type="text" class="form-control" placeholder="请输入检索内容" ng-model="queryGroup">
+                <button class="btn btn-success" data-toggle="modal" data-target="#AddGroupModal">添加</button>
+                <button class="btn btn-primary" ng-click=" GetInfoALL()">刷新</button>
+            </form>
+        </div>
+        <div class="col-lg-10 col-lg-offset-1  ">
+            <div masonry load-images="true">
+                <div ng-repeat="layerGroup in layerInfoALL | filter:queryGroup | orderBy:orderProp"
+                     class="  masonry-brick col-lg-3  ">
+                    <div class="thumbnail" style="background: url({{layerGroup.pictureUrl}}) no-repeat  top">
+                        <!--  <img src="{{layerGroup.pictureUrl}}" alt="图像">-->
+                        <div style="background-color: rgba(0, 0, 0, 0.5);height: 100%;width:100%; color: white;">
+                            <div class="caption">
+                                <div style="float: left; height: 20%;width: 85% ;color: white; text-align: center;">
+                                    <h4 style="text-align: left;margin-left: 20px;">
+                                        {{layerGroup.type}}/{{layerGroup.typeName}}</h4>
+                                    <h4 style="text-align: left;margin-left: 20px;margin-top: 20px;">
+                                        {{layerGroup.name}}</h4>
+                                </div>
+                                <div style=" height: 20%;width: 15%;float: left;">
+                                    <p><a href="#" class="btn btn-primary" role="button"
+                                          ng-click="ChangeGroupModelFunc(layerGroup)"
+                                          date-ChangeInfo={{layerGroup}} data-toggle="modal"
+                                          data-target="#ChangeGroupModal">
+                                        <span class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="修改"
+                                              aria-hidden="true"></span></a></p>
+                                    <p><a href="#" class="btn btn-danger" role="button">
+                                        <span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="删除"
+                                              aria-hidden="true"></span>
+                                    </a></p>
+                                </div>
+                            </div>
+                            <hr style="width:100%;">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="ShowTabletd col-lg-2">
+                                        编号
+                                    </th>
+                                    <th class="ShowTabletd col-lg-8" style="padding:5px 5px;">
+                                        图层名称
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr ng-repeat="layer in layerGroup.layers"
+                                    style="margin: 3px 10px 1px 1px;
+                                     border: rgba(86, 86, 86, 0.76);border-style: solid;border-width: 1px 0px 1px 0px">
+                                    <td class="ShowTabletd col-lg-2" style="padding:5px 5px;">{{layer.index}}
+                                    </td>
+                                    <td class="ShowTabletd col-lg-9">{{layer.layerName}}</td>
+                                    <td class="col-lg-2">
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--分组列表 添加 start -->
+        <div class="modal fade" id="AddGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" style="width: 800px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">添加大类 </h4>
+                    </div>
+                    <div class=" modal-body row">
+                        <div class="col-sm-12">
+                            <!--1 大类类型 -->
+                            <div class="form-group inputDiv">
+                                <label class="col-sm-2 control-label inputLabel ">图层分组</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="{{AddGroupModelData.name}}"
+                                           ng-model="AddGroupModelData.name">
+                                </div>
+                            </div>
+                            <!--2 大类类型-->
+                            <div class="form-group inputDiv">
+                                <label class="col-sm-2 control-label  inputLabel ">大类类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control"
+                                           placeholder="{{AddGroupModelData.type}}"
+                                           ng-model="AddGroupModelData.type">
+                                </div>
+                            </div>
+                            <!--3 大类类型-->
+                            <div class="form-group inputDiv">
+                                <label class="col-sm-2 control-label  inputLabel ">大类名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control"
+                                           placeholder="{{AddGroupModelData.typeName}}"
+                                           ng-model="AddGroupModelData.typeName">
+                                </div>
+                            </div>
+                            <!--4 背景图片-->
+                            <div class="form-group inputDiv">
+                                <label class="col-sm-2 control-label  inputLabel ">背景图片</label>
+                                <div class="col-sm-10">
+                                    <!--      <input type="text" class="form-control"
+                                                 placeholder="{{AddGroupModelData.pictureUrl}}"
+                                                 ng-model="AddGroupModelData.pictureUrl">-->
+
+                                    <select ng-model="AddGroupModelData.pictureUrl"
+                                            placeholder="{{AddGroupModelData.pictureUrl}}" class=" form-control">
+                                        <option value="publics/Black.png">默认</option>
+                                        <option value="publics/air-quality.jpg">air-quality</option>
+                                        <option value="publics/ash-plumes.jpg">ash-plumes</option>
+                                        <option value="publics/atmosphere.jpg">atmosphere</option>
+                                        <option value="publics/drought.jpg">drought</option>
+                                        <option value="publics/dust-storms.jpg">dust-storms</option>
+                                        <option value="publics/fires.jpg">fires</option>
+                                        <option value="publics/floods.jpg">floods</option>
+                                        <option value="publics/severe-storms.jpg">severe-storms</option>
+                                        <option value="publics/shipping.jpg">shipping</option>
+                                        <option value="publics/smoke-plumes.jpg">smoke-plumes</option>
+                                        <option value="publics/vegetation.jpg">vegetation</option>
+                                    </select>
+                                    <img src="{{AddGroupModelData.pictureUrl}}"
+                                         style="text-align: center; width: 255px; height: 250px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                ng-click="SubmitAddGroupFunc(AddGroupModelData)">提交
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--分组列表 添加  end-->
+        <!--分组列表 修改 start -->
+        <div class="modal fade" id="ChangeGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" style="width: 800px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">修改大类 _id:{{ChangeModelData.ID}}</h4>
+                    </div>
+                    <div class=" modal-body row">
+                        <div class="col-sm-12">
+                            <!--1分组名称 -->
+                            <div class="form-group col-sm-6 inputDiv">
+                                <label class="col-sm-4 control-label inputLabel ">大类名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="{{ChangeModelData.name}}"
+                                           ng-model="ChangeModelData.name">
+                                </div>
+                            </div>
+                            <!--2 卫星类型-->
+                            <div class="form-group col-sm-6 inputDiv">
+                                <label class="col-sm-4 control-label  inputLabel ">大类类型</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"
+                                           placeholder="{{ChangeModelData.type}}"
+                                           ng-model="ChangeModelData.type">
+                                </div>
+                            </div>
+                            <!-- 列表-->
+                            <div>
+                                <div style="text-align: center;">
+                                    <hr style="width:100%;">
+                                </div>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="ShowTabletd col-lg-2">
+                                            <h5 style="padding: 0px;">编号</h5>
+                                        </th>
+                                        <th class="ShowTabletd col-lg-8">
+                                            <h5 style="padding: 0px;"> 图层名称</h5>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="layer in ChangeModelData.layers"
+                                        style="border: rgba(86, 86, 86, 0.76);border-style: solid;border-width: 1px 0px 1px 0px">
+
+                                        <td class="ShowTabletd col-lg-2">
+                                            <div>
+                                                {{layer.index}}
+                                            </div>
+                                        </td>
+                                        <td class="ShowTabletd col-lg-8">
+                                            <div>
+                                                {{layer.layerName}}
+                                            </div>
+                                        </td>
+                                        <td class="col-lg-4">
+                                            <div style="min-width:140px; float: left">
+                                                <button type="button" class="btn btn-default" aria-label="Left Align"
+                                                        ng-click="AddModelLayer(AddModelLayerInfo)"
+                                                        date-ChangeInfo={{AddModelLayerInfo}} data-toggle="modal"
+                                                        data-target="#AddGroupLayer"
+                                                        style="float: left ;margin: 2px;">
+                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-default" aria-label="Left Align"
+                                                        ng-click="ChangeModelLayer(layer)"
+                                                        date-ChangeInfo={{layer}} data-toggle="modal"
+                                                        data-target="#ChangeGroupLayer"
+                                                        style="float: left ;margin: 2px;">
+                                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                </button>
+                                                <button class="btn btn-default" ng-click="DeleteLayer(layer)"
+                                                        style="float: left ;margin: 2px;">
+                                                       <span class="glyphicon  glyphicon-remove"
+                                                             aria-hidden="true"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                ng-click="SubmitChangeGroupFunc(ChangeModelData)">提交
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--分组列表 修改 end-->
+        <!--修改图层列表 start-->
+        <div class="modal fade" id="ChangeGroupLayer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" style="width: 800px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">修改图层详情</h4>
+                    </div>
+                    <div class=" modal-body row">
+                        <div class="col-sm-12">
+                            <!--1分组名称 -->
+                            <div class="form-group col-sm-6 inputDiv">
+                                <label class="col-sm-4 control-label inputLabel ">图层index</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="{{ChangeModelLayerInfo.index}}"
+                                           ng-model="ChangeModelLayerInfo.index">
+                                </div>
+                            </div>
+                            <!--2 卫星类型-->
+                            <div class="form-group col-sm-6 inputDiv">
+                                <label class="col-sm-4 control-label  inputLabel ">图层名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"
+                                           placeholder="{{ChangeModelLayerInfo.layerName}}"
+                                           ng-model="ChangeModelLayerInfo.layerName">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">完成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--修改图层列表 end-->
+        <!--添加图层列表 start-->
+        <div class="modal fade" id="AddGroupLayer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" style="width: 800px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">添加图层详情</h4>
+                    </div>
+                    <div class=" modal-body row">
+                        <div class="col-sm-12">
+                            <!--1分组名称 -->
+                            <div class="form-group col-sm-6 inputDiv">
+                                <label class="col-sm-4 control-label inputLabel ">图层index</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="{{AddModelLayerInfo.index}}"
+                                           ng-model="AddModelLayerInfo.index">
+                                </div>
+                            </div>
+                            <!--2 卫星类型-->
+                            <div class="form-group col-sm-6 inputDiv">
+                                <label class="col-sm-4 control-label  inputLabel ">图层名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"
+                                           placeholder="{{AddModelLayerInfo.layerName}}"
+                                           ng-model="AddModelLayerInfo.layerName">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                ng-click="SubmitAddLayerFunc(AddModelLayerInfo)">
+                            添加
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加图层列表 end-->
+    </div>
+    <!--分组列表 end-->
+
+
+</div>
+<!--js文件引入-->
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="scripts/config.js"></script>
+<script type="text/javascript" src="scripts/worldviewconfig/controllerspro.js"></script>
+
+<!-- optional -->
+<script src="bower_components/imagesloaded/imagesloaded.js"></script>
+<!-- /optional -->
+<script src="bower_components/angular-masonry/angular-masonry.js"></script>
+</body>
+</html>

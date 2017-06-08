@@ -53,7 +53,28 @@
         /**
          * 产品资源路径 图片服务器路径
          */
-        projectUrl: {type: String}
+        projectUrl: {type: String},
+
+        /**
+         * 调色板 URL
+         */
+        paletteUrl: {type: String},
+
+        /**
+         * 截图参数URL
+         */
+        screenshotUrl: {type: String},
+
+
+        /**
+         * 截图参数 ['500km','50m']
+         */
+        screenshotparam: {type: Array},
+
+        /**
+         * 动画获取参数URL
+         */
+        animeUrl: {type: String}
     });
 
     projectInfoSchema.methods.initData = function (body) {
@@ -74,7 +95,7 @@
         if (_.isNull(body) || _.isUndefined(body)) {
             return false;
         }
-
+        //校验update
         if (_.isUndefined(body.dataListUrl) ||
             _.isUndefined(body.isDefault) ||
             _.isUndefined(body.mapType) ||
@@ -84,11 +105,13 @@
             _.isUndefined(body.satType) ||
             _.isUndefined(body.instID) ||
             _.isUndefined(body.satID) ||
-            _.isUndefined(body.layerName)) {
-
+            _.isUndefined(body.layerName) ||
+            _.isUndefined(body.paletteUrl) ||
+            _.isUndefined(body.screenshotUrl) ||
+            _.isUndefined(body.screenshotparam) ||
+            _.isUndefined(body.animeUrl)) {
             return false;
         } else {
-
             return true;
         }
 

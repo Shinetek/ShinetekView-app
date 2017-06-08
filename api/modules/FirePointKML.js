@@ -4,12 +4,12 @@
 
 var fs = require("fs");
 var ftp = require("ftp");
-var ftpInfo = require("../lib/ftp.json");
+var ftpInfo = require("../config.json");
 
 var GetKMLFile = function (req, res, next) {
 
-     //修改为kml格式的头  res.setHeader("Access-Control-Allow-Origin","*");
-    res.setHeader('Content-Type', 'application/vnd.google-earth.kml+xml',"Access-Control-Allow-Origin","*",'Access-Control-Allow-Headers","X-Requested-With');
+    //修改为kml格式的头  res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader('Content-Type', 'application/vnd.google-earth.kml+xml', "Access-Control-Allow-Origin", "*", 'Access-Control-Allow-Headers","X-Requested-With');
 
     //api字段检验
     var sat = req.params.sat;
@@ -18,14 +18,9 @@ var GetKMLFile = function (req, res, next) {
     var DateParam = req.params.date;
     var fullname = req.params.fullname;
 
-    console.log('sat: ' + sat);
-    console.log('sensor: ' + sensor);
-    console.log('DateParam: ' + DateParam);
-    console.log('fullname: ' + fullname);
-
-   /* if (DateParam.length < 12) {
-        res.end('Date format should be YYYYMMDDHHMM !');
-    }*/
+    /* if (DateParam.length < 12) {
+     res.end('Date format should be YYYYMMDDHHMM !');
+     }*/
     var dateFormat = DateParam.substring(0, 8) + '_' + DateParam.substring(8, 12);
 
     //连接ftp，获取文件信息

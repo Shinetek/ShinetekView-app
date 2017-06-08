@@ -44,6 +44,15 @@
         }, _insertLayerGroup);
 
         /**
+         * 删除的图层分组
+         */
+        server.post({
+            path: BASEPATH + '/layer-group/delete',
+            version: '0.0.1'
+        }, _deleteLayerGroup);
+
+
+        /**
          * 获取产品信息列表
          */
         server.get({
@@ -77,6 +86,7 @@
         }, _deleteProjectInfo);
 
 
+        //插入产品信息--增
         function _insertProjectInfo(req, res, next) {
             if (_.isUndefined(req.body)) {
                 return res.end(JSON.stringify({
@@ -101,118 +111,7 @@
             });
         }
 
-        function _getProjectInfoList(req, res, next) {
-            ProjectInfoSchema
-                .find()
-                .exec(function (err, doc) {
-                    var result = {
-                        status: (err) ? err.msg : 'success',
-                        data: doc
-                    };
-                    res.end(JSON.stringify(result));
-                });
-        }
-
-        function _getLayerGroupList(req, res, next) {
-            LayerGroupSchema
-                .find()
-                .exec(function (err, doc) {
-                    var result = {
-                        status: (err) ? err.msg : 'success',
-                        data: doc
-                    };
-                    res.end(JSON.stringify(result));
-                });
-        }
-
-        function _insertLayerGroup(req, res, next) {
-            if (_.isUndefined(req.body)) {
-                return res.end(JSON.stringify({
-                    status: 'Invalid body',
-                    data: null
-                }));
-            }
-
-            var schema = new LayerGroupSchema();
-            schema.initData(req.body);
-            schema.save(function (err) {
-                if (err) {
-                    return res.end(JSON.stringify({
-                        status: 'Invalid body',
-                        data: null
-                    }));
-                }
-
-                return res.end(JSON.stringify({
-                    status: 'success',
-                    data: null
-                }));
-            });
-        }
-
-
-        //更新图层分组信息
-        function _updateLayerGroup(req, res, next) {
-            if (_.isUndefined(req.body)) {
-                return res.end(JSON.stringify({
-                    status: 'Invalid body',
-                    data: null
-                }));
-            }
-            var body = req.body;
-
-            try {
-                // if (recodeSchema.reportVerify(body)) {}
-            }
-            catch (err) {
-                return next(new DBOptionError(415, err));
-            }
-        }
-
-        //更新产品分组信息
-        function _updateProjectInfo(req, res, next) {
-
-            if (_.isUndefined(req.body)) {
-                return next('Invalid params');
-            }
-            var body = req.body;
-            try {
-                var projectInfo = new ProjectInfoSchema();
-                if (projectInfo.reportVerify(body)) {
-                    //如果body内数据正确
-                    ProjectInfoSchema.update({
-                        _id: body._id
-                    }, {
-                        $set: {
-                            layerName: body.layerName,
-                            satID: body.satID,
-                            instID: body.instID,
-                            satType: body.satType,
-                            projectName: body.projectName,
-                            layType: body.layType,
-                            projectUrl: body.projectUrl,
-                            mapType: body.mapType,
-                            isDefault: body.isDefault,
-                            dataListUrl: body.dataListUrl
-                        }
-                    }, function (err) {
-                        if (err) {
-                            return next(err);
-                        } else {
-                            res.end();
-                        }
-                    });
-                } else {
-                    return next('Invalid body');
-                }
-            }
-            catch (err) {
-                return next(err);
-            }
-        }
-
-
-        //删除产品分组信息
+        //删除产品信息 --删
         function _deleteProjectInfo(req, res, next) {
             if (_.isUndefined(req.body)) {
                 return next('Invalid params');
@@ -238,6 +137,188 @@
             catch (err) {
                 return next(err);
             }
+        }
+
+        //更新产品信息--改
+        function _updateProjectInfo(req, res, next) {
+
+            if (_.isUndefined(req.body)) {
+                return next('Invalid params');
+            }
+            var body = req.body;
+            try {
+                var projectInfo = new ProjectInfoSchema();
+                if (projectInfo.reportVerify(body)) {
+
+                    //如果body内数据正确
+                    ProjectInfoSchema.update({
+                        _id: body._id
+                    }, {
+                        $set: {
+                            layerName: body.layerName,
+                            satID: body.satID,
+                            instID: body.instID,
+                            satType: body.satType,
+                            projectName: body.projectName,
+                            layType: body.layType,
+                            projectUrl: body.projectUrl,
+                            mapType: body.mapType,
+                            isDefault: body.isDefault,
+                            dataListUrl: body.dataListUrl,
+                            paletteUrl: body.paletteUrl,
+                            screenshotUrl: body.screenshotUrl,
+                            screenshotparam: body.screenshotparam,
+                            animeUrl: body.animeUrl
+                        }
+                    }, function (err) {
+                        if (err) {
+                            return next(err);
+                        } else {
+                            res.end();
+                        }
+                    });
+                } else {
+                    return next('Invalid body');
+                }
+            }
+            catch (err) {
+                return next(err);
+            }
+        }
+
+        //获取产品信息--查
+        function _getProjectInfoList(req, res, next) {
+            ProjectInfoSchema
+                .find()
+                .exec(function (err, doc) {
+                    var result = {
+                        status: (err) ? err.msg : 'success',
+                        data: doc
+                    };
+                    res.end(JSON.stringify(result));
+                });
+        }
+
+        //插入产品分组信息--增
+        function _insertLayerGroup(req, res, next) {
+            if (_.isUndefined(req.body)) {
+                return res.end(JSON.stringify({
+                    status: 'Invalid body',
+                    data: null
+                }));
+            }
+
+            var schema = new LayerGroupSchema();
+            schema.initData(req.body);
+            schema.save(function (err) {
+                if (err) {
+                    return res.end(JSON.stringify({
+                        status: 'Invalid body',
+                        data: null
+                    }));
+                }
+
+                return res.end(JSON.stringify({
+                    status: 'success',
+                    data: null
+                }));
+            });
+        }
+
+        //删除图层分组信息--删
+        function _deleteLayerGroup(req, res, next) {
+            if (_.isUndefined(req.body)) {
+                return res.end(JSON.stringify({
+                    status: 'Invalid body',
+                    data: null
+                }));
+            }
+            var body = req.body;
+            try {
+                if (!_.isUndefined(body._id)) {
+                    //如果body内数据正确
+                    var conditions = {_id: body._id};
+                    LayerGroupSchema
+                        .remove(conditions, function (err) {
+                            if (err) {
+                                return next(err);
+                            } else {
+                                res.end();
+                            }
+                        });
+                } else {
+                    return next('Invalid body!body should have _id');
+                }
+            }
+            catch (err) {
+                return next(new DBOptionError(415, err));
+            }
+        }
+
+        //更新图层分组信息--改
+        function _updateLayerGroup(req, res, next) {
+            if (_.isUndefined(req.body)) {
+                return res.end(JSON.stringify({
+                    status: 'Invalid body',
+                    data: null
+                }));
+            }
+            var body = req.body;
+
+
+            try {
+                var layerGroupinfo = new LayerGroupSchema();
+                //内容校验
+                if (layerGroupinfo.reportVerify(body)) {
+                    //如果body内数据正确
+                    var layers = [];
+                    for (var i = 0; i < body.layers.length; i++) {
+                        var m_Layer = {};
+                        m_Layer.index = body.layers[i].index;
+                        m_Layer.layerName = body.layers[i].layerName;
+                        layers.push(m_Layer);
+                    }
+                    console.log(layers);
+
+
+                    LayerGroupSchema.update({
+                        _id: body._id
+                    }, {
+                        $set: {
+                            name: body.name,
+                            pictureUrl: body.pictureUrl,
+                            layers: layers,
+                            type: body.type,
+                            typeName: body.typeName
+                        }
+                    }, function (err) {
+                        res.end();
+                        if (err) {
+                            return next(err);
+                        } else {
+                            return next();
+                        }
+                    });
+                } else {
+                    return next('Invalid body');
+                }
+            }
+            catch (err) {
+                return next(new DBOptionError(415, err));
+            }
+        }
+
+        //获取入产品分组信息--查
+        function _getLayerGroupList(req, res, next) {
+            LayerGroupSchema
+                .find()
+                .exec(function (err, doc) {
+                    var result = {
+                        status: (err) ? err.msg : 'success',
+                        data: doc
+                    };
+                    res.end(JSON.stringify(result));
+                });
         }
 
 
