@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>当前产品demo</title>
+</head>
+<style>
+    label {
+        text-wrap: normal;
+        word-break: break-all;
+    }
+
+    .pro_div {
+        width: 280px;
+        border: 1px solid #404040;
+        padding: 4px;
+        margin: 4px;
+    }
+
+    .demo_img {
+        float: left;
+    }
+</style>
+<body>
+
+<div id="FY4A_AGRIX_L2_GLL_CIX_NC" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CIX_NC</label>
+    <hr>
+    <label> Convective_Initiation_0</label>
+    <div id="Convective_Initiation_0">
+    </div>
+    <img class="demo_img"
+         src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CIX_NC/FY4A_AGRIX_L2_GLL_4000M_CIX_Convective_Initiation_0_cb.png">
+</div>
+
+<div id="FY4A_AGRIX_L2_GLL_CIX_NC1" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CIX_NC</label>
+    <hr>
+    <label> RDC_Rank_0</label>
+    <div id="RDC_Rank_0">
+    </div>
+    <img class="demo_img"
+         src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CIX_NC/FY4A_AGRIX_L2_GLL_4000M_CIX_RDC_Rank_0_cb.png">
+
+    <hr>
+</div>
+<div id="FY4A_AGRIX_L2_GLL_CLM_NC" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CLM_NC</label>
+    <hr>
+    <label> CLM_0</label>
+    <div id="CLM_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CLM_NC/FY4A_AGRIX_L2_GLL_4000M_CIM_CLM_0_cb.png">
+</div>
+<div id="\FY4A_AGRIX_L2_GLL_CLP_NC" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CLP_NC</label>
+    <hr>
+    <label> CLP_0</label>
+    <div id="CLP_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CLP_NC/FY4A_AGRIX_L2_GLL_4000M_CLP_CLP_0_cb.png">
+</div>
+<div id="\FY4A_AGRIX_L2_GLL_CLT_NC" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CLT_NC</label>
+    <hr>
+    <label> CLT_0</label>
+    <div id="CLT_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CLT_NC/FY4A_AGRIX_L2_GLL_4000M_CLT_CLT_0_cb.png">
+</div>
+
+<div id="\FY4A_AGRIX_L2_GLL_CPD_NC_1" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CPD_NC</label>
+    <hr>
+    <label> COT_0</label>
+    <div id="COT_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/FY4A_AGRIX_L2_GLL_4000M_CPD_COT_0_cb.png">
+</div>
+<div id="\FY4A_AGRIX_L2_GLL_CPD_NC_2" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CPD_NC</label>
+    <hr>
+    <label> CER_0</label>
+    <div id="CER_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/FY4A_AGRIX_L2_GLL_4000M_CPD_CER_0_cb.png">
+</div>
+<div id="\FY4A_AGRIX_L2_GLL_CPD_NC_3" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CPD_NC</label>
+    <hr>
+    <label> IWP_0</label>
+    <div id="IWP_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/FY4A_AGRIX_L2_GLL_4000M_CPD_IWP_0_cb.png">
+</div>
+<div id="\FY4A_AGRIX_L2_GLL_CPD_NC_4" class="pro_div">
+    <label>FY4A_AGRIX_L2_GLL_CPD_NC</label>
+    <hr>
+    <label> LWP_0</label>
+    <div id="LWP_0">
+    </div>
+    <hr>
+    <img class="demo_img" src="resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/FY4A_AGRIX_L2_GLL_4000M_CPD_LWP_0_cb.png">
+</div>
+</body>
+<script type="application/javascript" src="js/ColorPallate.js"></script>
+<script type="application/javascript" src="js/jquery.min.js"></script>
+
+<script>
+    init();
+    function init() {
+        //Convective_Initiation_0
+        init_CIX();
+        init_CLM();
+        init_CLP();
+        init_CLT();
+        init_CPD();
+    }
+    //CIX 对流初生
+    function init_CIX() {
+        var Convective_Initiation_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CIX_NC/Convective_Initiation_0.json", function (result) {
+
+            Convective_Initiation_0_palette.init_palette("Convective_Initiation_0", result);
+
+        });
+        var RDC_Rank_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CIX_NC/RDC_Rank_0.json", function (result) {
+
+            RDC_Rank_0_palette.init_palette("RDC_Rank_0", result);
+
+        });
+    }
+
+    //CLM
+    function init_CLM() {
+        var CLM_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CLM_NC/CLM_0.json", function (result) {
+            CLM_0_palette.init_palette("CLM_0", result);
+        });
+
+    }
+
+    //CLP
+    function init_CLP() {
+        var CLM_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CLP_NC/CLP_0.json", function (result) {
+            CLM_0_palette.init_palette("CLP_0", result);
+        });
+
+    }
+
+    //CLT
+    function init_CLT() {
+        var CLT_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CLT_NC/CLT_0.json", function (result) {
+            console.log(result);
+            CLT_0_palette.init_palette("CLT_0", result);
+        });
+    }
+
+    //COT
+    function init_CPD() {
+        init_COT();
+        init_CER();
+        init_IWP();
+        init_LWP();
+    }
+
+    function init_COT() {
+        var CLT_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/COT_0.json", function (result) {
+            console.log(result);
+            CLT_0_palette.init_palette("COT_0", result);
+        });
+    }
+    function init_CER() {
+        var CLT_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/CER_0.json", function (result) {
+            console.log(result);
+            CLT_0_palette.init_palette("CER_0", result);
+        });
+    }
+    function init_IWP() {
+        var CLT_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/IWP_0.json", function (result) {
+            console.log(result);
+            CLT_0_palette.init_palette("IWP_0", result);
+        });
+    }
+    function init_LWP() {
+        var CLT_0_palette = new ColorPallate();
+        //获取json
+        $.getJSON("./resource/ColorTable/FY4A_AGRIX_L2_GLL_CPD_NC/LWP_0.json", function (result) {
+            console.log(result);
+            CLT_0_palette.init_palette("LWP_0", result);
+        });
+    }
+
+</script>
+</html>

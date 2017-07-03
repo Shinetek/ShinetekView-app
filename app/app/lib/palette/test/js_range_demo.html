@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js动态添加阶段调色板</title>
+</head>
+<body>
+<h2>DST 测试</h2>
+<div id="DSD">
+    <div style="width: 85px;">
+        <div id="DSD_palette" style="width: 285px;">
+        </div>
+    </div>
+    <br>
+    <hr>
+    <button onclick="ClickAddDSD()">点击添加DSD 调色板</button>
+</div>
+<script type="application/javascript" src="js/jquery.min.js"></script>
+<script type="application/javascript" src="js/ColorPallate.js"></script>
+
+<script language="JavaScript">
+
+    var DSDJson = {
+        "level": [],
+        "range": [
+            [
+                [
+                    0,
+                    3
+                ],
+                [
+                    255,
+                    252,
+                    232
+                ]
+            ],
+            [
+                [
+                    3,
+                    6
+                ],
+                [
+                    254,
+                    247,
+                    205
+                ]
+            ],
+            [
+                [
+                    6,
+                    9
+                ],
+                [
+                    254,
+                    242,
+                    201
+                ]
+            ],
+            [
+                [
+                    9,
+                    12
+                ],
+                [
+                    254,
+                    238,
+                    182
+                ]
+            ],
+            [
+                [
+                    12,
+                    15
+                ],
+                [
+                    254,
+                    226,
+                    133
+                ]
+            ],
+            [
+                [
+                    15,
+                    17
+                ],
+                [
+                    253,
+                    220,
+                    104
+                ]
+            ],
+            [
+                [
+                    17,
+                    19
+                ],
+                [
+                    254,
+                    174,
+                    103
+                ]
+            ],
+            [
+                [
+                    19,
+                    21
+                ],
+                [
+                    254,
+                    130,
+                    63
+                ]
+            ],
+            [
+                [
+                    21,
+                    23
+                ],
+                [
+                    243,
+                    88,
+                    14
+                ]
+            ],
+            [
+                [
+                    23,
+                    null
+                ],
+                [
+                    219,
+                    56,
+                    14
+                ]
+            ],
+            [
+                32764,
+                [
+                    172,
+                    172,
+                    172
+                ],
+                "夜晚"
+            ],
+            [
+                32760,
+                [
+                    0,
+                    0,
+                    0
+                ],
+                "填充值"
+            ],
+            [
+                32766,
+                [
+                    255,
+                    255,
+                    255
+                ],
+                "外太空"
+            ]
+        ],
+        "name": "",
+        "offset": 0.0,
+        "slope": 1.0,
+        "unit": "",
+        "palette_mode": "range"
+    };
+    //
+    function ClickAddDSD() {
+        var m_Pallete = new palette();
+        m_Pallete.init_palette("DSD_palette", DSDJson);
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+* {
+
+    /*不可被选中*/
+    -moz-user-select: -moz-none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
+    padding: 0px;
+}
+
+:root {
+    /*背景颜色*/
+    --Back_Baclk: #242424;
+}
+
+/*日期选择栏部分 begin*/
+/* 左侧日期输入框*/
+.TimeInputDiv {
+    width: 320px;
+    height: 100px;
+    float: left;
+    overflow: hidden;
+    background-color: #242424;
+}
+
+/*年DIV*/
+#YearInputDiv {
+    width: 100px;
+    height: 100px;
+    float: left;
+    padding-left: 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+/*月DIV*/
+#MonthInputDiv {
+    width: 60px;
+    height: 100px;
+    float: left;
+    margin-left: 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+/*日DIV*/
+#DayInputDiv {
+    width: 60px;
+    height: 100px;
+    float: left;
+    margin-left: 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+/*前一个时次*/
+.BeforeDiv {
+    width: 25px;
+    height: 95px;
+    float: left;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.BeforeDiv:hover {
+    border: 0.5px solid #7f7f7f;
+}
+
+/*后一个时次*/
+.AfterDiv {
+    width: 25px;
+    height: 95px;
+    float: left;
+    margin-top: 2px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.AfterDiv:hover {
+    border: 0.5px solid #7f7f7f;
+}
+
+/*向上按钮*/
+
+.UpButton {
+    height: 25px;
+    width: 98px;
+    border: 0px;
+    margin-top: 5px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.UpButton:disabled {
+    cursor: not-allowed;
+}
+
+.UpButton:disabled:hover {
+    cursor: not-allowed;
+}
+
+/*向上按钮*/
+.UpButton:hover {
+    height: 23px;
+    border: 0.5px solid #7f7f7f;
+    /*  border-bottom: 12px solid #7f7f7f;*/
+}
+
+/*向下按钮*/
+
+.DownButton {
+    height: 25px;
+    width: 98px;
+    border: 0px;
+    margin-top: 5px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.DownButton:disabled {
+    cursor: not-allowed;
+}
+
+.DownButton:disabled:hover {
+    cursor: not-allowed;
+}
+
+.DownButton:hover {
+    height: 24px;
+    border: 0.5px solid #7f7f7f;
+    /* border-top: 12px solid #7f7f7f;*/
+}
+
+/*日期 输入框*/
+.TimeInput {
+    width: 98px;
+    height: 30px;
+    text-align: center;
+    font-size: 1.5em;
+    background: #242424;
+    color: white;
+    border: 1px;
+    border-style: solid;
+    border-color: #7F7F7F;
+    overflow: hidden;
+}
+
+.MonthInput {
+    width: 58px;
+    height: 30px;
+    text-align: center;
+    font-size: 1.5em;
+    background: #242424;
+    color: white;
+    border: 1px;
+    border-style: solid;
+    border-color: #7F7F7F;
+    overflow: hidden;
+}
+
+/*右侧时间轴部分*/
+.tick_dot {
+    stroke-dasharray: 4;
+    stroke-dashoffset: 2;
+    stroke: rgb(128, 128, 128);
+    stroke-width: 2;
+}
+
+.tick_Line {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1;
+}
+
+.Month_Text_Show {
+
+    height: 25px;
+    display: block;
+    fill: rgb(255, 255, 255);
+    font-size: 16px;
+    -moz-user-select: none
+}
+
+.Rect_White {
+    stroke: rgb(255, 255, 255);
+    fill: #242424;
+}
+
+/*最右端模式选择部分*/
+
+.BigShowDiv {
+    width: 100px;
+    height: 30px;
+    font-size: 18px;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    border-width: 1px 0px;
+    border-color: white;
+    border-style: solid;
+    overflow: hidden;
+}
+
+.BigShowDiv:hover {
+    color: white;
+    line-height: 30px;
+    border-width: 1px 0px;
+    border-color: white;
+    border-style: solid;
+    cursor: default;
+}
+
+.MedShowDiv {
+    width: 100px;
+    height: 20px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.MedShowDiv:hover {
+    color: #242424;
+    background: white;
+    cursor: auto;
+}
+
+.SmallShowDiv {
+    width: 100px;
+    height: 15px;
+    font-size: 12px;
+    text-align: center;
+    color: white;
+}
+
+.SmallShowDiv:hover {
+    color: #242424;
+    background: white;
+    cursor: default;
+}
+
+.SmallFillDiv {
+    width: 100px;
+    height: 10px;
+    text-align: center;
+    color: white;
+}
+
+/*左侧边框*/
+
+.BorderDiv {
+    border-radius: 5px;
+    width: 20px;
+}
+
+.DayRect {
+    fill: rgba(255, 255, 255, 0);
+}
+
+/*日模式的10日分杠*/
+.tick_10DayLine {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1.5;
+}
+
+.DayRect:hover {
+    fill: rgba(127, 127, 127, 0.5);
+}
+
+/*TimeLine样式*/
+.TimeLineDiv {
+    height: 101px;
+    border-top: 0.5px;
+    border-bottom: 0.5px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: #7f7f7f;
+    background: #242424;
+    width: inherit;
+    overflow: hidden;
+}
+
+.ShowLineDiv {
+    width: auto;
+}
+
+.clear {
+    clear: both
+}
+
+/*时间轴总体 宽度自动计算*/
+.TimeLineTotalDiv {
+    float: left;
+    height: 100px;
+    overflow: hidden;
+}
+
+/*时间轴 内部*/
+.TimeLineDiv_Inside {
+    height: 100px;
+    float: left;
+    background: #242424;
+}
+
+.SVGDiv_Inside {
+    width: inherit;
+    height: 100px;
+}
+
+.ShowButtonDiv {
+    width: 25px;
+    margin-right: 5px;
+    float: left;
+}
+
+.svg_ALL {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: inherit;
+    fill: rgb(255, 255, 255);
+}
+
+/*模式选择框*/
+.TimeModeDiv {
+    display: block;
+    width: 100px;
+    background: #242424;
+    height: 98px;
+    float: right;
+    z-index: 1;
+}
+
+.TimeMode_Inner {
+    display: block;
+    width: 100px;
+    background: #242424;
+    height: 100px;
+    float: right;
+    z-index: 1;
+}
+
+/*缩放框*/
+/*最右侧伸缩按钮样式 正常样式*/
+.ShowHidebtnDiv {
+    width: 25px;
+    height: 100px;
+    background-color: #242424;
+    border-radius: 0px 5px 5px 0px;
+    padding: 0px;
+    margin-left: 0px;
+    float: left;
+}
+
+/*最右侧伸缩按钮样式 鼠标悬浮样式*/
+.ShowHidebtnDiv:hover {
+    height: 98px;
+    background-color: #242424;
+
+    border: 1px solid #7f7f7f;
+}
+
+/*显示当前选择日期的svg 样式*/
+/*日期指示块 鼠标悬浮样式*/
+.SVG_guitarpick {
+    clip-path: url(#guitarpick-boundary);
+    fill: #cccccc;
+    border: 0.5px;
+    border-color: #515151;
+    border-style: solid;
+}
+
+/*日期指示块 鼠标悬浮样式*/
+.SVG_guitarpick:hover {
+    clip-path: url(#guitarpick-boundary);
+    fill: #515151;
+    border: 0.5px;
+    border-color: #cccccc;
+    border-style: solid;
+}
+
+/*日期指示块 rect*/
+.SVG_guitarpick > rect {
+    fill: #515151;
+}
+
+/*日期指示块 鼠标悬浮时rect样式*/
+.SVG_guitarpick:hover > rect {
+    fill: #cccccc;
+}
+
+/*显示当前选择日期的svg 样式  动画日期*/
+/*日期指示块 鼠标悬浮样式*/
+.SVG_Anime_guitarpick {
+    clip-path: url(#guitarpick-boundary);
+    fill: #4682B4;
+    border: 0.5px;
+    border-color: #4682B4;
+    border-style: solid;
+}
+
+/*日期指示块 鼠标悬浮样式*/
+.SVG_Anime_guitarpick:hover {
+    clip-path: url(#guitarpick-boundary);
+    fill: #515151;
+    border: 0.5px;
+    border-color: #cccccc;
+    border-style: solid;
+}
+
+/*日期指示块 rect*/
+.SVG_Anime_guitarpick > rect {
+    fill: #cccccc;
+}
+
+/*日期指示块 鼠标悬浮时rect样式*/
+.SVG_Anime_guitarpick:hover > rect {
+    fill: #cccccc;
+}
+
+/*var DataColor = ["4e5e87", "555555"];*/
+/*TImeLine中数据显示条*/
+/*蓝色显示部分*/
+.Rect_Data_Show {
+    fill: #4682B4;
+    border-style: solid;
+    border-color: #000000;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 1px;
+    border-bottom: 1px;
+}
+
+/*灰色隐藏部分*/
+.Rect_Data_Hide {
+    fill: #555555;
+    border-style: solid;
+    border-color: #000000;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 1px;
+    border-bottom: 1px;
+
+}
+
+/*SVG 块显示背景*/
+.tick_Year_One {
+    fill: rgba(255, 255, 255, 0);
+}
+
+/*数据Line 边*/
+.Data_tick_Line {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 0.2;
+}

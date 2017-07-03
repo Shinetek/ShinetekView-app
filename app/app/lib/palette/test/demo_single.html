@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单个调色板绘制demo</title>
+</head>
+<body>
+<div style=" background-color: #feeeed;width: 285px;" id="Show_Color">
+
+
+    <!--单值色板部分DIV-->
+    <div id="Show_Color_plate">
+        <div>
+            <canvas style="width: 20px; height: 20px; float: left; border:1px solid #404040;margin: 2px;
+            background-color: #000000;"
+                    title="黑夜"
+                    onmouseout="canvasMouseOut(event)"
+                    onmouseover="canvasMouseOver(event)"
+                    onmousemove="canvasMouseMove(event)"
+                    id="my_CanvasTitle"></canvas>
+        </div>
+        <div>
+            <canvas style="width: 20px; height: 20px; float: left;border:1px solid #404040;margin: 2px;background-color:#7d7d7d;"
+                    title="云检测"
+                    onmouseout="canvasMouseOut(event)"
+                    onmouseover="canvasMouseOver(event)"
+                    onmousemove="canvasMouseMove(event)"
+                    id="my_CanvasTitle1"></canvas>
+        </div>
+    </div>
+    <!--悬浮显示部分DIV-->
+    <div id="Show_Color_detail"
+         style="width: 120px;height: 30px;margin-left: 295px; margin-top:-40px;float: left; border: 1px solid #7d7d7d;
+         display:none;">
+        <canvas style="width: 22px;height: 22px; float: left;background-color: #ffce27;margin: 4px;"
+                id="Show_Color_detail_canvas">
+        </canvas>
+        <a id="Show_Color_detail_a" style="height: 30px;line-height: 30px;">200 - 230</a>
+    </div>
+</div>
+</body>
+<script>
+    var JSON = {
+        "single": [
+            [
+                65531.0,
+                [
+                    10,
+                    10,
+                    250
+                ],
+                "海洋"
+            ],
+            [
+                65529.0,
+                [
+                    255,
+                    255,
+                    255
+                ],
+                "冰雪"
+            ],
+            [
+                65533.0,
+                [
+                    227,
+                    227,
+                    225
+                ],
+                "云"
+            ]
+        ],
+        "gradient": [],
+        "level": [],
+        "range": [],
+        "name": "",
+        "slope": 1,
+        "unit": "",
+        "palette_mode": "single"
+    };
+
+
+    /**
+     *canvas 中鼠标移动
+     * @param event
+     */
+    function canvasMouseOver(event) {
+        var m_event = event.currentTarget;
+        var csstext = m_event.style.cssText;
+        var title = m_event.title;
+        var Show_Color_detail_canvas = document.getElementById('Show_Color_detail_canvas');
+        Show_Color_detail_canvas.style.cssText = csstext;
+        var Show_Color_detail_a = document.getElementById('Show_Color_detail_a');
+        Show_Color_detail_a.innerHTML = title;
+        var Show_Color_detail = document.getElementById('Show_Color_detail');
+        Show_Color_detail.style.display = "block";
+    }
+    /**
+     * 鼠标移动
+     * @param event
+     */
+    function canvasMouseMove(event) {
+        //计算title详情
+        var m_event = event.currentTarget;
+        m_event.style.cursor = "crosshair";
+        var context = canvas.getContext("2d");
+        //获取鼠标当前点
+        var imagedata = context.getImageData(event.clientX, event.clientY, 1, 1);
+        var m_rgb = "rgb(" + imagedata.data[0] + "," + imagedata.data[1] + "," + imagedata.data[2] + ")";
+        //详情中canvas 颜色 显示部分
+        var Show_Color_detail_canvas = document.getElementById('Show_Color_detail_canvas');
+        Show_Color_detail_canvas.style.background = m_rgb;
+        //详情中文字部分
+        var Show_Color_detail_a = document.getElementById('Show_Color_detail_a');
+        Show_Color_detail_a.innerHTML = event;
+    }
+
+
+    function canvasMouseOut() {
+        var Show_Color_detail_canvas = document.getElementById('Show_Color_detail');
+        Show_Color_detail_canvas.style.display = "none";
+    }
+
+
+    /**
+     * 获取颜色
+     * @param event
+     * @constructor
+     */
+    function GetColor(event) {
+
+    }
+</script>
+
+</html>
