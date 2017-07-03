@@ -183,11 +183,11 @@
                 var layerNames = _pauseAnime();
                 if (layerNames !== null && layerNames !== undefined) {
                     layerNames.forEach(function (item) {
-                        Shinetek.Ol3Opt.removeLayer(item);
+	                    Shinetek.SatelliteView.removeLayer(item);
                     });
                 }
                 //对opanlayer 中待加载的所有数值清零20170518
-                Shinetek.Ol3Opt.clearAnimate();
+	            Shinetek.SatelliteView.clearAnimate();
             }
             if (self.isMenuCollapse != 0) {
                 self.isMenuCollapse = 0;
@@ -299,7 +299,7 @@
                 }
 
                 if (layerName !== null) {
-                    Shinetek.Ol3Opt.removeLayer(layerName);
+	                Shinetek.SatelliteView.removeLayer(layerName);
                 }
 
                 if (layerModule !== undefined) {
@@ -343,7 +343,7 @@
                     _getTopLayer();
                 }
                 if (layerName !== null) {
-                    Shinetek.Ol3Opt.removeLayer(layerName);
+	                Shinetek.SatelliteView.removeLayer(layerName);
                 }
                 var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                 var timespan = Math.floor(1000 / self.fpsNum);
@@ -426,24 +426,24 @@
                 //_clearLayers();
                 self.isShown3D = true;
                 document.getElementsByClassName("glyphicon-mapType")[0].innerText = "2D";
-                Shinetek.Ol3Opt.setMapFun("3D");
+	            Shinetek.SatelliteView.setMapFun("3D");
                 //若未进行初始化 则 初始化
                 if (!self.is3Dinit) {
-                    Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
+	                Shinetek.SatelliteView.init("http://10.24.10.108/IMAGEL2/GBAL/");
                     //将初始化 标志位
                     self.is3Dinit = true;
                     _refreshLayers();
                 }
                 else {
                     //若已经初始化 则移除当前所有显示图层 并重新刷新加载
-                    Shinetek.Ol3Opt.removeAllLayer();
+	                Shinetek.SatelliteView.removeAllLayer();
                     _refreshLayers();
                 }
             }
             else {
                 self.isShown3D = false;
                 document.getElementsByClassName("glyphicon-mapType")[0].innerText = "3D";
-                Shinetek.Ol3Opt.setMapFun("2D");
+	            Shinetek.SatelliteView.setMapFun("2D");
                 _refreshLayers();
             }
 
@@ -964,7 +964,7 @@
                 projectUrl = projectUrl.replace('mm', moment(timeLine.GetShowDate()).utc().format("mm"));
             }
 
-            Shinetek.Ol3Opt.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+	        Shinetek.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
 
 
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
@@ -1025,7 +1025,7 @@
          * @private
          */
         function _removeLayFromWMS(layModule) {
-            Shinetek.Ol3Opt.removeLayer(layModule._id, layModule.mapType);
+	        Shinetek.SatelliteView.removeLayer(layModule._id, layModule.mapType);
 
 
             //对基准图进行操作不影响数据图层
@@ -1040,7 +1040,7 @@
          * @param {any} layModule
          */
         function _setVisibilityFromWMS(layModule) {
-            Shinetek.Ol3Opt.setVisibility(layModule._id, layModule.mapType);
+	        Shinetek.SatelliteView.setVisibility(layModule._id, layModule.mapType);
         }
 
 
@@ -1141,7 +1141,7 @@
          */
         function _initMap() {
             //根据配置初始化底图
-            Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
+	        Shinetek.SatelliteView.init(Config_Total.BASETILEURL);
             //Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
             //初始化截图框
             $("#snapshot").load("lib/screenshot/photo.html", function () {
@@ -1353,12 +1353,12 @@
             //对定时器赋值
             anime_timer = setInterval(function () {
                 //若下一个图层加载成功，则进行添加和移除
-                if (Shinetek.Ol3Opt.oGetStatus()) {
+                if (Shinetek.SatelliteView.oGetStatus()) {
                     self.isWaitingShow = false;
                     //判断移除值域
                     if (remove_layer_num < m_NumMax) {
                         //移除上一层的显示
-                        Shinetek.Ol3Opt.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
+	                    Shinetek.SatelliteView.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                         remove_layer_num++;
                     }
 
@@ -1393,7 +1393,7 @@
                             + "仪器:" + self.topsideLayer.instID + "<br>"
                             + "产品:" + self.topsideLayer.projectName + "<br>"
                             + "时次:" + m_TimeStr;
-                        Shinetek.Ol3Opt.setScreenTitle(m_ShowTitle);
+	                    Shinetek.SatelliteView.setScreenTitle(m_ShowTitle);
                         show_layer_num++;
                         //   Shinetek.Ol3Opt.setScreenTitle(show_layer_num);
                         if (show_layer_num == m_NumMax) {
@@ -1406,8 +1406,8 @@
                     //判断添加值域
                     if (add_layer_num < m_NumMax) {
                         //设置当前图层状态为显示模式
-                        Shinetek.Ol3Opt.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
-                        Shinetek.Ol3Opt.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+	                    Shinetek.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+	                    Shinetek.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
                         add_layer_num++;
                     }
                 }
@@ -1477,8 +1477,8 @@
                 add_layer_num = self.animedata.length;
             }
             for (var i = remove_layer_num; i < add_layer_num; i++) {
-                Shinetek.Ol3Opt.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
-                Shinetek.Ol3Opt.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+	            Shinetek.SatelliteView.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
+	            Shinetek.SatelliteView.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
             }
 
         }

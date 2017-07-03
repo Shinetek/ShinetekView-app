@@ -9,15 +9,16 @@
     <link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css">
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="lib/timeline/css/TimeLine_shk.css">
-    <link rel="stylesheet" href="lib/openlayers/dist/css/ol3.css">
+    <link rel="stylesheet" href="lib/satelliteview/lib/openlayers/dist/ol.css">
+    <link rel="stylesheet" href="lib/satelliteview/lib/Cesium/Widgets/widgets.css">
     <link rel="stylesheet" href="lib/screenshot/css/jquery.Jcrop.css">   <!--截图-->
     <link rel="stylesheet" href="lib/screenshot/css/screenshots.css">    <!--截图封装-->
 
-    <link rel="stylesheet" href="bower_components/openlayer/dist/css/shk-ol3.css">
+    <link rel="stylesheet" href="lib/satelliteview/css/satelliteview.css">
     <link rel="stylesheet" href="styles/worldview.css">
 
-    <link rel="stylesheet" href="lib/Cesium/css/shk-cesium.css">   <!--openlayer封装-->
-    <link rel="stylesheet" href="lib/Cesium/css/ol-cesium.css">   <!--openlayer封装-->
+    <!--<link rel="stylesheet" href="lib/satelliteview/lib/Cesium/css/shk-cesium.css">   &lt;!&ndash;openlayer封装&ndash;&gt;-->
+    <!--<link rel="stylesheet" href="lib/satelliteview/lib/Cesium/css/ol-cesium.css">   &lt;!&ndash;openlayer封装&ndash;&gt;-->
     <!--全局配置文件-->
     <script type="text/javascript" src="scripts/config.js"></script>
 </head>
@@ -551,19 +552,17 @@
 <script type="text/javascript" src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"></script>
 
 
-<!--　TimeLine 部分引用　-->
-<script type="text/javascript" src="lib/timeline/lib/moment.min.js"></script>
+<!--　TimeLine引用　start -->
 <script type="text/javascript" src="lib/timeline/js/TimeLine_shk.js"></script>
+<!-- TimeLine引用 end -->
 
-<!--Openlayer 部分引用-->
-
-<script type="text/javascript" src="lib/openlayer/dist/js/ol3-debug.js"></script>
-<script type="text/javascript" src="lib/openlayer/dist/js/ol3.js"></script>
-<script type="text/javascript" src="lib/openlayer/dist/js/ol3-opt.js"></script>
-<script type="text/javascript" src="bower_components/requirejs/require.min.js"></script>
-<script type="text/javascript" src="lib/Cesium/Build/Cesium/Cesium.js"></script>
-<script type="text/javascript" src="lib/Cesium/js/shk_Cesium.js"></script>
-<script type="text/javascript" src="lib/Cesium/js/shk_ol_cesium_opt.js"></script>
+<!-- satelliteview引用 start -->
+<script type="text/javascript" src="lib/satelliteview/lib/openlayers/dist/ol.js"></script>
+<!--<script type="text/javascript" src="lib/satelliteview/js/openlayer-opt.js"></script>-->
+<script type="text/javascript" src="lib/satelliteview/lib/Cesium/Build/Cesium/Cesium.js"></script>
+<!--<script type="text/javascript" src="lib/satelliteview/js/cesium-opt.js"></script>-->
+<script type="text/javascript" src="lib/satelliteview/js/satelliteview.js"></script>
+<!-- satelliteview引用 end -->
 
 <!--Jcrop 部分引用-->
 <script src="lib/screenshot/js/jquery.Jcrop.js"></script>

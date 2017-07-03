@@ -103,8 +103,8 @@ var screenshots={
                 leftTopY = $('#topLefty').val(),
                 bottomRightY = $('#bottomRighty').val();
 
-            var topXY=map.getPixelFromCoordinate([leftTopX,leftTopY],1);
-            var bottomXY=map.getPixelFromCoordinate([bottomRightX,bottomRightY],1);
+            var topXY=Shinetek.map.getPixelFromCoordinate([leftTopX,leftTopY],1);
+            var bottomXY=Shinetek.map.getPixelFromCoordinate([bottomRightX,bottomRightY],1);
             var oNew=topXY.concat(bottomXY);
             console.log(oNew);
             api.setSelect(oNew);
@@ -142,8 +142,8 @@ var screenshots={
             y1 = $('#y1').val(),
             y2 = $('#y2').val();
         //屏幕坐标转换为经纬度坐标
-        var leftTopXY=map.getCoordinateFromPixel([x1,y1],1);
-        var bottomRightXY=map.getCoordinateFromPixel([x2,y2],1);
+        var leftTopXY=Shinetek.map.getCoordinateFromPixel([x1,y1],1);
+        var bottomRightXY=Shinetek.map.getCoordinateFromPixel([x2,y2],1);
         leftTopX=leftTopXY[0];
         leftTopY=leftTopXY[1];
         bottomRightX=bottomRightXY[0];
