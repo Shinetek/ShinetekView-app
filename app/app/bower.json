@@ -28,6 +28,8 @@
     "moment": "^2.17.1",
     "masonry": "^4.1.1",
     "angular-deckgrid": "^0.5.0",
-    "angular-masonry": "^0.17.0"
+    "angular-masonry": "^0.17.0",
+    "requirejs": "^2.3.3",
+    "seiyria-bootstrap-slider": "^9.8.0"
   }
 }
