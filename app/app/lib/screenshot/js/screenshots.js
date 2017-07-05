@@ -5,8 +5,9 @@
 
 //注：使用Jcrop截图，需引入jquery.Jcrop.css、jquery.js、jquery.Jcrop.js
 
-
-var screenshots={
+var screenshots={};
+screenshots.downUrl={};
+screenshots={
     /**
      * 初始化
      * @param url
@@ -58,9 +59,9 @@ var screenshots={
          * 点击DownLoad下载所截图片时需要的信息
          */
         console.log(url);
-        window.downUrl=url;
+        screenshots.downUrl=url;
         oBut.onclick=function(){
-            console.log(downUrl);
+            console.log(screenshots.downUrl);
             //获取到需要传递的参数（星标、仪器、经纬度、分辨率）
             //获取经纬度
             var toplon = $('#topLeft').val(),
@@ -78,7 +79,7 @@ var screenshots={
             console.log(oformat);
             //生成新的url地址
             var reg_toplat = new RegExp("{{tlat}}", "g");
-            var url = downUrl.replace(reg_toplat, toplat);
+            var url = screenshots.downUrl.replace(reg_toplat, toplat);
             var reg_toplon = new RegExp("{{tlon}}", "g");
             url = url.replace(reg_toplon, toplon);
             var reg_bottomlat = new RegExp("{{blat}}", "g");
@@ -103,8 +104,8 @@ var screenshots={
                 leftTopY = $('#topLefty').val(),
                 bottomRightY = $('#bottomRighty').val();
 
-            var topXY=Shinetek.map.getPixelFromCoordinate([leftTopX,leftTopY],1);
-            var bottomXY=Shinetek.map.getPixelFromCoordinate([bottomRightX,bottomRightY],1);
+            var topXY=ShinetekView.map.getPixelFromCoordinate([leftTopX,leftTopY],1);
+            var bottomXY=ShinetekView.map.getPixelFromCoordinate([bottomRightX,bottomRightY],1);
             var oNew=topXY.concat(bottomXY);
             console.log(oNew);
             api.setSelect(oNew);
@@ -142,8 +143,8 @@ var screenshots={
             y1 = $('#y1').val(),
             y2 = $('#y2').val();
         //屏幕坐标转换为经纬度坐标
-        var leftTopXY=Shinetek.map.getCoordinateFromPixel([x1,y1],1);
-        var bottomRightXY=Shinetek.map.getCoordinateFromPixel([x2,y2],1);
+        var leftTopXY=ShinetekView.map.getCoordinateFromPixel([x1,y1],1);
+        var bottomRightXY=ShinetekView.map.getCoordinateFromPixel([x2,y2],1);
         leftTopX=leftTopXY[0];
         leftTopY=leftTopXY[1];
         bottomRightX=bottomRightXY[0];

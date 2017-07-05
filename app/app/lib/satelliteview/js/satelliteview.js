@@ -2,26 +2,27 @@
  * Created by fanlin on 2017/7/3.
  */
 
-var Shinetek = {};
-Shinetek.showMode = '2D';
-Shinetek.openlayerObj = new Object();
-Shinetek.styleCache = {};
-Shinetek.map = {};
-Shinetek.cesiumObj = new Object();
-Shinetek.CesiumOpt = {
+var ShinetekView = {};
+
+//cesium申明
+ShinetekView.cesiumObj = new Object();
+ShinetekView.viewer={};
+ShinetekView.CesiumTMSLayers={};
+ShinetekView.CesiumWMSLayers={};
+ShinetekView.Cesiumrwms={};
+ShinetekView.tileAllNum={};
+ShinetekView.tileLoadEnd={};
+ShinetekView.tileLoadError={};
+
+//ol申明
+ShinetekView.showMode = '2D';
+ShinetekView.openlayerObj = new Object();
+ShinetekView.styleCache = {};
+ShinetekView.map = {};
+
+ShinetekView.CesiumOpt = {
 	init: function (url) {
-		console.log("Shinetek.CesiumOpt init");
-		//  console.log(url);
-		/*  var tms0 = new Cesium.createTileMapServiceImageryProvider({
-		 url: url,
-		 fileExtension: 'png'
-		 });*/
-		/*var tms0 = new Cesium.UrlTemplateImageryProvider({
-		 url:url,
-		 credit : '© Analytical Graphics, Inc.',
-		 tilingScheme : new Cesium.GeographicTilingScheme(),
-		 maximumLevel : 5
-		 });*/
+		//console.log("ShinetekView.CesiumOpt init");
 
 		var viewer = new Cesium.Viewer('cesiumContainer', {
 			animation: false,//是否创建动画小器件，左下角仪表
@@ -62,7 +63,7 @@ Shinetek.CesiumOpt = {
 			 }
 			 }),//用于渲染星空的SkyBox对象*/
 		});
-		window.viewer = viewer;
+        ShinetekView.viewer = viewer;
 		//添加月球数据
 		var radius = Cesium.Math.LUNAR_RADIUS * 2;
 		viewer.scene.moon = new Cesium.Moon({
@@ -92,12 +93,12 @@ Shinetek.CesiumOpt = {
 		 } );
 		 viewer.terrainProvider = terrainProvider;*/
 
-		var tmsLayers = viewer.scene.imageryLayers;
-		window.tmsLayers = tmsLayers;
-		var wmsLayers = viewer.imageryLayers;
-		window.wmsLayers = wmsLayers;
-		var rwms = viewer.scene.globe.imageryLayers;
-		window.rwms = rwms;
+		var CesiumTMSLayers = viewer.scene.imageryLayers;
+        ShinetekView.CesiumTMSLayers = CesiumTMSLayers;
+		var CesiumWMSLayers = viewer.imageryLayers;
+        ShinetekView.CesiumWMSLayers = CesiumWMSLayers;
+		var Cesiumrwms = viewer.scene.globe.imageryLayers;
+        ShinetekView.Cesiumrwms = Cesiumrwms;
 
 		//鼠标滑动显示经纬度
 		//this.getPosition();
@@ -109,7 +110,7 @@ Shinetek.CesiumOpt = {
 
 		if (!url) {
 			console.log("add");
-			//   Shinetek3D.CesiumOpt.addLayer("_lkjw9sdj9jlaksjdlweiqw", "基础基础图层", "http://10.24.10.108/IMAGEL2/GBAL/", "false", "WMS");
+			   ShinetekView.CesiumOpt.addLayer("_lkjw9sdj9jlaksjdlweiqw", "基础基础图层", "http://10.24.10.108/IMAGEL2/GBAL/", "false", "WMS");
 		}
 
 
@@ -137,10 +138,15 @@ Shinetek.CesiumOpt = {
 				parameters: {
 					transparent: true,
 					format: 'image/png'
-				}
+				},
+                tileWidth: 256,
+                tileHeight: 256,
+                minimumLevel: 0,
+                maximumLevel: 7,
+                tilingScheme: new Cesium.GeographicTilingScheme(),
 			});
-			wmsLayers.addImageryProvider(layer);
-			Shinetek.cesiumObj[nameFun] = layer;
+            ShinetekView.CesiumWMSLayers.addImageryProvider(layer);
+			ShinetekView.cesiumObj[nameFun] = layer;
 
 			/* var wms = new Cesium.UrlTemplateImageryProvider({
 			 url : 'https://programs.communications.gov.au/geoserver/ows?tiled=true&' +
@@ -170,8 +176,8 @@ Shinetek.CesiumOpt = {
 				tileMatrixSetID: "GoogleMapsCompatible",
 				show: "false",
 			});
-			wmsLayers.addImageryProvider(layer);
-			Shinetek.cesiumObj[nameFun] = layer;
+            ShinetekView.CesiumWMSLayers.addImageryProvider(layer);
+			ShinetekView.cesiumObj[nameFun] = layer;
 		}
 		else if (WorT === "TMS") {
 			//若为天地图 则对后缀名称进行修改
@@ -180,12 +186,19 @@ Shinetek.CesiumOpt = {
 				new Cesium.createTileMapServiceImageryProvider({
 					url: oURL,
 					fileExtension: oPhoto,
-					tileMatrixLabels:["1","2","3","4","5","6","7"]
+					tileMatrixLabels:["1","2","3","4","5","6","7"],
+					//以下代码可取消xml配置绑定
+                    tileWidth: 256,
+                    tileHeight: 256,
+                    minimumLevel: 0,
+                    maximumLevel: 7,
+                    tilingScheme: new Cesium.GeographicTilingScheme(),
+
 				})
 			);
-			tmsLayers.add(layer);
+            ShinetekView.CesiumTMSLayers.add(layer);
 
-			Shinetek.cesiumObj[nameFun] = layer;
+			ShinetekView.cesiumObj[nameFun] = layer;
 			//设置图层的透明度
 			//nameFun.alpha = 0.5;
 			//设置图层的亮度
@@ -203,23 +216,23 @@ Shinetek.CesiumOpt = {
 				markerSymbol: '?'
 			}).then(function (myDataSource) {
 				// Add it to the viewer
-				window.viewer.dataSources.add(myDataSource);
+                ShinetekView.viewer.dataSources.add(myDataSource);
 				// Remember the data source by ID so we can delete later
 				// loadedGeometries[geometryID] = myDataSource;
-				Shinetek.cesiumObj[nameFun] = myDataSource;
+				ShinetekView.cesiumObj[nameFun] = myDataSource;
 				console.log("add layer " + nameFun);
 			});
-			//window.viewer.dataSources.add(layer);
-			// tmsLayers.add(layer);
-			/*console.log(window.viewer.dataSources);*/
+			//ShinetekView.viewer.dataSources.add(layer);
+			// ShinetekView.CesiumTMSLayers.add(layer);
+			/*console.log(ShinetekView.viewer.dataSources);*/
 
 
-			//Shinetek.cesiumObj[nameFun] = layer;
+			//ShinetekView.cesiumObj[nameFun] = layer;
 		}
 		else if (WorT == "Tile_Coordinates") {
 			var layer = new Cesium.TileCoordinatesImageryProvider();
-			tmsLayers.add(layer);
-			Shinetek.cesiumObj[nameFun] = layer;
+            ShinetekView.CesiumTMSLayers.add(layer);
+			ShinetekView.cesiumObj[nameFun] = layer;
 		}
 	},
 
@@ -232,9 +245,9 @@ Shinetek.CesiumOpt = {
 
 		if (WorT == "GEOJSON") {
 			try {
-				var layer = Shinetek.cesiumObj[nameFun];
-				window.viewer.dataSources.remove(layer, true);
-				delete Shinetek.cesiumObj[nameFun];
+				var layer = ShinetekView.cesiumObj[nameFun];
+                ShinetekView.viewer.dataSources.remove(layer, true);
+				delete ShinetekView.cesiumObj[nameFun];
 			} catch (err) {
 				console.log(err);
 			}
@@ -242,10 +255,10 @@ Shinetek.CesiumOpt = {
 		else {
 			try {
 
-				var layer = Shinetek.cesiumObj[nameFun];
+				var layer = ShinetekView.cesiumObj[nameFun];
 				//viewer.scene.imageryLayers
-				tmsLayers.remove(layer, true);
-				delete Shinetek.cesiumObj[nameFun];
+                ShinetekView.CesiumTMSLayers.remove(layer, true);
+				delete ShinetekView.cesiumObj[nameFun];
 			} catch (err) {
 				console.log(err);
 			}
@@ -259,11 +272,11 @@ Shinetek.CesiumOpt = {
 	removeSomeLayer: function (nameFun) {
 
 		var myName = nameFun;
-		var layers = Shinetek.cesiumObj;
+		var layers = ShinetekView.cesiumObj;
 		//遍历当前图层 并对其进行移除
 		for (var m_layer in layers) {
 			if (m_layer.indexOf(myName) > -1) {
-				Shinetek.CesiumOpt.removeLayer(m_layer, "WorT");
+				ShinetekView.CesiumOpt.removeLayer(m_layer, "WorT");
 			}
 		}
 	},
@@ -272,13 +285,13 @@ Shinetek.CesiumOpt = {
 	 * 移除所有图层
 	 */
 	removeAll: function () {
-		//  tmsLayers.removeAll(true);
-		//  window.cesiumObj = new Object();
-		var layers = Shinetek.cesiumObj;
+		//  ShinetekView.CesiumTMSLayers.removeAll(true);
+		//  ShinetekView.cesiumObj = new Object();
+		var layers = ShinetekView.cesiumObj;
 		for (m_layer in layers) {
-			Shinetek.CesiumOpt.removeLayer(m_layer, "WorT");
+			ShinetekView.CesiumOpt.removeLayer(m_layer, "WorT");
 		}
-		Shinetek.cesiumObJ = new Object();
+		ShinetekView.cesiumObJ = new Object();
 	},
 
 	/**
@@ -288,8 +301,8 @@ Shinetek.CesiumOpt = {
 	 */
 	setVisibility: function (nameFun, WorT) {
 		this.indexOf(nameFun);
-		var nameFunStatus = tmsLayers.get(this.indexOf(nameFun)).show;
-		nameFunStatus == true ? tmsLayers.get(this.indexOf(nameFun)).show = false : tmsLayers.get(this.indexOf(nameFun)).show = true;
+		var nameFunStatus = ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show;
+		nameFunStatus == true ? ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show = false : ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show = true;
 	},
 
 	/**
@@ -318,9 +331,9 @@ Shinetek.CesiumOpt = {
 	 * @param nameFun 图层名
 	 */
 	indexOf: function (nameFun) {
-		//var layer = window.cesiumObj[nameFun];
-		var layer = Shinetek.cesiumObj[nameFun];
-		return tmsLayers.indexOf(layer);
+		//var layer = ShinetekView.cesiumObj[nameFun];
+		var layer = ShinetekView.cesiumObj[nameFun];
+		return ShinetekView.CesiumTMSLayers.indexOf(layer);
 	},
 
 	/**
@@ -330,8 +343,8 @@ Shinetek.CesiumOpt = {
 	 */
 	setZIndex: function (nameFun, zIndex) {
 
-		var layer = Shinetek.cesiumObj[nameFun];
-		tmsLayers.add(layer, zIndex);
+		var layer = ShinetekView.cesiumObj[nameFun];
+        ShinetekView.CesiumTMSLayers.add(layer, zIndex);
 	},
 
 	/**
@@ -339,13 +352,13 @@ Shinetek.CesiumOpt = {
 	 * @param nameFun
 	 */
 	getZIndex: function (nameFun) {
-		//    var layer = window.cesiumObj[nameFun];
+		//    var layer = ShinetekView.cesiumObj[nameFun];
 		// var index = this.indexOf(nameFun);
 
-		var index = Shinetek.cesiumObj.indexOf(nameFun);
-		tmsLayers.get(index);
-		console.log(tmsLayers.get(index));
-		return tmsLayers.get(index);
+		var index = ShinetekView.cesiumObj.indexOf(nameFun);
+        ShinetekView.CesiumTMSLayers.get(index);
+		console.log(ShinetekView.CesiumTMSLayers.get(index));
+		return ShinetekView.CesiumTMSLayers.get(index);
 	},
 
 	/**
@@ -353,10 +366,10 @@ Shinetek.CesiumOpt = {
 	 */
 	getPosition: function () {
 		//得到当前三维场景
-		var scene = window.viewer.scene;
+		var scene = ShinetekView.viewer.scene;
 		//得到当前三维场景的椭球体
 		var ellipsoid = scene.globe.ellipsoid;
-		var entity = viewer.entities.add({
+		var entity = ShinetekView.viewer.entities.add({
 			label: {
 				show: false
 			}
@@ -370,7 +383,7 @@ Shinetek.CesiumOpt = {
 		//设置鼠标移动事件的处理函数，这里负责监听x,y坐标值变化
 		handler.setInputAction(function (movement) {
 			//通过指定的椭球或者地图对应的坐标系，将鼠标的二维坐标转换为对应椭球体三维坐标
-			cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+			cartesian = ShinetekView.viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
 			if (cartesian) {
 				//将笛卡尔坐标转换为地理坐标
 				var cartographic = ellipsoid.cartesianToCartographic(cartesian);
@@ -378,7 +391,7 @@ Shinetek.CesiumOpt = {
 				longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
 				latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
 				//获取相机高度
-				height = Math.ceil(viewer.camera.positionCartographic.height);
+				height = Math.ceil(ShinetekView.viewer.camera.positionCartographic.height);
 				entity.position = cartesian;
 				entity.label.show = true;
 				entity.label.text = '(' + longitudeString + ', ' + latitudeString + "," + height + ')';
@@ -388,7 +401,7 @@ Shinetek.CesiumOpt = {
 		}, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 		//设置鼠标滚动事件的处理函数，这里负责监听高度值变化
 		handler.setInputAction(function (wheelment) {
-			height = Math.ceil(viewer.camera.positionCartographic.height);
+			height = Math.ceil(ShinetekView.viewer.camera.positionCartographic.height);
 			entity.position = cartesian;
 			entity.label.show = true;
 			entity.label.text = '(' + longitudeString + ', ' + latitudeString + "," + height + ')';
@@ -399,9 +412,9 @@ Shinetek.CesiumOpt = {
 	 * 获取经纬度
 	 */
 	getLonLat: function () {
-		var scene = window.viewer.scene;
+		var scene = ShinetekView.viewer.scene;
 		var handler;
-		var entity = viewer.entities.add({
+		var entity = ShinetekView.viewer.entities.add({
 			label: {
 				show: false,
 				showBackground: true,
@@ -415,7 +428,7 @@ Shinetek.CesiumOpt = {
 		// Mouse over the globe to see the cartographic position
 		handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 		handler.setInputAction(function (movement) {
-			var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, scene.globe.ellipsoid);
+			var cartesian = ShinetekView.viewer.camera.pickEllipsoid(movement.endPosition, scene.globe.ellipsoid);
 			if (cartesian) {
 				var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
 				var longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
@@ -445,7 +458,7 @@ Shinetek.CesiumOpt = {
 	 * 设置显示区域
 	 */
 	setView: function () {
-		viewer.camera.setView({
+        ShinetekView.viewer.camera.setView({
 			destination: Cesium.Cartesian3.fromDegrees(108.90, 34.49, 10103520)
 		});
 	},
@@ -460,16 +473,16 @@ Shinetek.CesiumOpt = {
 	},
 
 }
-Shinetek.OpenlayerOpt = {
+ShinetekView.OpenlayerOpt = {
 	/**
 	 * 地图初始化函数
 	 * @param url 地图初始化时基底图层的地址
 	 */
 	init: function (url) {
-		Shinetek.map = new ol.Map({
+		ShinetekView.map = new ol.Map({
 			layers: [
 				// 加载底图
-				/*Shinetek.Ol3Opt.addLayer("BaseLayer","baseLayer",url,"true","TMS"),*/
+				/*ShinetekView.OpenlayerOpt.addLayer("BaseLayer","baseLayer",url,"true","TMS"),*/
 			],
 			target: 'map',
 			controls: ol.control.defaults({
@@ -506,17 +519,17 @@ Shinetek.OpenlayerOpt = {
 		/*//地图渲染未开始事件
 		 map.on('precompose',function (e) {
 		 var olMapLoadStatus="false";
-		 window.olMapLoadStatus=olMapLoadStatus;
+		 ShinetekView.olMapLoadStatus=olMapLoadStatus;
 		 });
 		 //地图渲染中事件
 		 map.on('postcompose',function (e) {
 		 var olMapLoadStatus="false";
-		 window.olMapLoadStatus=olMapLoadStatus;
+		 ShinetekView.olMapLoadStatus=olMapLoadStatus;
 		 });
 		 //地图渲染结束
 		 map.on('postrender',function (e) {
 		 var olMapLoadStatus="true";
-		 window.olMapLoadStatus=olMapLoadStatus;
+		 ShinetekView.olMapLoadStatus=olMapLoadStatus;
 		 });*/
 
 		/*var oAllScreen=document.getElementsByClassName("ol-overlaycontainer-stopevent")[0];
@@ -539,7 +552,7 @@ Shinetek.OpenlayerOpt = {
 		 };*/
 
 		//监听地图窗口的变化，判断是否为全屏模式，并设置全屏产品标题栏是否显示
-		Shinetek.map.on('change:size', function (e) {
+		ShinetekView.map.on('change:size', function (e) {
 			var oAllScreen = document.getElementsByClassName("ol-overlaycontainer-stopevent")[0];
 			var oScreenBut = document.getElementsByClassName("ol-full-screen")[0].getElementsByTagName("button")[0];
 			if (oScreenBut.className == "ol-full-screen-false") {
@@ -563,21 +576,21 @@ Shinetek.OpenlayerOpt = {
 		});
 
 		//鼠标移动
-		Shinetek.map.on('pointermove', function (e) {
+		ShinetekView.map.on('pointermove', function (e) {
 			var ool_zoomslider_thumb = document.getElementsByClassName("ol-zoomslider-thumb")[0];
-			ool_zoomslider_thumb.setAttribute("title", Shinetek.OpenlayerOpt.getZoom());
+			ool_zoomslider_thumb.setAttribute("title", ShinetekView.OpenlayerOpt.getZoom());
 		});
 
 		//地图缩放
-		Shinetek.OpenlayerOpt.mapZoom(Shinetek.map);
+		ShinetekView.OpenlayerOpt.mapZoom(ShinetekView.map);
 
 		//地图缩放和移动时候，重置播放动画的变量
-		var view = Shinetek.map.getView();
+		var view = ShinetekView.map.getView();
 		view.on('change:center', function (e) {
-			Shinetek.OpenlayerOpt.clearAnimate();
+			ShinetekView.OpenlayerOpt.clearAnimate();
 		});
 		view.on('change:resolution', function (e) {
-			Shinetek.OpenlayerOpt.clearAnimate();
+			ShinetekView.OpenlayerOpt.clearAnimate();
 		});
 	},
 
@@ -622,7 +635,7 @@ Shinetek.OpenlayerOpt = {
 						// to the correct sign
 						x = x + n;
 					}
-					window.tileAllNum++;
+                    ShinetekView.tileAllNum++;
 					return urlTemplate.replace('{z}', z.toString())
 					.replace('{y}', y.toString())
 					.replace('{x}', x.toString());
@@ -630,13 +643,13 @@ Shinetek.OpenlayerOpt = {
 			})
 		});
 		layer.getSource().on('tileloadstart', function () {
-			// window.tileLoadStart++;
+			// ShinetekView.tileLoadStart++;
 		});
 		layer.getSource().on('tileloadend', function () {
-			window.tileLoadEnd++;
+            ShinetekView.tileLoadEnd++;
 		});
 		layer.getSource().on('tileloaderror', function () {
-			window.tileLoadError++;
+            ShinetekView.tileLoadError++;
 		});
 		//判断如果是基底图层只需要返回一个url地址即可
 		if (isBase == "true") {
@@ -644,8 +657,8 @@ Shinetek.OpenlayerOpt = {
 		}
 		//如果是叠加图层,则需要返回添加图层的函数
 		else if (isBase == "false") {
-			Shinetek.openlayerObj[nameFun] = layer;
-			var m_LayerADD = Shinetek.map.addLayer(layer);
+			ShinetekView.openlayerObj[nameFun] = layer;
+			var m_LayerADD = ShinetekView.map.addLayer(layer);
 			return m_LayerADD;
 		}
 	},
@@ -662,7 +675,7 @@ Shinetek.OpenlayerOpt = {
 		var name = feature.get('name');
 		var magnitude = parseFloat(name.substr(2));
 		var radius = 5 + 20 * (magnitude - 5);
-		var style = Shinetek.styleCache[radius];
+		var style = ShinetekView.styleCache[radius];
 		if (!style) {
 			style = new ol.style.Style({
 				image: new ol.style.Circle({
@@ -676,7 +689,7 @@ Shinetek.OpenlayerOpt = {
 					})
 				})
 			});
-			Shinetek.styleCache[radius] = style;
+			ShinetekView.styleCache[radius] = style;
 		}
 		return style;
 	},
@@ -709,12 +722,12 @@ Shinetek.OpenlayerOpt = {
 					crossOrigin: 'anonymous'
 				})
 			});
-			Shinetek.openlayerObj[nameFun] = layer;
-			var m_LayerADD = Shinetek.map.addLayer(layer);
+			ShinetekView.openlayerObj[nameFun] = layer;
+			var m_LayerADD = ShinetekView.map.addLayer(layer);
 			return m_LayerADD;
 		}
 		else if (WorT === "TMS") {
-			return Shinetek.OpenlayerOpt.addTile(nameFun, nameLayer, oURL, isBase, WorT);
+			return ShinetekView.OpenlayerOpt.addTile(nameFun, nameLayer, oURL, isBase, WorT);
 		}
 		else if (WorT === "KML") {
 			//火点的俩种加载方式
@@ -733,8 +746,8 @@ Shinetek.OpenlayerOpt = {
 				blur: 5,
 				radius: 5,
 			});
-			Shinetek.openlayerObj[nameFun] = layer;
-			var m_LayerADD = Shinetek.map.addLayer(layer);
+			ShinetekView.openlayerObj[nameFun] = layer;
+			var m_LayerADD = ShinetekView.map.addLayer(layer);
 			return m_LayerADD;
 
 			/*//方法二
@@ -747,7 +760,7 @@ Shinetek.OpenlayerOpt = {
 			 }),
 			 style:WMS.styleFunction
 			 });
-			 window.obj[nameFun]=layer;
+			 ShinetekView.obj[nameFun]=layer;
 			 var m_LayerADD=map.addLayer(layer);
 			 return m_LayerADD;*/
 		}
@@ -760,8 +773,8 @@ Shinetek.OpenlayerOpt = {
 					/*WMS.addLayer("WMS2","天地图文字标注","http://t3.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}","false","XYZ");*/
 				})
 			});
-			Shinetek.openlayerObj[nameFun] = layer;
-			var m_LayerADD = Shinetek.map.addLayer(layer);
+			ShinetekView.openlayerObj[nameFun] = layer;
+			var m_LayerADD = ShinetekView.map.addLayer(layer);
 			return m_LayerADD;
 		}
 		else if (WorT === "GEOJSON") {
@@ -781,8 +794,8 @@ Shinetek.OpenlayerOpt = {
 					 })*/
 				})
 			});
-			Shinetek.openlayerObj[nameFun] = layer;
-			var m_LayerADD = Shinetek.map.addLayer(layer);
+			ShinetekView.openlayerObj[nameFun] = layer;
+			var m_LayerADD = ShinetekView.map.addLayer(layer);
 			return m_LayerADD;
 		}
 	},
@@ -794,9 +807,9 @@ Shinetek.OpenlayerOpt = {
 	 */
 	removeLayer: function (nameFun, WorT) {
 		var WorT = WorT;
-		var layer = Shinetek.openlayerObj[nameFun];
-		Shinetek.map.removeLayer(layer);
-		delete Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
+		ShinetekView.map.removeLayer(layer);
+		delete ShinetekView.openlayerObj[nameFun];
 	},
 
 	/**
@@ -805,13 +818,13 @@ Shinetek.OpenlayerOpt = {
 	 */
 	removeSomeLayer: function (nameFun) {
 		//console.log(map.getLayers());
-		var layer = Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
 		var myName = nameFun;
-		var layers = Shinetek.openlayerObj;
+		var layers = ShinetekView.openlayerObj;
 		/*console.log(layers)*/
 		for (i in layers) {
 			if (myName.indexOf(i) >= 0) {
-				Shinetek.map.removeLayer(i)
+				ShinetekView.map.removeLayer(i)
 			}
 		}
 	},
@@ -823,35 +836,32 @@ Shinetek.OpenlayerOpt = {
 	 */
 	setVisibility: function (nameFun, WorT) {
 		var WorT = WorT;
-		var layer = Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
 		(layer.getVisible() == true) ? layer.setVisible(false) : layer.setVisible(true);
 	},
 
 	//监听图片开始加载
 	oStart: function (nameFun) {
-		var layer = Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
 		layer.getSource().on('tileloadstart', function (event) {
-			alert("111")
+			//alert("111")
 		});
 	},
 
 	//监听图片结束加载
 	oEnd: function (nameFun) {
-		var layer = Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
 		layer.getSource().on('tileloadend', function (event) {
-			alert("222")
+			//alert("222")
 		});
 	},
 
 	//地图渲染结束事件
 	oGetStatus: function () {
-		/*console.log(window.tileAllNum);
-		 console.log(window.tileLoadEnd);
-		 console.log(window.tileLoadError);*/
-		if (window.tileAllNum <= window.tileLoadEnd + window.tileLoadError) {
+		if (ShinetekView.tileAllNum <= ShinetekView.tileLoadEnd + ShinetekView.tileLoadError) {
 			console.log("true");
 
-			Shinetek.OpenlayerOpt.clearAnimate();
+			ShinetekView.OpenlayerOpt.clearAnimate();
 			return true;
 		} else {
 
@@ -861,7 +871,7 @@ Shinetek.OpenlayerOpt = {
 
 	//刷新图层
 	oRefresh: function () {
-		Shinetek.map.updateSize();
+		ShinetekView.map.updateSize();
 	},
 
 	/**
@@ -869,7 +879,7 @@ Shinetek.OpenlayerOpt = {
 	 * @param nameFun 图层对象名
 	 */
 	getZIndex: function (nameFun) {
-		var layer = Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
 		return layer.getZIndex();
 	},
 
@@ -879,7 +889,7 @@ Shinetek.OpenlayerOpt = {
 	 * @param zIndex 新的z-index值
 	 */
 	setZIndex: function (nameFun, zIndex) {
-		var layer = Shinetek.openlayerObj[nameFun];
+		var layer = ShinetekView.openlayerObj[nameFun];
 		layer.setZIndex(zIndex);
 	},
 
@@ -898,10 +908,10 @@ Shinetek.OpenlayerOpt = {
 	 * 移动到固定位置
 	 */
 	moveToChengDu: function () {
-		var view = Shinetek.map.getView();
+		var view = ShinetekView.map.getView();
 		// 设置地图中心为成都的坐标，即可让地图移动到成都
 		view.setCenter(ol.proj.transform([104.06, 30.67], 'EPSG:4326', 'EPSG:3857'));
-		Shinetek.map.render();
+		ShinetekView.map.render();
 	},
 
 	/**
@@ -909,7 +919,7 @@ Shinetek.OpenlayerOpt = {
 	 */
 	fitToChengdu: function () {
 		// 让地图最大化完全地显示区域[104, 30.6, 104.12, 30.74]
-		Shinetek.map.getView().fit([104, 30.6, 104.12, 30.74], Shinetek.map.getSize());
+		ShinetekView.map.getView().fit([104, 30.6, 104.12, 30.74], ShinetekView.map.getSize());
 	},
 
 	/**
@@ -924,21 +934,21 @@ Shinetek.OpenlayerOpt = {
 				lineDash: [0.5, 4],
 			}),
 		});
-		graticule.setMap(Shinetek.map);
+		graticule.setMap(ShinetekView.map);
 	},
 
 	/**
 	 *获取分辨率等信息
 	 */
 	getRe: function () {
-		return Shinetek.map.getView().getResolution();
+		return ShinetekView.map.getView().getResolution();
 	},
 
 	/**
 	 * 获取当前的zoom值
 	 */
 	getZoom: function () {
-		return Shinetek.map.getView().getZoom();
+		return ShinetekView.map.getView().getZoom();
 	},
 
 	/**
@@ -947,7 +957,7 @@ Shinetek.OpenlayerOpt = {
 	 */
 	mapZoom: function (map) {
 		/*var view=map.getView();
-		 Shinetek.Ol3Opt.newResolution(Shinetek.Ol3Opt.getRe());
+		 ShinetekView.Ol3Opt.newResolution(ShinetekView.Ol3Opt.getRe());
 
 		 view.on('change:resolution',function(e){
 		 var res=map.getView().getResolution();
@@ -969,7 +979,7 @@ Shinetek.OpenlayerOpt = {
 		 /!*console.log(oResParent_child.length);*!/
 
 		 //创建div
-		 Shinetek.Ol3Opt.newResolution(res);
+		 ShinetekView.Ol3Opt.newResolution(res);
 		 });*/
 	},
 
@@ -1044,16 +1054,16 @@ Shinetek.OpenlayerOpt = {
 	 * 重置动画播放的锁
 	 */
 	clearAnimate: function () {
-		window.tileAllNum = 0;
-		window.tileLoadEnd = 0;
+        ShinetekView.tileAllNum = 0;
+        ShinetekView.tileLoadEnd = 0;
 		/*    http://10.24.10.96/FY3B_MERSI_321/MERSI/yyyyMMdd/*/
-		window.tileLoadError = 0;
+        ShinetekView.tileLoadError = 0;
 	}
 };
-Shinetek.SatelliteView = {
+ShinetekView.SatelliteView = {
 	setMapFun: function(showType) {
 		if (showType == '2D' || showType == '3D') {
-			Shinetek.showMode = showType;
+			ShinetekView.showMode = showType;
 		}
 		/*  var o2_3tool_sel = document.getElementsByClassName("glyphicon-mapType")[0].innerHTML;
 		 var omap2D = document.getElementsByClassName("map2D")[0];
@@ -1068,18 +1078,18 @@ Shinetek.SatelliteView = {
 		 document.getElementsByClassName("glyphicon-mapType")[0].innerHTML = "3D";
 		 omap2D.style.display = "block";
 		 omap3D.style.display = "none";
-		 Shinetek.showMode = "2D";
+		 ShinetekView.showMode = "2D";
 
 		 }
 		 else if (o2_3tool_sel == "3D") {
 		 document.getElementsByClassName("glyphicon-mapType")[0].innerHTML = "2D";
 		 omap2D.style.display = "none";
 		 omap3D.style.display = "block";
-		 Shinetek.showMode = "3D";
+		 ShinetekView.showMode = "3D";
 		 }*/
 	},
 	getMapFun: function() {
-		if (Shinetek.showMode == '3D') {
+		if (ShinetekView.showMode == '3D') {
 			return '0';
 		}
 		else {
@@ -1087,81 +1097,77 @@ Shinetek.SatelliteView = {
 		}
 	},
 	init: function(url) {
-		if (Shinetek.showMode == '3D') {
-			Shinetek.CesiumOpt.init(url);
+		if (ShinetekView.showMode == '3D') {
+			ShinetekView.CesiumOpt.init(url);
 		}
 		else {
-			Shinetek.OpenlayerOpt.init(url);
+			ShinetekView.OpenlayerOpt.init(url);
 		}
-		// console.log("initALL");
-
-		/*    $(".map3D").load("http://10.24.4.121:4080/newmap2.html",function () {
-		 })*/
 
 	},
 	addLayer: function(nameFun, nameLayer, oURL, isBase, WorT) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.addLayer(nameFun, nameLayer, oURL, isBase, WorT) :
-			Shinetek.CesiumOpt.addLayer(nameFun, nameLayer, oURL, isBase,
+			ShinetekView.OpenlayerOpt.addLayer(nameFun, nameLayer, oURL, isBase, WorT) :
+			ShinetekView.CesiumOpt.addLayer(nameFun, nameLayer, oURL, isBase,
 				WorT);
 	},
 	removeLayer: function(nameFun, WorT) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.removeLayer(nameFun, WorT) :
-			Shinetek.CesiumOpt.removeLayer(nameFun, WorT);
+			ShinetekView.OpenlayerOpt.removeLayer(nameFun, WorT) :
+			ShinetekView.CesiumOpt.removeLayer(nameFun, WorT);
 	},
 	setVisibility: function(nameFun, WorT) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.setVisibility(nameFun, WorT) :
-			Shinetek.CesiumOpt.setVisibility(nameFun, WorT);
+			ShinetekView.OpenlayerOpt.setVisibility(nameFun, WorT) :
+			ShinetekView.CesiumOpt.setVisibility(nameFun, WorT);
 	},
 	setZIndex: function(nameFun, zIndex) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.setZIndex(nameFun, zIndex) :
-			Shinetek.CesiumOpt.setZIndex(nameFun, zIndex);
+			ShinetekView.OpenlayerOpt.setZIndex(nameFun, zIndex) :
+			ShinetekView.CesiumOpt.setZIndex(nameFun, zIndex);
 	},
 	getZIndex: function(nameFun) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.getZIndex(nameFun) :
-			Shinetek.CesiumOpt.getZIndex(nameFun);
+			ShinetekView.OpenlayerOpt.getZIndex(nameFun) :
+			ShinetekView.CesiumOpt.getZIndex(nameFun);
 	},
 	getRe: function() {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.getRe() :
-			Shinetek.CesiumOpt.getRe();
+			ShinetekView.OpenlayerOpt.getRe() :
+			ShinetekView.CesiumOpt.getRe();
 	},
 	getZoom: function() {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.getZoom() :
-			Shinetek.CesiumOpt.getZoom();
+			ShinetekView.OpenlayerOpt.getZoom() :
+			ShinetekView.CesiumOpt.getZoom();
 	},
 	newResolution: function(res) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.newResolution(res) :
-			Shinetek.CesiumOpt.newResolution(res);
+			ShinetekView.OpenlayerOpt.newResolution(res) :
+			ShinetekView.CesiumOpt.newResolution(res);
 	},
 	setScreenTitle: function(nameLayer) {
 		this.getMapFun() == '1' ?
-			Shinetek.OpenlayerOpt.setScreenTitle(nameLayer) :
-			Shinetek.CesiumOpt.setScreenTitle(nameLayer);
+			ShinetekView.OpenlayerOpt.setScreenTitle(nameLayer) :
+			ShinetekView.CesiumOpt.setScreenTitle(nameLayer);
 	},
 	oGetStatus: function() {
 		if (this.getMapFun() == '1') {
-			return Shinetek.OpenlayerOpt.oGetStatus();
+			return ShinetekView.OpenlayerOpt.oGetStatus();
 		} else {
-			return Shinetek.CesiumOpt.oGetStatus();
+			return ShinetekView.CesiumOpt.oGetStatus();
 		}
 	},
 	removeAllLayer: function() {
 		//todo 目前使用 3D模式清除
 		if (this.getMapFun() == '0') {
-			return Shinetek.CesiumOpt.removeSomeLayer('');
+			return ShinetekView.CesiumOpt.removeSomeLayer('');
 			// return Shinetek3D.CesiumOpt.removeSomeLayer("");
 		}
 	},
 	clearAnimate: function() {
 		if (this.getMapFun() == '1') {
-			return Shinetek.OpenlayerOpt.clearAnimate();
+			return ShinetekView.OpenlayerOpt.clearAnimate();
 			// return Shinetek3D.CesiumOpt.removeSomeLayer("");
 		}
 	}

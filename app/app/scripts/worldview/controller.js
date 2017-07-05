@@ -183,11 +183,11 @@
                 var layerNames = _pauseAnime();
                 if (layerNames !== null && layerNames !== undefined) {
                     layerNames.forEach(function (item) {
-	                    Shinetek.SatelliteView.removeLayer(item);
+                        ShinetekView.SatelliteView.removeLayer(item);
                     });
                 }
                 //对opanlayer 中待加载的所有数值清零20170518
-	            Shinetek.SatelliteView.clearAnimate();
+                ShinetekView.SatelliteView.clearAnimate();
             }
             if (self.isMenuCollapse != 0) {
                 self.isMenuCollapse = 0;
@@ -299,7 +299,7 @@
                 }
 
                 if (layerName !== null) {
-	                Shinetek.SatelliteView.removeLayer(layerName);
+                    ShinetekView.SatelliteView.removeLayer(layerName);
                 }
 
                 if (layerModule !== undefined) {
@@ -343,7 +343,7 @@
                     _getTopLayer();
                 }
                 if (layerName !== null) {
-	                Shinetek.SatelliteView.removeLayer(layerName);
+                    ShinetekView.SatelliteView.removeLayer(layerName);
                 }
                 var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                 var timespan = Math.floor(1000 / self.fpsNum);
@@ -426,29 +426,29 @@
                 //_clearLayers();
                 self.isShown3D = true;
                 document.getElementsByClassName("glyphicon-mapType")[0].innerText = "2D";
-	            Shinetek.SatelliteView.setMapFun("3D");
+                ShinetekView.SatelliteView.setMapFun("3D");
                 //若未进行初始化 则 初始化
                 if (!self.is3Dinit) {
-	                Shinetek.SatelliteView.init("http://10.24.10.108/IMAGEL2/GBAL/");
+                    ShinetekView.SatelliteView.init("http://10.24.10.108/IMAGEL2/GBAL/");
                     //将初始化 标志位
                     self.is3Dinit = true;
                     _refreshLayers();
                 }
                 else {
                     //若已经初始化 则移除当前所有显示图层 并重新刷新加载
-	                Shinetek.SatelliteView.removeAllLayer();
+                    ShinetekView.SatelliteView.removeAllLayer();
                     _refreshLayers();
                 }
             }
             else {
                 self.isShown3D = false;
                 document.getElementsByClassName("glyphicon-mapType")[0].innerText = "3D";
-	            Shinetek.SatelliteView.setMapFun("2D");
+                ShinetekView.SatelliteView.setMapFun("2D");
                 _refreshLayers();
             }
 
 
-            //  Shinetek.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
+            //  ShinetekView.Ol3Opt.init("http://10.24.10.108/IMAGEL2/GBAL/");
 
 
         }
@@ -964,7 +964,7 @@
                 projectUrl = projectUrl.replace('mm', moment(timeLine.GetShowDate()).utc().format("mm"));
             }
 
-	        Shinetek.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+            ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
 
 
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
@@ -972,10 +972,10 @@
                 // var m_id=layModule._id
                 /*
                 var layadd = 3000;
-                 if (Shinetek.Ol3Opt.getZIndex(layModule._id)) {
-                 layadd = Shinetek.Ol3Opt.getZIndex(layModule._id) + 3000;
+                 if (ShinetekView.Ol3Opt.getZIndex(layModule._id)) {
+                 layadd = ShinetekView.Ol3Opt.getZIndex(layModule._id) + 3000;
                  }
-                 Shinetek.Ol3Opt.setZIndex(layModule._id, layadd);*/
+                 ShinetekView.Ol3Opt.setZIndex(layModule._id, layadd);*/
             }
             if (layModule.isShow === false) {
                 _setVisibilityFromWMS(layModule);
@@ -1025,7 +1025,7 @@
          * @private
          */
         function _removeLayFromWMS(layModule) {
-	        Shinetek.SatelliteView.removeLayer(layModule._id, layModule.mapType);
+            ShinetekView.SatelliteView.removeLayer(layModule._id, layModule.mapType);
 
 
             //对基准图进行操作不影响数据图层
@@ -1040,7 +1040,7 @@
          * @param {any} layModule
          */
         function _setVisibilityFromWMS(layModule) {
-	        Shinetek.SatelliteView.setVisibility(layModule._id, layModule.mapType);
+            ShinetekView.SatelliteView.setVisibility(layModule._id, layModule.mapType);
         }
 
 
@@ -1141,8 +1141,8 @@
          */
         function _initMap() {
             //根据配置初始化底图
-	        Shinetek.SatelliteView.init(Config_Total.BASETILEURL);
-            //Shinetek.Ol3Opt.init(Config_Total.BASETILEURL);
+            ShinetekView.SatelliteView.init(Config_Total.BASETILEURL);
+            //ShinetekView.Ol3Opt.init(Config_Total.BASETILEURL);
             //初始化截图框
             $("#snapshot").load("lib/screenshot/photo.html", function () {
                 // screenshots.init("http://img1.3lian.com/2015/w7/98/d/22");
@@ -1353,12 +1353,12 @@
             //对定时器赋值
             anime_timer = setInterval(function () {
                 //若下一个图层加载成功，则进行添加和移除
-                if (Shinetek.SatelliteView.oGetStatus()) {
+                if (ShinetekView.SatelliteView.oGetStatus()) {
                     self.isWaitingShow = false;
                     //判断移除值域
                     if (remove_layer_num < m_NumMax) {
                         //移除上一层的显示
-	                    Shinetek.SatelliteView.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
+                        ShinetekView.SatelliteView.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
                         remove_layer_num++;
                     }
 
@@ -1393,9 +1393,9 @@
                             + "仪器:" + self.topsideLayer.instID + "<br>"
                             + "产品:" + self.topsideLayer.projectName + "<br>"
                             + "时次:" + m_TimeStr;
-	                    Shinetek.SatelliteView.setScreenTitle(m_ShowTitle);
+                        ShinetekView.SatelliteView.setScreenTitle(m_ShowTitle);
                         show_layer_num++;
-                        //   Shinetek.Ol3Opt.setScreenTitle(show_layer_num);
+                        //   ShinetekView.Ol3Opt.setScreenTitle(show_layer_num);
                         if (show_layer_num == m_NumMax) {
                             //结束当前定时器
                             _pauseAnime();
@@ -1406,8 +1406,8 @@
                     //判断添加值域
                     if (add_layer_num < m_NumMax) {
                         //设置当前图层状态为显示模式
-	                    Shinetek.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
-	                    Shinetek.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+                        ShinetekView.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+                        ShinetekView.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
                         add_layer_num++;
                     }
                 }
@@ -1427,7 +1427,7 @@
             var m_showList = [];
 
             //移除当前显示的信息 暂停的时候个人认为不需要删除显示
-            // Shinetek.Ol3Opt.setScreenTitle(" ");
+            // ShinetekView.Ol3Opt.setScreenTitle(" ");
             //根据当前的 remove_layer_num add_layer_num
             //遍历获取 当前所有 已经添加 但是未被移除的图层名称
             for (var w = remove_layer_num; w <= add_layer_num; w++) {
@@ -1477,8 +1477,8 @@
                 add_layer_num = self.animedata.length;
             }
             for (var i = remove_layer_num; i < add_layer_num; i++) {
-	            Shinetek.SatelliteView.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
-	            Shinetek.SatelliteView.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
+                ShinetekView.SatelliteView.addLayer(self.animedata[i].LayerTimeName, "TMS3", self.animedata[i].LayerTimeUrl, "false", "TMS");
+                ShinetekView.SatelliteView.setZIndex(self.animedata[i].LayerTimeName, self.animedata[i].LayerTimeIndexZ);
             }
 
         }
