@@ -425,7 +425,7 @@
                 //当前为2D 显示 切换显示3D
                 //_clearLayers();
                 self.isShown3D = true;
-                document.getElementsByClassName("glyphicon-mapType")[0].innerText = "2D";
+                document.getElementsByClassName("glyphicon-wordType")[0].innerText = "2D";
                 ShinetekView.SatelliteView.setMapFun("3D");
                 //若未进行初始化 则 初始化
                 if (!self.is3Dinit) {

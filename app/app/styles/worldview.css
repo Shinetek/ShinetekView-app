@@ -671,3 +671,7 @@ a {
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
 }
 
+.glyphicon-wordType {
+   top: -3px!important;
+}
+
