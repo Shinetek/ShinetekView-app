@@ -39,6 +39,10 @@
     server.get({path: PATH + '/:sat/:sensor/:date/:fullname', version: '0.0.1'}, FirePointKML._GetKMLFile);
 
 
+    //从文件目录中获取信息
+    server.get({path: PATH + '/filePath/:sat/:sensor/:date/:fullname', version: '0.0.1'}, FirePointKML._GetKMLFilebyPath);
+
+
     /**
      *获取GEOJson
      */
