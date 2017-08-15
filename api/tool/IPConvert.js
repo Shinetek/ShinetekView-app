@@ -5,12 +5,12 @@
 (function () {
     console.log("=====================IP转换开始=====================");
     //载入转化配置
-    var m_config = require("./config.json");
+    var m_config = require("../config.json");
 
     var m_BeforeIP = m_config.ConvertIP.BeforeIP;
     var m_AfterIP = m_config.ConvertIP.AfterIP;
     // var LayerGroupSchema = require('./modules/layergroup-schema.js');
-    var ProjectInfoSchema = require('./modules/projectinfo-schema.js');
+    var ProjectInfoSchema = require('../modules/projectinfo-schema.js');
     var mongoose = require('mongoose');
 
     //数据库配置
