@@ -19,13 +19,7 @@
         var projectList = [];
 
         //数据存在列表 - 维护所有分钟间隔产品的数组
-        var timeLineListMinutes = [];
-        //数据存在列表 - 维护所有日间隔产品的数组
-        var timeLineListDay = [];
-        //数据存在列表 - 维护所有月间隔产品的数组
-        var timeLineListMonth = [];
-        //数据存在列表 - 维护所有年间隔产品的数组
-        var timeLineListYear = [];
+        var timeLineListDataAll = [];
 
         var timeLine = new TimeLine();
         var layerMenu = angular.element(document.getElementById("layerMenu"));
@@ -421,7 +415,7 @@
         /*3D 切换函数*/
         function _switch3D() {
             console.log("_switch3D");
-            if (self.isShown3D == false) {
+            if (self.isShown3D === false) {
                 //当前为2D 显示 切换显示3D
                 //_clearLayers();
                 self.isShown3D = true;
@@ -474,7 +468,6 @@
          */
         function _refreshLayers() {
             var tmpList = [];
-            timeLineListMinutes = [];
             //记住一条 图层列表 先进后出 才能保证 后加的在先加的之上；
             self.overLays.forEach(function (layModule) {
                 //_removeLayFromWMS(layModule);
@@ -537,7 +530,7 @@
         function _removeThisLayer(layer, layerList) {
             //修复从cookies中获取的lay与当前列表lay不一致导致的取消显示后，列表勾选不取消的bug
             projectList.forEach(function (lay) {
-                if (layer._id == lay._id) {
+                if (layer._id === lay._id) {
                     lay.isSelected = false;
                 }
             });
@@ -704,13 +697,13 @@
                                 }
                             }
                         });
-	                    // 同时放入常用图层分组
-	                    self.tabGroups[xi].frequentlyLayers.forEach(function(item) {
-	                        for (var j = 0; j < layerGroupList.length; j++) {
-	                            var layerGroup = layerGroupList[j];
-	                            if (item.layerName === layerGroup.layerName && layerGroup.satType === item.satType) {
-		                            item.group = layerGroup;
-		                            item.instString = '';
+                        // 同时放入常用图层分组
+                        self.tabGroups[xi].frequentlyLayers.forEach(function (item) {
+                            for (var j = 0; j < layerGroupList.length; j++) {
+                                var layerGroup = layerGroupList[j];
+                                if (item.layerName === layerGroup.layerName && layerGroup.satType === item.satType) {
+                                    item.group = layerGroup;
+                                    item.instString = '';
                                     var instGroup = layerGroup.instGroupList;
                                     instGroup.forEach(function (inst) {
                                         item.instString += inst.instName + ' ';
@@ -968,10 +961,10 @@
 
 
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
-            if (layModule.layType == "OVERLAYERS") {
+            if (layModule.layType === "OVERLAYERS") {
                 // var m_id=layModule._id
                 /*
-                var layadd = 3000;
+                 var layadd = 3000;
                  if (ShinetekView.Ol3Opt.getZIndex(layModule._id)) {
                  layadd = ShinetekView.Ol3Opt.getZIndex(layModule._id) + 3000;
                  }
@@ -1183,7 +1176,7 @@
             //baseLays 获取cookies
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
-            if (m_baseLays == null || m_overLays == null) {
+            if (m_baseLays === null || m_overLays === null) {
                 _initLays();
             } else {
                 //修改为缓存图层为空时，自动添加新图层
@@ -1396,7 +1389,7 @@
                         ShinetekView.SatelliteView.setScreenTitle(m_ShowTitle);
                         show_layer_num++;
                         //   ShinetekView.Ol3Opt.setScreenTitle(show_layer_num);
-                        if (show_layer_num == m_NumMax) {
+                        if (show_layer_num === m_NumMax) {
                             //结束当前定时器
                             _pauseAnime();
                             callback(null, m_DataAll[show_layer_num - 1].LayerTimeName);
@@ -1510,7 +1503,7 @@
             if (self.baseLays != null) {
                 for (var i = 0; i < self.baseLays.length; i++) {
                     if (!m_flag) {
-                        if (self.baseLays[i].isShow == true) {
+                        if (self.baseLays[i].isShow === true) {
                             self.topsideLayer = self.baseLays[i];
                             m_flag = true;
                             return true;
