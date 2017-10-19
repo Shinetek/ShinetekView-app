@@ -46,6 +46,11 @@
             verison: '0.0.1'
         }, _getDataLitsByFTPFile);
 
+        //日合成产品数据获取 以天为基准 向上向下兼容
+        server.get({
+            path: BASEPATH + '/datalistfy4a/:SatID/:InstID/:ProdName/:ObserveType/:Resolution',
+            verison: '0.0.1'
+        }, _getDataListByFY4A);
 
         //从本地文件中获取！POS极轨卫星
         server.get({
@@ -304,25 +309,22 @@
                                 //分钟模式转化
                                 var m_Str_Minute = m_Item.substr(0, 4) + "-" + m_Item.substr(4, 2) + "-" + m_Item.substr(6, 2)
                                     + " " + m_Item.substr(9, 2) + ":" + m_Item.substr(11, 2);
-
                                 dataList_Min.push(m_Str_Minute);
                                 break;
                             }
                             default:
                             {
-                                console.log(m_Item);
+                              //Babel
+                                //  console.log(m_Item);
                                 break;
                             }
                         }
-
                     }
                     dataList_Year = _.uniq(dataList_Year);
                     dataList_Month = _.uniq(dataList_Month);
                     dataList_Day = _.uniq(dataList_Day);
-                    // console.log(dataList_Day);
                     dataList_Day.forEach(function (m_Str_Day) {
                         //扩充为分钟 一天为288个时次
-                        // console.log("m_Str_Day:" + m_Str_Day);
                         for (var time = 0; time < 288; time++) {
                             var m_Str_Min = moment(new Date(m_Str_Day)).utc().add('minutes', 5 * time).format('YYYY-MM-DD HH:mm');
                             dataList_Min.push(m_Str_Min);
@@ -389,12 +391,12 @@
                                 var dataList_Day = [];
                                 var dataList_Month = [];
                                 var dataList_Year = [];
-                                if (m_DataList != undefined && m_DataList.length > 0) {
+                                if (m_DataList && m_DataList.length > 0) {
 
                                     //循环添加
                                     for (var len = 0; len < m_DataList.length; len++) {
                                         var m_Item = m_DataList[len];
-                                        if (m_Item.length == 8) {
+                                        if (m_Item.length === 8) {
                                             //切割加入年月日
                                             //年
                                             var m_Str_Year = m_Item.substring(0, 4);
@@ -403,7 +405,7 @@
                                             var m_Str_Month = m_Item.substr(0, 4) + "-" + parseInt(m_Item.substr(4, 2)).toString();
                                             dataList_Month.push(m_Str_Month);
                                             //日
-                                            var m_Str_Day = m_Item.substr(0, 4) + "-" + m_Item.substr(4, 2) + "-" + m_Item.substr(6, 2);                                // console.log(m_Str_Day);
+                                            var m_Str_Day = m_Item.substr(0, 4) + "-" + m_Item.substr(4, 2) + "-" + m_Item.substr(6, 2);
                                             dataList_Day.push(m_Str_Day);
                                         }
                                     }
@@ -457,25 +459,22 @@
         var m_File = m_Path + "/" + m_FileName;
 
         // m_File = "D://File_2017//GIT//ShinetekView-app//api//test//" + m_FileName;
-        // console.log(m_File);
+
         if (fs.existsSync(m_File)) {
-            // console.log("m_File ok:" + m_File);
             //文件读取
             var m_FileStr = fs.readFileSync(m_File, 'utf8');
 
             var m_DataList = m_FileStr.toString().split("\u0000\n\u0000");
             m_DataList = _.uniq(m_DataList);
-            // console.log(m_DataList);
             var dataList_Min = [];
             var dataList_Day = [];
             var dataList_Month = [];
             var dataList_Year = [];
-            if (m_DataList != undefined && m_DataList.length > 0) {
-
+            if (m_DataList && m_DataList.length > 0) {
                 //循环添加
                 for (var len = 0; len < m_DataList.length; len++) {
                     var m_Item = m_DataList[len];
-                    if (m_Item.length == 8) {
+                    if (m_Item.length === 8) {
                         //切割加入年月日
                         //年
                         var m_Str_Year = m_Item.substring(0, 4);
@@ -484,7 +483,7 @@
                         var m_Str_Month = m_Item.substr(0, 4) + "-" + parseInt(m_Item.substr(4, 2)).toString();
                         dataList_Month.push(m_Str_Month);
                         //日
-                        var m_Str_Day = m_Item.substr(0, 4) + "-" + m_Item.substr(4, 2) + "-" + m_Item.substr(6, 2);                                // console.log(m_Str_Day);
+                        var m_Str_Day = m_Item.substr(0, 4) + "-" + m_Item.substr(4, 2) + "-" + m_Item.substr(6, 2);
                         dataList_Day.push(m_Str_Day);
                     }
                 }
@@ -508,16 +507,91 @@
                     dataList_Month: dataList_Month,
                     dataList_Year: dataList_Year
                 };
-                //console.log(result);
                 res.end(JSON.stringify(result));
                 next();
-
             }
         }
         else {
             res.end();
             next();
         }
+    }
+
+    //http://10.24.4.121:4001/api/datalistfy4a/FY4A/AGRIX/PRJ/TEST/1000
+    function _getDataListByFY4A(req, res, next) {
+        //从数据库中获取 FY4A版本 的 全状态数据 。
+        if (_.isUndefined(req.params.SatID)
+            || _.isUndefined(req.params.InstID)
+            || _.isUndefined(req.params.ProdName)
+            || _.isUndefined(req.params.Resolution)
+            || _.isUndefined(req.params.ObserveType)) {
+            res.end("请确认参数如下格式：/datalist/:SatID/:InstID/:ProdName/:ObserveType/:Resolution"
+                + "1SatID:" + req.params.SatID
+                + "2InstID:" + req.params.InstID
+                + "3ProdName:" + req.params.ProdName
+                + "4ObserveType:" + req.params.ObserveType
+                + "5Resolution:" + req.params.Resolution);
+            next();
+        }
+        //获取Select 语句
+        var m_SQL = " SELECT  * FROM ProductInfo  " +
+            " where  SatID ='" + req.params.SatID
+            + "' and InstrumentName ='" + req.params.InstID
+            + "' and ProductName ='" + req.params.ProdName
+            + "' and Resolution =" + req.params.Resolution
+            + " and ObserveType ='" + req.params.ObserveType
+            + "' and IsExitFlag = 1 order by CreatTime desc"
+            + " limit 1000";
+
+        var client = mysql.createConnection({
+            host: config.MYSQL.host,
+            user: config.MYSQL.user,
+            password: config.MYSQL.password,
+            database: config.MYSQL.database
+        });
+        console.log(m_SQL);
+        client.connect();
+        client.query(m_SQL, function selectCb(err, results, fields) {
+                if (err) {
+                    //    throw err;
+                    console.log(err);
+                    res.end(JSON.stringify(err));
+                    next();
+                }
+                if (results) {
+
+                    console.log(results.length);
+                    var DataList = results;
+                    var DataListRteturn = [];
+                    if (DataList && DataList.length > 0) {
+                        DataList.forEach(function (DataItem) {
+                            var DemoReturn = {};
+                            if (DataItem.StartTime && DataItem.EndTime) {
+                                var DataBeginTime = DataItem.StartTime.toString();
+                                var DataEndTime = DataItem.EndTime.toString();
+                                //格式转化
+                                var DataBeginTime_m = moment.utc(DataBeginTime, "YYYYMMDDHHmmss");
+                                var DataEndTime_m = moment.utc(DataEndTime, "YYYYMMDDHHmmss");
+                                DemoReturn.BeginTime = DataBeginTime_m.format("YYYY-MM-DD HH:mm:ss");
+                                DemoReturn.EndTime = DataEndTime_m.format("YYYY-MM-DD HH:mm:ss");
+                                //对年月日时分秒 进行 判定
+                                if (DemoReturn.BeginTime !== 'Invalid date' && DemoReturn.EndTime !== 'Invalid date') {
+                                    //加入处理
+                                    DataListRteturn.push(DemoReturn);
+                                }
+                            }
+                        });
+                    }
+                    res.end(JSON.stringify(DataListRteturn));
+                    next();
+                }
+                client.end();
+            }
+        );
+        client.on('error', function (err) {
+            client.end();
+        });
+
     }
 })
 ();
