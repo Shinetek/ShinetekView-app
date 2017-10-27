@@ -14,6 +14,7 @@ var ftpInfo = require("../config.json");
  * @constructor
  */
 var GetKMLFile = function (req, res, next) {
+    console.log('GetKMLFile');
 
     //修改为kml格式的头  res.setHeader("Access-Control-Allow-Origin","*");
     res.setHeader('Content-Type', 'application/vnd.google-earth.kml+xml', "Access-Control-Allow-Origin", "*", 'Access-Control-Allow-Headers","X-Requested-With');
@@ -48,7 +49,6 @@ var GetKMLFile = function (req, res, next) {
                 clientFTP.destroy();
                 clientFTP = null;
                 console.log('err成功关闭连接ftp:' + ftpInfo.FirePointFTP.host + '!');
-
             }
         }
     });
@@ -169,8 +169,13 @@ exports._GetKMLFile = GetKMLFile;
  * @constructor
  */
 var GetKMLFilebyPath = function (req, res, next) {
+    console.log('GetKMLFilebyPath');
     //修改为kml格式的头  res.setHeader("Access-Control-Allow-Origin","*");
-    res.setHeader('Content-Type', 'application/vnd.google-earth.kml+xml', "Access-Control-Allow-Origin", "*", 'Access-Control-Allow-Headers","X-Requested-With');
+    res.setHeader('Content-Type',
+
+        'application/vnd.google-earth.kml+xml',
+        "Access-Control-Allow-Origin", "*",
+        'Access-Control-Allow-Headers","X-Requested-With');
 
     //api字段检验
     var sat = req.params.sat;
@@ -183,17 +188,14 @@ var GetKMLFilebyPath = function (req, res, next) {
     //连接ftp，获取文件信息
 
     var m_kmldata = null;
-
-    fs.readFile(ftpInfo.FirePointFTP.path + "/" + fullname, "utf8", function (error, data) {
-        if (error) {
-            throw error;
-        }
-        else {
-            m_kmldata = data;
-            res.end(m_kmldata);
-        }
-        next();
-    });
+    var FilePath = ftpInfo.FirePointFTP.path + fullname;
+    var exist = fs.existsSync(FilePath);
+    console.log(exist);
+    console.log(FilePath);
+    m_kmldata = fs.readFileSync(FilePath);
+    console.log(m_kmldata);
+    res.end(m_kmldata);
+    next();
 };
 
 exports._GetKMLFilebyPath = GetKMLFilebyPath;

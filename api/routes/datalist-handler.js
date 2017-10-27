@@ -447,25 +447,27 @@ var concat = require('concat-stream');
                 if (results) {
                     var DataList = results;
                     var DataListRteturn = [];
-                    if (DataList && DataList.length > 0) {
-                        DataList.forEach(function (DataItem) {
-                            var DemoReturn = {};
-                            if (DataItem.StartTime && DataItem.EndTime) {
-                                var DataBeginTime = DataItem.StartTime.toString();
-                                var DataEndTime = DataItem.EndTime.toString();
-                                //格式转化
-                                var DataBeginTimem = moment.utc(DataBeginTime, "YYYYMMDDHHmmss");
-                                var DataEndTimem = moment.utc(DataEndTime, "YYYYMMDDHHmmss");
-                                DemoReturn.BeginTime = DataBeginTimem.format("YYYY-MM-DD HH:mm:ss");
-                                DemoReturn.EndTime = DataEndTimem.format("YYYY-MM-DD HH:mm:ss");
-                                //对年月日时分秒 进行 判定
-                                if (DemoReturn.BeginTime !== 'Invalid date' && DemoReturn.EndTime !== 'Invalid date') {
-                                    //加入处理
-                                    DataListRteturn.push(DemoReturn);
-                                }
-                            }
-                        });
-                    }
+                    var FYA_Handler = require("../modules/fy4_datainfo_module.js");
+                    DataListRteturn=   FYA_Handler.getDataInfo(DataList);
+                    /*  if (DataList && DataList.length > 0) {
+                     DataList.forEach(function (DataItem) {
+                     var DemoReturn = {};
+                     if (DataItem.StartTime && DataItem.EndTime) {
+                     var DataBeginTime = DataItem.StartTime.toString();
+                     var DataEndTime = DataItem.EndTime.toString();
+                     //格式转化
+                     var DataBeginTimem = moment.utc(DataBeginTime, "YYYYMMDDHHmmss");
+                     var DataEndTimem = moment.utc(DataEndTime, "YYYYMMDDHHmmss");
+                     DemoReturn.BeginTime = DataBeginTimem.format("YYYY-MM-DD HH:mm:ss");
+                     DemoReturn.EndTime = DataEndTimem.format("YYYY-MM-DD HH:mm:ss");
+                     //对年月日时分秒 进行 判定
+                     if (DemoReturn.BeginTime !== 'Invalid date' && DemoReturn.EndTime !== 'Invalid date') {
+                     //加入处理
+                     DataListRteturn.push(DemoReturn);
+                     }
+                     }
+                     });
+                     }*/
                     res.end(JSON.stringify(DataListRteturn));
                     next();
                 }

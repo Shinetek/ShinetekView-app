@@ -1,0 +1,61 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        //---------------------Best Practices----------------------------
+        // 强制把变量的使用限制在其定义的作用域范围内
+        "block-scoped-var": "error",
+        // 要求 return 语句要么总是指定返回的值，要么不指定
+        "consistent-return": "off",
+        // 强制所有控制语句使用一致的括号风格
+        "curly": "error",
+        // 要求 switch 语句中有 default 分支
+        "default-case": "error",
+        // 要求使用 === 和 !==
+        "eqeqeq": "error",
+        // 禁止在 return 语句中使用赋值语句
+        "no-return-assign": "error",
+        // 要求所有的 var 声明出现在它们所在的作用域顶部
+        // "vars-on-top": "error",
+        // 要求或禁止使用严格模式指令
+        "strict": "error",
+        // 要求或禁止 var 声明中的初始化
+        "init-declarations": "error",
+        // 禁止 catch 子句的参数与外层作用域中的变量同名
+        "no-catch-shadow": "error",
+        // 禁止变量声明与外层作用域的变量同名
+        "no-shadow": "error",
+        // 禁止在变量定义之前使用它们
+        // "no-use-before-define":"error",
+
+        //-------------------Node & Commonjs-------------------------
+        // 要求 require() 出现在顶层模块作用域中
+        "global-require": "error",
+        // 要求回调函数中有容错处理
+        "handle-callback-err": "warn",
+        "no-console": "off",
+        // "consistent-return": "off",
+
+        //-------------------Code Style------------------------------
+        // 强制在单行代码块中使用一致的空格
+        "block-spacing": "warn",
+        // 强制在代码块中使用一致的大括号风格
+        "brace-style": "warn",
+        // 强制使用骆驼拼写法命名约定
+        "camelcase": "off",
+        // 强制函数块最多允许的语句数量
+        "max-statements": ["error", 30],
+        // 强制回调函数最大嵌套深度
+        "max-nested-callbacks": ["error", 3],
+        // 要求使用 JSDoc 注释
+        // "Require-jsdoc":"error",
+        // 要求对象字面量属性名称用引号括起来
+        "quote-props": "error"
+    }
+}

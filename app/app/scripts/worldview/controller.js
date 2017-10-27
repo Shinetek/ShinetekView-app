@@ -940,25 +940,34 @@
          * @private
          */
         function _addLayToWMS(layModule) {
+            console.log('_addLayToWMS');
+            //var timeSelect = moment(timeLine.GetShowDate()).utc();
+            var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
+            var timeSelectStr = timeFindJson.TimeStrReturn;
+            console.log("isFindExist:" + timeFindJson.isFindExist);
             var projectUrl = layModule.projectUrl;
-            if (projectUrl.indexOf('yyyy') > 0) {
-                projectUrl = projectUrl.replace('yyyy', moment(timeLine.GetShowDate()).utc().format("YYYY"));
-            }
-            if (projectUrl.indexOf('MM') > 0) {
-                projectUrl = projectUrl.replace('MM', moment(timeLine.GetShowDate()).utc().format("MM"));
-            }
-            if (projectUrl.indexOf('dd') > 0) {
-                projectUrl = projectUrl.replace('dd', moment(timeLine.GetShowDate()).utc().format("DD"));
-            }
-            if (projectUrl.indexOf('hh') > 0) {
-                projectUrl = projectUrl.replace('hh', moment(timeLine.GetShowDate()).utc().format("HH"));
-            }
-            if (projectUrl.indexOf('mm') > 0) {
-                projectUrl = projectUrl.replace('mm', moment(timeLine.GetShowDate()).utc().format("mm"));
-            }
-
+            projectUrl = projectUrl.replace('yyyyMMddHHmmss', timeSelectStr);
             ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+            console.log('timeSelectStr:' + timeSelectStr);
+            /* var projectUrl = layModule.projectUrl;
+             if (projectUrl.indexOf('yyyy') > 0) {
+             projectUrl = projectUrl.replace('yyyy', moment(timeLine.GetShowDate()).utc().format("YYYY"));
+             }
+             if (projectUrl.indexOf('MM') > 0) {
+             projectUrl = projectUrl.replace('MM', moment(timeLine.GetShowDate()).utc().format("MM"));
+             }
+             if (projectUrl.indexOf('dd') > 0) {
+             projectUrl = projectUrl.replace('dd', moment(timeLine.GetShowDate()).utc().format("DD"));
+             }
+             if (projectUrl.indexOf('hh') > 0) {
+             projectUrl = projectUrl.replace('hh', moment(timeLine.GetShowDate()).utc().format("HH"));
+             }
+             if (projectUrl.indexOf('mm') > 0) {
+             projectUrl = projectUrl.replace('mm', moment(timeLine.GetShowDate()).utc().format("mm"));
+             }
 
+             ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+             */
 
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType === "OVERLAYERS") {
@@ -974,11 +983,21 @@
                 _setVisibilityFromWMS(layModule);
             }
             //只对base的数据进行排序
-            if (layModule.layType != "OVERLAYERS") {
+            if (layModule.layType !== "OVERLAYERS") {
                 //获取数据存在列表
                 _getDataExistList(layModule, function (m_timeLineList) {
+                    //根据列表反向查找， 再次添加
+                    console.log(m_timeLineList);
                     timeLine.AddMinuteData(m_timeLineList);
                     _ResetDatOrder();
+
+                    /*   var TimeBeginStr = _FindTimeBegin(m_timeLineList, timeSelect);
+                     var projectUrl = layModule.projectUrl;
+                     projectUrl = projectUrl.replace('yyyyMMddHHmmss', TimeBeginStr);
+                     console.log('projectUrl:' + projectUrl);
+                     ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
+
+                     */
                 });
 
                 //获取图层调色板
@@ -1023,7 +1042,7 @@
 
             //对基准图进行操作不影响数据图层
             if (layModule.layType != "OVERLAYERS") {
-                _removeDataExistList(layModule);
+                //_removeDataExistList(layModule);
             }
         }
 
@@ -1043,7 +1062,7 @@
          * @param {Function} next callback
          * @callback next
          */
-        function _getDataExistList(layModule, next) {
+        function _getDataExistList_H8(layModule, next) {
             if (layModule.dataListUrl === '') {
                 return;
             }
@@ -1113,6 +1132,42 @@
                 m_timeLineListMinutes.push(timeLineObj_Day);
                 m_timeLineListMinutes.push(timeLineObj_Month);
                 m_timeLineListMinutes.push(timeLineObj_Year);
+                next(m_timeLineListMinutes);
+            });
+        }
+
+        function _getDataExistList(layModule, next) {
+            console.log('_getDataExistList');
+            if (layModule.dataListUrl === '') {
+                return;
+            }
+            WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
+                console.log('get data ok');
+                var m_timeLineListMinutes = [];
+                //    var timeLineObj = {};
+                if (data && data.length > 0) {
+
+                    //分钟数据
+                    var timeLineObj_Min = {
+                        DataName: layModule.projectName + layModule._id,
+                        DataInfo: data,
+                        Layeris_Show: true
+                    };
+                    m_timeLineListMinutes.push(timeLineObj_Min);
+                    timeLineListDataAll.push(timeLineObj_Min);
+                    next(m_timeLineListMinutes);
+                }
+            }, function (data) {
+                var m_timeLineListMinutes = [];
+                //失败也需要使用名称进行占位
+                //整体数据
+                var timeLineObj_Min = {
+                    DataName: layModule.projectName + layModule._id,
+                    DataInfo: [],
+                    Layeris_Show: true
+                };
+                m_timeLineListMinutes.push(timeLineObj_Min);
+                timeLineListDataAll.push(timeLineObj_Min);
                 next(m_timeLineListMinutes);
             });
         }
@@ -1254,7 +1309,7 @@
          * @private
          */
         function _initTimeLine() {
-            timeLine.Init("timeLine", "DAY");
+            timeLine.init("timeLine", "DAY");
         }
 
         /**
@@ -1517,7 +1572,54 @@
             }
 
         }
+
+        /**
+         * 获取当前 字段及  layModule  范围内数据开始时间
+         * @param layModule
+         */
+        function _getLayerUrlReplace(layModule) {
+            var projectUrl = layModule.projectUrl;
+            var BaseTimeStr = timeLine.GetShowDate();
+
+            if (projectUrl.indexOf('yyyy') > 0) {
+                projectUrl = projectUrl.replace('yyyy', moment(timeLine.GetShowDate()).utc().format("YYYY"));
+            }
+            return projectUrl;
+
+        }
+
+        /**
+         * 查找当前匹配的时间段
+         * @param dataInfoList
+         * @param dataStr
+         * @returns {*}
+         * @private
+         */
+        function _FindTimeBegin(dataInfoList, dataStr) {
+            console.log('_FindTimeBegin');
+            var dataStrNew = dataStr.format('YYYYMMDDHHmmss');
+            var isFind = false;
+            if (dataInfoList.length > 0) {
+                dataInfoList.forEach(function (dataInfoItem) {
+                    //若没有找到匹配
+                    if (!isFind) {
+                        var beginTimem = moment.utc(dataInfoItem.BeginTime);
+                        var endTimem = moment.utc(dataInfoItem.EndTime);
+                        var timeSelect = moment.utc(dataStr);
+                        if (timeSelect.isBetween(beginTimem, endTimem)) {
+                            dataStrNew = beginTimem.format('YYYYMMDDHHmm') + "00";
+                            isFind = true;
+                            console.log("Find Begin!");
+                        }
+                    }
+                });
+            }
+            console.log("dataStrNew:" + dataStrNew);
+            return dataStrNew;
+
+        }
     }
+
 
 })
 ();

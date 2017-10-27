@@ -312,8 +312,8 @@
 
         //分组url
         $scope.GetGroupInfoUrl = Config_Total.BASEPATH + '/layer-group';
-        $scope.updateGroupInfoUrl = 'http://10.24.4.121:4001/api' + '/layer-group/update';
-        $scope.deleteGroupInfoUrl = 'http://10.24.4.121:4001/api' + '/layer-group/delete';
+        $scope.updateGroupInfoUrl = Config_Total.BASEPATH + '/layer-group/update';
+        $scope.deleteGroupInfoUrl = Config_Total.BASEPATH + '/layer-group/delete';
 
 
         //获取分组信息
@@ -337,7 +337,7 @@
         function UpdateGroupDataInfo(newData) {
             $scope.layerInfoALL = newData;
             $scope.layerInfoName = $scope.layerInfoALL.length;
-            $scope.$digest();
+            //  $scope.$digest();
         }
 
 
@@ -453,7 +453,7 @@
         };
 
         $scope.SubmitAddGroupFunc = function (m_AddGroupModelData) {
-      
+
             m_AddGroupModelData.layer = JSON.parse(m_AddGroupModelData.layer);
             console.log(m_AddGroupModelData);
 
