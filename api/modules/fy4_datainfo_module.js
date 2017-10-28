@@ -20,15 +20,16 @@
         for (var i = 0; i < results.length; i++) {
             var TimeBegin = results[i].StartTime;
             var TimeEnd = results[i].EndTime;
-
-            var BeginMoment = moment(TimeBegin, "YYYYMMDDHHmmss");
-            var EndMoment = moment(TimeEnd, "YYYYMMDDHHmmss");
+            //console.log(TimeBegin + ":" + TimeEnd);
+            var BeginMoment = moment.utc(TimeBegin, "YYYYMMDDHHmmss");
+            var EndMoment = moment.utc(TimeEnd, "YYYYMMDDHHmmss");
             var BeginTimeStr = TimeBegin;
             while (BeginMoment.isBefore(EndMoment)) {
+
                 var timeYear = BeginMoment.format("YYYY");
                 var timeMonth = BeginMoment.format("YYYY-MM");
                 var timeDay = BeginMoment.format("YYYY-MM-DD");
-                var timeMinute = BeginMoment.format("YYYY-MM-DD hh:mm");
+                var timeMinute = BeginMoment.format("YYYY-MM-DD HH:mm");
                 var YearJson = {TimeStr: timeYear, TimeBegin: BeginTimeStr};
                 var MonthJson = {TimeStr: timeMonth, TimeBegin: BeginTimeStr};
                 var DayJson = {TimeStr: timeDay, TimeBegin: BeginTimeStr};

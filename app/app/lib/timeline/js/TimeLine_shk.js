@@ -10,14 +10,23 @@ function TimeLine() {
      * @type {Date}
      */
     this.DateShow = new Date();
-    var Year_Show = 2016;
-    var Month_Show = 1;
-    var Day_Show = 1;
-    var Hour_Show = 0;
-    var Minute_Show = 0;
+
+    /**
+     *  当前用来显示的  年月日 时分秒
+     * @type {{Year_Show: number, Month_Show: number, Day_Show: number, Hour_Show: number, Minute_Show: number}}
+     */
+    var DATE_SHOW = {
+        Year_Show: 2016,
+        Month_Show: 1,
+        Day_Show: 1,
+        Hour_Show: 0,
+        Minute_Show: 0
+    };
+
 
     //返回当前选择年月日， 所在的 数据列表 及开始时间
     this.DataShowBegin = [];
+
 
     /**
      * 整体显示 -- 当前浏览器类型
@@ -46,11 +55,15 @@ function TimeLine() {
      */
     this.Is_ShowSVGLine = true;
 
+
+    var POINT_X = {
+        isMove_Minute: false,
+        x_Minute: 0,
+        X_Before_Minute: -150,
+        m_Trans_Minute: -150
+    };
     /* 分钟模式  鼠标 操作 变量*/
-    var isMove_Minute = false;
-    var x_Minute = 0;
-    var X_Before_Minute = 0;
-    var m_Trans_Minute = -150;
+
     //分钟模式下 初始化显示日期
     var MinuteBegin_Date = new Date(moment.utc().add(0.0, "hours").format("YYYY-MM-DD HH").toString() + ":00:00");
 
@@ -195,15 +208,15 @@ function TimeLine() {
      */
     var RefreshTimeShow = function () {
         //根据当前选择时间获取 年月日
-        Year_Show = self.DateShow.getUTCFullYear();
-        Month_Show = self.DateShow.getMonth() + 1;
-        Day_Show = self.DateShow.getDate();
-        Hour_Show = self.DateShow.getHours();
-        Minute_Show = self.DateShow.getMinutes();
+        DATE_SHOW.Year_Show = self.DateShow.getUTCFullYear();
+        DATE_SHOW.Month_Show = self.DateShow.getMonth() + 1;
+        DATE_SHOW.Day_Show = self.DateShow.getDate();
+        DATE_SHOW.Hour_Show = self.DateShow.getHours();
+        DATE_SHOW.Minute_Show = self.DateShow.getMinutes();
         //年月日赋值显示
-        document.getElementById('txt_Year').value = Year_Show.toString();
-        document.getElementById('txt_Month').value = Month_Show.toString();
-        document.getElementById('txt_Day').value = Day_Show.toString();
+        document.getElementById('txt_Year').value = DATE_SHOW.Year_Show.toString();
+        document.getElementById('txt_Month').value = DATE_SHOW.Month_Show.toString();
+        document.getElementById('txt_Day').value = DATE_SHOW.Day_Show.toString();
         //调用数据修改函数 ，触发外部func
         self.DateTimeChange();
         //根据模式重绘
@@ -241,12 +254,12 @@ function TimeLine() {
         //DateShow 添加一天
         self.DateShow = new Date(moment(self.DateShow).add(1, 'day'));
         //重设位移值 年位移位置
-        self.m_Trans = (Year_Show - moment(self.DateShow).year() + 5 ) * 150;
+        self.m_Trans = (DATE_SHOW.Year_Show - moment(self.DateShow).year() + 5 ) * 150;
 
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5;
         //分钟位移位置 修改为1分钟模式
-        m_Trans_Minute = m_Trans_Minute - 12.5 * 60 * 24;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 12.5 * 60 * 24;
         RefreshTimeShow();
     };
 
@@ -258,7 +271,7 @@ function TimeLine() {
         var momentStr = (  moment(self.DateShow).add(1, 'month') - moment(self.DateShow)) / 1000 / 3600 / 24;
         self.DateShow = new Date(moment(self.DateShow).add(1, 'month'));
         self.m_Trans = ( self.m_TransYear - moment(self.DateShow).year() + 5 ) * 150;
-        m_Trans_Minute = m_Trans_Minute - momentStr * 12.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 12.5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5 * momentStr;
         RefreshTimeShow();
@@ -272,7 +285,7 @@ function TimeLine() {
         var momentStr = (moment(self.DateShow).add(1, 'year') - moment(self.DateShow)) / 1000 / 3600 / 24;
 
         //分钟模式 位移
-        m_Trans_Minute = m_Trans_Minute - momentStr * 12.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 12.5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5 * momentStr;
         //月位移 todo
@@ -290,7 +303,7 @@ function TimeLine() {
     var MinusDay = function () {
         self.DateShow = new Date(moment(self.DateShow).add(-1, 'day'));
         //分钟模式
-        m_Trans_Minute = m_Trans_Minute + 12.5 * 60 * 24;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12.5 * 60 * 24;
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5;
         RefreshTimeShow();
@@ -303,7 +316,7 @@ function TimeLine() {
     var MinusMonth = function () {
         var momentStr = (moment(self.DateShow) - moment(self.DateShow).add(-1, 'month')) / 1000 / 3600 / 24;
         self.DateShow = new Date(moment(self.DateShow).add(-1, 'month'));
-        m_Trans_Minute = m_Trans_Minute + 12.5 * 24 * 60 * momentStr;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12.5 * 24 * 60 * momentStr;
 
 
         //天模式
@@ -321,7 +334,7 @@ function TimeLine() {
 
         self.DateShow = new Date(moment.utc(self.DateShow).add(-1, 'year'));
         //分钟模式
-        m_Trans_Minute = m_Trans_Minute + momentStr * 12.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + momentStr * 12.5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5 * momentStr;
         RefreshTimeShow();
@@ -489,11 +502,11 @@ function TimeLine() {
     var InitDateClickFunc = function () {
         //初始化时间
         self.DateShow = new Date();
-        Year_Show = self.DateShow.getUTCFullYear();
-        Month_Show = self.DateShow.getUTCMonth() + 1;
-        Day_Show = self.DateShow.getUTCDate();
-        Hour_Show = self.DateShow.getUTCHours();
-        Minute_Show = self.DateShow.getUTCMinutes();
+        DATE_SHOW.Year_Show = self.DateShow.getUTCFullYear();
+        DATE_SHOW.Month_Show = self.DateShow.getUTCMonth() + 1;
+        DATE_SHOW.Day_Show = self.DateShow.getUTCDate();
+        DATE_SHOW.Hour_Show = self.DateShow.getUTCHours();
+        DATE_SHOW.Minute_Show = self.DateShow.getUTCMinutes();
 
         /*初始化点击事件*/
         //年月日 加一 函数赋值
@@ -513,9 +526,9 @@ function TimeLine() {
         btn_MinusDay.onclick = MinusDay;
 
         //初始化设置时间选择值 重新 赋值
-        document.getElementById('txt_Year').value = Year_Show.toString();
-        document.getElementById('txt_Month').value = Month_Show.toString();
-        document.getElementById('txt_Day').value = Day_Show.toString();
+        document.getElementById('txt_Year').value = DATE_SHOW.Year_Show.toString();
+        document.getElementById('txt_Month').value = DATE_SHOW.Month_Show.toString();
+        document.getElementById('txt_Day').value = DATE_SHOW.Day_Show.toString();
 
         //设置 年TimeLine 滚动事件
         var m_ShowTimeLineDiv_Year = document.getElementById("ShowTimeLineDiv_Year");
@@ -817,8 +830,8 @@ function TimeLine() {
      */
     var SetShowYear = function (Year) {
         if (Year) {
-            Year_Show = parseInt(Year).toString();
-            self.DateShow = new Date(Year_Show, Month_Show - 1, Day_Show, Hour_Show, Minute_Show, 0);
+            DATE_SHOW.Year_Show = parseInt(Year).toString();
+            self.DateShow = new Date(DATE_SHOW.Year_Show, DATE_SHOW.Month_Show - 1, DATE_SHOW.Day_Show, DATE_SHOW.Hour_Show, DATE_SHOW.Minute_Show, 0);
             RefreshTimeShow();
             return true;
         } else {
@@ -838,10 +851,10 @@ function TimeLine() {
         var new_Year = TimeStr.split("-")[0];
         var new_Month = TimeStr.split("-")[1];
         if (new_Year && new_Month) {
-            Year_Show = parseInt(new_Year).toString();
-            Month_Show = parseInt(new_Month).toString();
+            DATE_SHOW.Year_Show = parseInt(new_Year).toString();
+            DATE_SHOW.Month_Show = parseInt(new_Month).toString();
             //设置年月日
-            self.DateShow = new Date(Year_Show, Month_Show - 1, Day_Show, Hour_Show, Minute_Show, 0);
+            self.DateShow = new Date(DATE_SHOW.Year_Show, DATE_SHOW.Month_Show - 1, DATE_SHOW.Day_Show, DATE_SHOW.Hour_Show, DATE_SHOW.Minute_Show, 0);
             RefreshTimeShow();
             return true;
         } else {
@@ -855,9 +868,9 @@ function TimeLine() {
      * @constructor
      */
     var GetMouseDown_Minute = function (event) {
-        isMove_Minute = true;
-        x_Minute = event.clientX;
-        X_Before_Minute = x_Minute;
+        POINT_X.isMove_Minute = true;
+        POINT_X.x_Minute = event.clientX;
+        POINT_X.X_Before_Minute = POINT_X.x_Minute;
     };
 
     /**
@@ -866,7 +879,7 @@ function TimeLine() {
      * @constructor
      */
     var GetMouseUP_Minute = function (event) {
-        isMove_Minute = false;
+        POINT_X.isMove_Minute = false;
     };
 
     /**
@@ -876,7 +889,7 @@ function TimeLine() {
     var GetMouseOut_Minute = function () {
         //若非火狐 则移动
         if (self.browserType !== "Firefox" && self.browserType !== 'Edge') {
-            isMove_Minute = false;
+            POINT_X.isMove_Minute = false;
         }
     };
 
@@ -887,11 +900,11 @@ function TimeLine() {
      */
     var MouseMove_Minute = function (event) {
         //计算拖动位移
-        if (isMove_Minute) {
-            x_Minute = event.clientX;
-            var DrgNum = X_Before_Minute - x_Minute;
+        if (POINT_X.isMove_Minute) {
+            POINT_X.x_Minute = event.clientX;
+            var DrgNum = POINT_X.X_Before_Minute - POINT_X.x_Minute;
             if (DrgNum >= 1 || DrgNum <= -1) {
-                X_Before_Minute = x_Minute;
+                POINT_X.X_Before_Minute = POINT_X.x_Minute;
                 Minute_SVGMove(DrgNum);
             }
         }
@@ -923,22 +936,22 @@ function TimeLine() {
         var SVG_Show = '';
 
         //全局变量 修改
-        m_Trans_Minute = m_Trans_Minute - trans;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - trans;
 
         //向后拖动
-        while (m_Trans_Minute > 0) {
-            m_Trans_Minute = m_Trans_Minute - 12 * 12.5 * 5;
+        while (POINT_X.m_Trans_Minute > 0) {
+            POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 12 * 2.5 * 5;
             //减一个小时
             MinuteBegin_Date.setHours(MinuteBegin_Date.getHours() - 1);
         }
         //向前拖动
-        while (m_Trans_Minute < -60 * 12.5) {
-            m_Trans_Minute = m_Trans_Minute + 12 * 12.5 * 5;
+        while (POINT_X.m_Trans_Minute < -60 * 2.5) {
+            POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12 * 2.5 * 5;
             //加1小时
             MinuteBegin_Date.setHours(MinuteBegin_Date.getHours() + 1);
         }
         //每个月的位移 初始化位0
-        var Month_Trans = m_Trans_Minute;
+        var Month_Trans = POINT_X.m_Trans_Minute;
         //初始时间为2016年1月 当前月
         var CountDate = MinuteBegin_Date;
         //当前选择日期 str
@@ -957,11 +970,16 @@ function TimeLine() {
             //每一个小时 中 1 min循环    一小时12
             for (var j = 0; j < 60; j++) {
                 //每一个小时中 每5min的位移
-                var Minute_Trans = (j * 12.5).toString();
+                var Minute_Trans = (j * 2.5).toString();
                 //根据时间计算当前块显示 DATE YYYY-MM-dd
                 var DayTimeStr = moment(HourNow).utc().format('YYYY-MM-DD HH:mm');
                 //根据时间加载数据 svg
                 var Data_SVG = GetMinuteMode_DataShowList(DayTimeStr, Minute_Trans);
+                /* if(Data_SVG!=="")
+                 {
+                 console.log(Data_SVG);
+                 //     coanole.log(Data_SVG);
+                 }*/
 
                 //根据动画模式 设置是否需要显示动画模块 V1.1 20170321
                 var Trans_SVG = GetMinuteMode_AnimeDateList(DayTimeStr, Minute_Trans);
@@ -1009,10 +1027,10 @@ function TimeLine() {
 
                 //根据时间 初始化 基础svg
                 var SVG_Day = '<g class="tick_Year_One" transform="translate(' + Minute_Trans + ')" >'
-                    + '<rect class="DayRect Btn_MinuteRect" x="0.2" y="0" width="12.5" height="55" value="' + DayTimeStr + '">'
+                    + '<rect class="DayRect Btn_MinuteRect" x="0.2" y="0" width="2.5" height="55" value="' + DayTimeStr + '">'
                     + '<title>' + DayTimeStr + '</title>'
                     + '</rect>'
-                    + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'
+                        /*   + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'*/
                     + '</g>';
                 //SVG_Hour = SVG_Hour + Data_SVG + SVG_Day + TimeGar;
 
@@ -1020,23 +1038,23 @@ function TimeLine() {
                 if (self.AnimeMode) {
                     SVG_Hour = SVG_Hour + Trans_SVG;
                 }
-                if (Minute_Trans % (12.5 * 5) === 0) {
-                    if (Minute_Trans % (12.5 * 5 * 2) === 0) {
-                        SVG_Hour = SVG_Hour
-                            + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="20" y2="55" class="tick_10DayLine"'
-                            + ' ></line>';
-                    } else {
+                if (Minute_Trans % (2.5 * 5) === 0) {
+                    if (Minute_Trans % (2.5 * 5 * 2) === 0) {
                         SVG_Hour = SVG_Hour
                             + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="40" y2="55" class="tick_10DayLine"'
                             + ' ></line>';
+                    } else {
+                        /*       SVG_Hour = SVG_Hour
+                         + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="40" y2="55" class="tick_10DayLine"'
+                         + ' ></line>';*/
                     }
                 }
 
                 // 加5min
                 HourNow.setMinutes(HourNow.getMinutes() + 1);
             }
-            Month_Trans = 60 * 12.5 + Month_Trans;
-            var Width = 60 * 12.5;
+            Month_Trans = 60 * 2.5 + Month_Trans;
+            var Width = 60 * 2.5;
             var TimeHourShow = moment(CountDate).utc().format("YYYY-MM-DD HH:mm");
             if ((CountDate).getUTCHours() === 0) {
                 TimeHourShow = moment(CountDate).utc().format("YYYY-MM-DD");
@@ -1108,10 +1126,10 @@ function TimeLine() {
 
         //是否显示列表
 
-        var DataMomentBegin = moment.utc(Show_DayDate);
+        var DataMomentBegin = moment.utc(Show_DayDate, "YYYY-MM-DD HH:mm");
         var DataMomentEnd = moment.utc(Show_DayDate).add(1.0, 'minute');
         //查找是否存在数据
-        var IsDataShowList = CheckDataTimeExistStatus(DataMomentBegin, DataMomentEnd, DataMomentEnd - DataMomentBegin);
+        var IsDataShowList = CheckDataTimeExistStatus_Minute(DataMomentBegin, DataMomentEnd, DataMomentEnd - DataMomentBegin);
 
         //判定是否有数据条填充 若无填充 则返回空值
         var IS_ShowTag = false;
@@ -1132,15 +1150,15 @@ function TimeLine() {
                 if (Ishow) {
                     IS_ShowTag = true;
                     //若该图层显示 则为蓝色
-                    DateRect = '<rect class="Rect_Data_Show" x="-0.2" y="' + Rect_Y + '" width="12.7" height="' + rect_Height + '" ></rect>'
-                        + '<line x1="0" x2="12.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
-                        + '<line x1="0" x2="12.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                    DateRect = '<rect class="Rect_Data_Show" x="-0.2" y="' + Rect_Y + '" width="2.7" height="' + rect_Height + '" ></rect>'
+                        + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
+                        + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
                 } else {
                     IS_ShowTag = true;
                     //不显示则为灰色
-                    DateRect = '<rect class="Rect_Data_Hide" x="0" y="' + Rect_Y + '" width="12.5" height="' + rect_Height + '" ></rect>'
-                        + '<line x1="0" x2="12.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
-                        + '<line x1="0" x2="12.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                    DateRect = '<rect class="Rect_Data_Hide" x="0" y="' + Rect_Y + '" width="2.5" height="' + rect_Height + '" ></rect>'
+                        + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
+                        + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
                 }
             } else {
                 //若没有数据 则为空
@@ -1378,9 +1396,8 @@ function TimeLine() {
         var IsDataShowList = [];
         var DataMomentBegin = moment.utc(Show_DayDate);
         var DataMomentEnd = moment.utc(Show_DayDate).add(1.0, 'day');
-        var MinusCount = DataMomentEnd - DataMomentBegin;
         //查找是否存在数据
-        var DataList = CheckDataTimeExistStatus(DataMomentBegin, DataMomentEnd, MinusCount);
+        var DataList = CheckDataTimeExistStatus_Day(DataMomentBegin);
 
         //查找是否存在数据
         for (var k = 0; k < DataList.length; k++) {
@@ -1630,11 +1647,11 @@ function TimeLine() {
         //是否显示列表
         var IsDataShowList = [];
 
-        var DataMomentBegin = moment.utc(Show_YearDate);
-        var DataMomentEnd = moment.utc(Show_YearDate).add(1.0, 'year');
+        var DataMomentBegin = moment.utc(Show_YearDate, "YYYY");
+
 
         //查找是否存在数据
-        var DataList = CheckDataTimeExistStatus(DataMomentBegin, DataMomentEnd, 1000 * 60);
+        var DataList = CheckDataTimeExistStatus_Year(DataMomentBegin);
         //查找是否存在数据
         for (var k = 0; k < DataList.length; k++) {
             var is_ShowTag = false;
@@ -1891,7 +1908,7 @@ function TimeLine() {
         var DataMomentEnd = moment.utc(Show_MonthDate).add(1.0, 'month');
 
         //查找是否存在数据
-        var DataList = CheckDataTimeExistStatus(DataMomentBegin, DataMomentEnd, 1000 * 60);
+        var DataList = CheckDataTimeExistStatus_Month(DataMomentBegin);
         //查找是否存在数据
         for (var k = 0; k < DataList.length; k++) {
 
@@ -2078,11 +2095,16 @@ function TimeLine() {
         self.ShowMode = "Minute_Mode";
         //计算偏移量
         var ItemTime = self.DateShow - MinuteBegin_Date - 1000 * 60 * 60 * 2;
-        var m_Trans = ItemTime / 1000 / 60 * 12.5;
+        var m_Trans = ItemTime / 1000 / 60 * 2.5;
         //拖拽 分钟
         Minute_SVGMove(m_Trans);
     };
 
+
+    var m_LayerAllModeDataMinute = [];
+    var m_LayerAllModeDataYear = [];
+    var m_LayerAllModeDataMonth = [];
+    var m_LayerAllModeDataDay = [];
     /**
      * 添加数据函数
      * @param ADDDatas
@@ -2104,6 +2126,10 @@ function TimeLine() {
                     m_LayerDataList.push(m_LayerName);
                     m_LayerShowTypeList.push(m_Layeris_Show);
                     m_LayerAllModeData.push(m_ADDItem);
+                    m_LayerAllModeDataMinute.push(m_ADDItem.DataInfoMinute);
+                    m_LayerAllModeDataYear.push(m_ADDItem.DataInfoYear);
+                    m_LayerAllModeDataMonth.push(m_ADDItem.DataInfoMonth);
+                    m_LayerAllModeDataDay.push(m_ADDItem.DataInfoDay);
                     IndexNum = m_LayerDataList.length - 1;
                 }
             }
@@ -2114,6 +2140,14 @@ function TimeLine() {
         Day_SVGMove(0);
         Minute_SVGMove(0);
     };
+
+    function addDataLayer_Year(m_ADDItem) {
+        var DataJson = {
+            "layerName": "",
+            "LayerBeginTime": ""
+        };
+
+    }
 
     /**
      * 集成原有函数
@@ -2132,20 +2166,19 @@ function TimeLine() {
      */
     this.RemoveLayerDataByName = function (RemoveDataLayerName) {
         var IndexNum = m_LayerDataList.indexOf(RemoveDataLayerName);
-        //不更改顺序
+        //不更改顺序 从原始数据中删除 当前移除的数据
         if (IndexNum !== -1) {
             m_LayerDataList.splice(IndexNum, 1);
             m_LayerShowTypeList.splice(IndexNum, 1);
             m_LayerAllModeData.splice(IndexNum, 1);
+            m_LayerAllModeDataMinute.splice(IndexNum, 1);
+            m_LayerAllModeDataYear.splice(IndexNum, 1);
+            m_LayerAllModeDataMonth.splice(IndexNum, 1);
+            m_LayerAllModeDataDay.splice(IndexNum, 1);
         }
-        //删除名称匹配的总数据项目
-        /*     var m_NewDat = [];
-         for (var i = 0; i < m_LayerAllModeData.length; i++) {
-         if (m_LayerAllModeData[i].DataName !== RemoveDataLayerName) {
-         m_NewDat.push(m_LayerAllModeData[i]);
-         }
-         }
-         m_LayerAllModeData = m_NewDat;*/
+        //根据新的数据顺序 处理当前列表
+
+
         //根据当前移除
         switch (self.ShowMode) {
             case "Year_Mode":
@@ -2180,6 +2213,12 @@ function TimeLine() {
      */
     this.ReSetLayerList = function (m_NewDataList) {
         var m_LayerAllModeData_bak = m_LayerAllModeData;
+
+        m_LayerAllModeDataMinute = [];
+        m_LayerAllModeDataYear = [];
+        m_LayerAllModeDataMonth = [];
+        m_LayerAllModeDataDay = [];
+
         m_LayerDataList = [];
         m_LayerShowTypeList = [];
         m_LayerAllModeData = [];
@@ -2189,10 +2228,16 @@ function TimeLine() {
             m_LayerAllModeData_bak.forEach(function (dataItem) {
                 if (dataItem.DataName === m_NewDataList[i].DataName) {
                     m_LayerAllModeData.push(dataItem);
+                    m_LayerAllModeDataMinute.push(dataItem.DataInfoMinute);
+                    m_LayerAllModeDataYear.push(dataItem.DataInfoYear);
+                    m_LayerAllModeDataMonth.push(dataItem.DataInfoMonth);
+                    m_LayerAllModeDataDay.push(dataItem.DataInfoDay);
                 }
             });
+
+
         }
-        console.log('ReSetLayerList:' + m_LayerAllModeData.length);
+        //   console.log('ReSetLayerList:' + m_LayerAllModeData.length);
     };
 
 
@@ -2238,117 +2283,71 @@ function TimeLine() {
         var m_Length = m_LayerAllModeData.length;
         var m_MacthData = [];
         //根据输入条件获取当前json数据 只有一个
-        if (m_Length !== undefined && m_Length > 0) {
-            m_LayerAllModeData.forEach(function (m_dataitem) {
-                //根据名字进行 第一次筛选出符合条件的
-                if (m_dataitem.DataName === m_LayerName) {
-                    var m_dataType = "";
-                    var m_DateInfo = m_dataitem.DataInfo;
-                    //根据类型进行下一次筛选
-                    if (m_DateInfo.length > 0) {
-                        var Data_length = m_DateInfo[0].length;
-                        //根据 Data_length判断当前数据属于什么类型
 
-                        switch (Data_length) {
-                            case 3:
-                            case 4:
-                            {
-                                //年
-                                m_dataType = "year";
-                                break;
-                            }
-                            case 6:
-                            case 7:
-                            { //月"2016-12"   "2016-2"
-                                m_dataType = "month";
-                                break;
-                            }
-                            case 10:
-                            case 11:
-                            {
-                                //日 "2017-03-09"
-                                m_dataType = "day";
-                                break;
-                            }
-                            case 16:
-                            {
-                                //分 2017-02-10 06:10
-                                m_dataType = "minute";
-                                break;
-                            }
-                            default:
-                                break;
-                        }
-                        if (m_dataType === m_Selecttype) {
-                            m_MacthData = m_dataitem;
-                            //  break;
+        var BaseModel = [];
+
+
+        BaseModel = m_LayerAllModeDataMinute;
+
+
+        var isFind = false;
+        var DataID = m_LayerDataList.indexOf(m_LayerName);
+        if (DataID === -1) {
+            var m_returnList = [];
+            m_returnList.UrlList = [];
+            m_returnList._id = m_LayerName;
+            return m_returnList;
+        }
+        else {
+            var _DataList = BaseModel[DataID];
+            var m_BeginMoment = m_BeginTime;
+            var m_EndMoment = m_EndTime;
+
+            var m_TimeList = [];
+            // 数据不为空
+            if (_DataList !== []) {
+                if (_DataList.length !== undefined) {
+                    //对数据进行筛选
+                    for (var t = 0; t < _DataList.length; t++) {
+                        var m_itemTime = _DataList[t].TimeBegin;
+                        var m_timeMoment = moment.utc(m_itemTime, "YYYYMMDDhhmmss");
+                        if (m_timeMoment.isAfter(m_BeginMoment) && m_timeMoment.isBefore(m_EndMoment)) {
+                            m_TimeList.push(m_itemTime);
+                        } else if (m_timeMoment.isSame(m_BeginMoment) || m_timeMoment.isSame(m_EndMoment)) {
+                            m_TimeList.push(m_itemTime);
                         }
                     }
+                }
+            }
+            m_TimeList_BAK = [];
+            m_TimeList.forEach(function (timeStr) {
+                if (m_TimeList_BAK.indexOf(timeStr) === -1) {
+
+                    m_TimeList_BAK.push(timeStr);
                 }
             });
+            m_TimeList = m_TimeList_BAK;
 
+            //对URL进行转换
+            var m_UrlList = [];
+            for (var k = 0; k < m_TimeList.length; k++) {
+                // var m_returnItem = [];
+                var m_Time = m_TimeList[k];
+                var projectUrl = m_ImageUrl;
+                projectUrl = m_ImageUrl.replace("yyyyMMddHHmmss", m_Time);
+                /*   m_returnItem.LayerTimeUrl = projectUrl;
+                 m_returnItem.LayerTimeIndexZ = 550 + k;
+                 m_returnItem.LayerTimeName = m_LayerName + "_" + k;
+                 m_returnItem.LayerTime = m_Time;*/
+                m_UrlList.push(projectUrl);
+            }
+
+
+            var m_returnList = [];
+            m_returnList.UrlList = m_UrlList;
+            m_returnList._id = m_LayerName;
+            return m_returnList;
         }
-
-        /*var m_BeginMoment = moment.utc(m_BeginTime);
-
-         var m_EndMoment = moment.utc(m_EndTime);*/
-
-        var m_BeginMoment = m_BeginTime;
-
-        var m_EndMoment = m_EndTime;
-
-        var m_TimeList = [];
-        // 数据不为空
-        if (m_MacthData !== []) {
-            var m_allData = m_MacthData.DataInfo;
-            //若存在匹配数据
-            if (m_allData.length !== undefined) {
-                //对数据进行筛选
-                for (var t = 0; t < m_allData.length; t++) {
-                    var m_itemTime = m_allData[t];
-                    var m_timeMoment = moment.utc(m_itemTime);
-                    if (m_timeMoment.isAfter(m_BeginMoment) && m_timeMoment.isBefore(m_EndMoment)) {
-                        m_TimeList.push(m_timeMoment);
-                    } else if (m_timeMoment.isSame(m_BeginMoment) || m_timeMoment.isSame(m_EndMoment)) {
-                        m_TimeList.push(m_timeMoment);
-                    }
-                }
-            }
-        }
-
-        //对URL进行转换
-        var m_UrlList = [];
-        for (var k = 0; k < m_TimeList.length; k++) {
-            // var m_returnItem = [];
-            var m_Time = m_TimeList[k];
-            var projectUrl = m_ImageUrl;
-            if (projectUrl.indexOf('yyyy') > 0) {
-                projectUrl = projectUrl.replace('yyyy', m_Time.utc().format("YYYY"));
-            }
-            if (projectUrl.indexOf('MM') > 0) {
-                projectUrl = projectUrl.replace('MM', m_Time.utc().format("MM"));
-            }
-            if (projectUrl.indexOf('dd') > 0) {
-                projectUrl = projectUrl.replace('dd', m_Time.utc().format("DD"));
-            }
-            if (projectUrl.indexOf('hh') > 0) {
-                projectUrl = projectUrl.replace('hh', m_Time.utc().format("HH"));
-            }
-            if (projectUrl.indexOf('mm') > 0) {
-                projectUrl = projectUrl.replace('mm', m_Time.utc().format("mm"));
-            }
-            /*   m_returnItem.LayerTimeUrl = projectUrl;
-             m_returnItem.LayerTimeIndexZ = 550 + k;
-             m_returnItem.LayerTimeName = m_LayerName + "_" + k;
-             m_returnItem.LayerTime = m_Time;*/
-            m_UrlList.push(projectUrl);
-        }
-
-
-        var m_returnList = [];
-        m_returnList.UrlList = m_UrlList;
-        m_returnList._id = m_LayerName;
-        return m_returnList;
     };
 
     /**
@@ -2371,76 +2370,29 @@ function TimeLine() {
 
         try {
             //遍历选出当前符合条件的data
-            var m_Length = m_LayerAllModeData.length;
+            var baseModelList = m_LayerAllModeDataMinute;
             var m_MacthData = [];
-            //根据输入条件获取当前json数据 只有一个
-            if (m_Length !== undefined && m_Length > 0) {
-                m_LayerAllModeData.forEach(function (m_dataitem) {
-                    //根据名字进行 第一次筛选出符合条件的
-                    if (m_dataitem.DataName === m_LayerName) {
-                        var m_dataType = "";
-                        var m_DateInfo = m_dataitem.DataInfo;
-                        //根据类型进行下一次筛选
-                        if (m_DateInfo.length > 0) {
-                            var Data_length = m_DateInfo[0].length;
-                            //根据 Data_length判断当前数据属于什么类型
-                            switch (Data_length) {
-                                case 3:
-                                case 4:
-                                {
-                                    //年
-                                    m_dataType = "year";
-                                    break;
-                                }
-                                case 6:
-                                case 7:
-                                { //月"2016-12"   "2016-2"
-                                    m_dataType = "month";
-                                    break;
-                                }
-                                case 10:
-                                case 11:
-                                {
-                                    //日 "2017-03-09"
-                                    m_dataType = "day";
-                                    break;
-                                }
-                                case 16:
-                                {
-                                    //分 2017-02-10 06:10
-                                    m_dataType = "minute";
-                                    break;
-                                }
-                                default:
-                                    break;
-                            }
-                            if (m_dataType === m_Selecttype) {
-                                m_MacthData = m_dataitem;
-                                //  break;
-                            }
-                        }
-                    }
-                });
-
+            var DataID = m_LayerDataList.indexOf(m_LayerName);
+            if (DataID === -1) {
+                var m_returnList = [];
+                m_returnList.UrlList = [];
+                m_returnList._id = m_LayerName;
+                return m_returnList;
             }
-
+            var _baseModel = baseModelList[DataID];
             var m_LatestDate = "";
-            //从 m_MacthData 获取最新的数据
-            if (m_MacthData !== []) {
-                var m_allData = m_MacthData.DataInfo;
-                if (m_allData !== undefined) {
-                    var m_length = m_allData.length;
-                    m_LatestDate = m_allData[m_length - 1];
-                }
+            if (_baseModel.length > 0) {
+                m_LatestDate = _baseModel[_baseModel.length - 1];
             }
             if (m_LatestDate !== "") {
-                var m_LatestDate_moment = moment(m_LatestDate + "+00:00");
+                var m_LatestDate_moment = moment.utc(m_LatestDate, "YYYYMMDDHHmmss");
+                console.log("m_LatestDate:" + m_LatestDate.format("YYYYMMDDHHmmss"));
                 return m_LatestDate_moment.utc();
             } else {
-                return;
+                return moment.utc();
             }
         } catch (err) {
-            return;
+            return moment.utc();
         }
 
     };
@@ -2631,18 +2583,9 @@ function TimeLine() {
     //使用不区分模式 的 选择
     //每一种 产品作为一个 json 项目，不再区分 模式。
 
+    var CheckDataTimeExistStatus = function (BeginTime_moment, EndTimeStr_moment, TimeMode) {
 
-    var CheckDataTimeExistStatus = function (BeginTime_moment, EndTimeStr_moment, MinuteTimeBase) {
-        //
-        // MinuteTimeBase = 1000 * 60;
-        //MinuteTimeBase = MinuteTimeBase;
-        var TimeCompare_begin = BeginTime_moment;
-
-        var TimeCompare_end = EndTimeStr_moment;
-        //根据不用模式对 当前开始结束时间 进行比较、
-
-        //根据当前的 timeStr 对是否存在数据进行返回
-        var ShowModeWidth = 12.5;
+        var TimeCompare_begin = BeginTime_moment.format("YYYY-MM-DD HH:mm");
         //返回一个 n维数组
         var ExistReturn = [{
             "isExist": true,
@@ -2652,58 +2595,22 @@ function TimeLine() {
             "isEnd": ""
         }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
         ExistReturn = [];
+
         //处理JSON
         m_LayerAllModeData.forEach(function (DataJsonItem) {
             var ExistReturnItem = {
                 "layerName": DataJsonItem.DataName,
                 "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
-                "isExist": false,
-                "isShow": false,
-                "Width": 0,
-                "isAll": false,
-                "isBofore": false,
-                "isEnd": false
+                "isExist": false
             };
-            var DataInfo = DataJsonItem.DataInfo;
+            var DataInfo = DataJsonItem.DataInfoMinute;
             if (DataInfo && DataInfo.length > 0) {
                 //遍历每一个时段 对 当前时间段内的数据存在进行查找。
                 DataInfo.forEach(function (DataTimeItem) {
-                    var BeginTime = moment.utc(DataTimeItem.BeginTime);
-                    var EndTime = moment.utc(DataTimeItem.EndTime);
-                    //存在数据时间 完全包含 数据存在字段 |11|
-                    if (BeginTime - TimeCompare_begin >= 0 && TimeCompare_end - EndTime > 0) {
-                        ExistReturnItem.Width = BeginTime - EndTime / MinuteTimeBase * 12.5;
+                    if (TimeCompare_begin === DataTimeItem.TimeStr) {
                         ExistReturnItem.isExist = true;
-                        ExistReturnItem.Width = ShowModeWidth;
-                        ExistReturnItem.isAll = true;
                     }
-                    //当前时间 在范围内 1||1
-                    if (TimeCompare_begin - BeginTime >= 0 && EndTime - TimeCompare_end > 0) {
-                        ExistReturnItem.isExist = true;
-                        ExistReturnItem.Width = ShowModeWidth;
-                        ExistReturnItem.isAll = true;
-                    }
-                    //时间段 前半段 1|1|
-                    if (EndTime - TimeCompare_begin >= 0 && TimeCompare_end - EndTime > 0) {
-                        ExistReturnItem.isExist = true;
-                        var WitdhBefore = (EndTime - TimeCompare_begin) / MinuteTimeBase * 12.5;
-                        ExistReturnItem.Width = WitdhBefore;
-                        ExistReturnItem.isAll = false;
-                        ExistReturnItem.isBofore = true;
-                    }
-                    //时间段  后半段 |1|1
-                    if (BeginTime - TimeCompare_begin >= 0 && TimeCompare_end - BeginTime > 0) {
-                        ExistReturnItem.isExist = true;
-                        var WitdhAfter = (BeginTime - TimeCompare_end) / MinuteTimeBase * 12.5;
-                        ExistReturnItem.Width = WitdhAfter;
-                        ExistReturnItem.isAll = false;
-                        ExistReturnItem.isEnd = true;
-                    }
-
                 });
-            }
-            if (ExistReturnItem.isExist === true) {
-                // console.log(ExistReturnItem);
             }
             //设置查找
             ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
@@ -2712,6 +2619,148 @@ function TimeLine() {
 
         return ExistReturn;
     };
+
+    var CheckDataTimeExistStatus_Year = function (BeginTime_moment) {
+        var TimeCompare_begin = BeginTime_moment.format("YYYY");
+        //返回一个 n维数组
+        var ExistReturn = [{
+            "isExist": true,
+            "isShow": true,
+            "Width": "",
+            "isBofore": "",
+            "isEnd": ""
+        }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
+        ExistReturn = [];
+
+        //处理JSON
+        m_LayerAllModeData.forEach(function (DataJsonItem) {
+            var ExistReturnItem = {
+                "layerName": DataJsonItem.DataName,
+                "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
+                "isExist": false
+            };
+            var DataInfo = DataJsonItem.DataInfoYear;
+            if (DataInfo && DataInfo.length > 0) {
+                //遍历每一个时段 对 当前时间段内的数据存在进行查找。
+                DataInfo.forEach(function (DataTimeItem) {
+                    if (TimeCompare_begin === DataTimeItem.TimeStr) {
+                        ExistReturnItem.isExist = true;
+                    }
+                });
+            }
+            //设置查找
+            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturn.push(ExistReturnItem);
+        });
+
+        return ExistReturn;
+    };
+    var CheckDataTimeExistStatus_Month = function (BeginTime_moment) {
+        var TimeCompare_begin = BeginTime_moment.format("YYYY-MM");
+        //返回一个 n维数组
+        var ExistReturn = [{
+            "isExist": true,
+            "isShow": true,
+            "Width": "",
+            "isBofore": "",
+            "isEnd": ""
+        }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
+        ExistReturn = [];
+
+        //处理JSON
+        m_LayerAllModeData.forEach(function (DataJsonItem) {
+            var ExistReturnItem = {
+                "layerName": DataJsonItem.DataName,
+                "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
+                "isExist": false
+            };
+            var DataInfo = DataJsonItem.DataInfoMonth;
+            if (DataInfo && DataInfo.length > 0) {
+                //遍历每一个时段 对 当前时间段内的数据存在进行查找。
+                DataInfo.forEach(function (DataTimeItem) {
+                    if (TimeCompare_begin === DataTimeItem.TimeStr) {
+                        ExistReturnItem.isExist = true;
+                    }
+                });
+            }
+            //设置查找
+            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturn.push(ExistReturnItem);
+        });
+
+        return ExistReturn;
+    };
+    var CheckDataTimeExistStatus_Day = function (BeginTime_moment) {
+        var TimeCompare_begin = BeginTime_moment.format("YYYY-MM-DD");
+        //返回一个 n维数组
+        var ExistReturn = [{
+            "isExist": true,
+            "isShow": true,
+            "Width": "",
+            "isBofore": "",
+            "isEnd": ""
+        }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
+        ExistReturn = [];
+
+        //处理JSON
+        m_LayerAllModeData.forEach(function (DataJsonItem) {
+            var ExistReturnItem = {
+                "layerName": DataJsonItem.DataName,
+                "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
+                "isExist": false
+            };
+            var DataInfo = DataJsonItem.DataInfoDay;
+            if (DataInfo && DataInfo.length > 0) {
+                //遍历每一个时段 对 当前时间段内的数据存在进行查找。
+                DataInfo.forEach(function (DataTimeItem) {
+                    if (TimeCompare_begin === DataTimeItem.TimeStr) {
+                        ExistReturnItem.isExist = true;
+                    }
+                });
+            }
+            //设置查找
+            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturn.push(ExistReturnItem);
+        });
+
+        return ExistReturn;
+    };
+    var CheckDataTimeExistStatus_Minute = function (BeginTime_moment) {
+        var TimeCompare_begin = BeginTime_moment.format("YYYY-MM-DD HH:mm");
+        //返回一个 n维数组
+        var ExistReturn = [{
+            "isExist": true,
+            "isShow": true,
+            "Width": "",
+            "isBofore": "",
+            "isEnd": ""
+        }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
+        ExistReturn = [];
+
+        //处理JSON
+        m_LayerAllModeData.forEach(function (DataJsonItem) {
+            var ExistReturnItem = {
+                "layerName": DataJsonItem.DataName,
+                "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
+                "isExist": false
+            };
+            var DataInfo = DataJsonItem.DataInfoMinute;
+            if (DataInfo && DataInfo.length > 0) {
+                //遍历每一个时段 对 当前时间段内的数据存在进行查找。
+                DataInfo.forEach(function (DataTimeItem) {
+                    if (TimeCompare_begin === DataTimeItem.TimeStr) {
+                        ExistReturnItem.isExist = true;
+                    }
+                });
+            }
+            //设置查找
+            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturn.push(ExistReturnItem);
+        });
+
+        return ExistReturn;
+    };
+
 
     /**
      * 对外接口 获取当前数据时间段内的 开始时间 若无时间，则返回当前选择时间。
@@ -2726,39 +2775,67 @@ function TimeLine() {
      * @private
      */
     function _findDataExistList(layerName) {
+        //当前选择时间段
         var TimeSP = moment(this.DateShow).utc().format('YYYYMMDDHHmm') + "00";
-        var TimeStrReturn = TimeSP;
-        var isFindExist = false;
-        console.log('ReSetLayerList11111:' + m_LayerAllModeData.length);
-        //  console.log("m_LayerAllModeData.length:" + m_LayerAllModeData.length);
-        // console.log(m_LayerAllModeData.length);
-        m_LayerAllModeData.forEach(function (DataJsonItem) {
-            var DataName = DataJsonItem.DataName;
-
-            if (DataName.toString() === layerName.toString() && isFindExist === false) {
-                var DataInfoList = DataJsonItem.DataInfo;
-                //遍历每一个时间段
-                if (DataInfoList) {
-                    DataInfoList.forEach(function (DataTimeItem) {
-                        if (isFindExist === false) {
-                            var BeginTime = moment.utc(DataTimeItem.BeginTime);
-                            var EndTime = moment.utc(DataTimeItem.EndTime);
-                            var TimeSelect = moment.utc(TimeSP, "YYYYMMDDHHmmss");
-                            if (TimeSelect.isBetween(BeginTime, EndTime)
-                                || TimeSelect.isSame(BeginTime)
-                                || TimeSelect.isSame(EndTime)
-                            ) {
-                                isFindExist = true;
-                                TimeStrReturn = BeginTime.format('YYYYMMDDHHmmss');
-                            }
-                        }
-                    });
-
-                }
+        var TimeCompare = "";
+        var BaseModel = [];
+        switch (self.ShowMode) {
+            case "Year_Mode":
+            {
+                BaseModel = m_LayerAllModeDataYear;
+                TimeCompare = moment(this.DateShow).utc().format('YYYY');
+                break;
             }
-        });
-        var returnJson = {"isFindExist": isFindExist, "TimeStrReturn": TimeStrReturn};
-        return returnJson;
+            case "Month_Mode":
+            {
+                BaseModel = m_LayerAllModeDataMonth;
+                TimeCompare = moment(this.DateShow).utc().format('YYYY-MM');
+                break;
+            }
+            case "Day_Mode":
+            {
+                BaseModel = m_LayerAllModeDataDay;
+                TimeCompare = moment(this.DateShow).utc().format('YYYY-MM-DD');
+                break;
+            }
+            case "Minute_Mode":
+            {
+                BaseModel = m_LayerAllModeDataMinute;
+                TimeCompare = moment(this.DateShow).utc().format('YYYY-MM-DD HH:mm');
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+        var isFind = false;
+        var DataID = m_LayerDataList.indexOf(layerName);
+        /*   console.log(BaseModel);*/
+        BaseModel
+        /*console.log(m_LayerDataList);
+         console.log(layerName);
+         console.log("DataID" + DataID);*/
+        if (DataID === -1) {
+            return TimeSP;
+        }
+        else {
+
+
+            var _DataList = BaseModel[DataID];
+            if (_DataList) {
+                _DataList.forEach(function (DataItem) {
+
+                    if (DataItem.TimeStr.toString() === TimeCompare.toString() && isFind === false) {
+                        TimeSP = DataItem.TimeBegin;
+                        isFind = true;
+
+                    }
+                });
+            }
+            return TimeSP;
+        }
+
     }
 
 

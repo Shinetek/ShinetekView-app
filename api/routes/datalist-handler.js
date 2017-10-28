@@ -431,6 +431,7 @@ var concat = require('concat-stream');
             + " and ObserveType ='" + req.params.ObserveType
             + "' and IsExitFlag = 1 order by CreatTime desc"
             + " limit 1000";
+        console.log(_SQL);
 
         var client = mysql.createConnection({
             "host": config.MYSQL.host,
@@ -448,7 +449,7 @@ var concat = require('concat-stream');
                     var DataList = results;
                     var DataListRteturn = [];
                     var FYA_Handler = require("../modules/fy4_datainfo_module.js");
-                    DataListRteturn=   FYA_Handler.getDataInfo(DataList);
+                    DataListRteturn = FYA_Handler.getDataInfo(DataList);
                     /*  if (DataList && DataList.length > 0) {
                      DataList.forEach(function (DataItem) {
                      var DemoReturn = {};

@@ -63,8 +63,11 @@
     cursor: pointer;
 }
 
-.BeforeDiv:hover {
+/*.BeforeDiv:hover {
     border: 0.5px solid #7f7f7f;
+}*/
+.BeforeDiv:hover > svg > path {
+    fill: #7f7f7f;
 }
 
 /*后一个时次*/
@@ -77,8 +80,8 @@
     cursor: pointer;
 }
 
-.AfterDiv:hover {
-    border: 0.5px solid #7f7f7f;
+.AfterDiv:hover > svg > path {
+    fill: #7f7f7f;
 }
 
 /*向上按钮*/
@@ -87,7 +90,7 @@
     height: 25px;
     width: 98px;
     border: 0px;
-    margin-top: 5px;
+    margin-top: 5.5px;
     margin-bottom: 4px;
     cursor: pointer;
 }
@@ -101,10 +104,16 @@
 }
 
 /*向上按钮*/
-.UpButton:hover {
+/*.UpButton:hover {
     height: 23px;
     border: 0.5px solid #7f7f7f;
-    /*  border-bottom: 12px solid #7f7f7f;*/
+    padding: -0.5px;
+    !*  border-bottom: 12px solid #7f7f7f;*!
+}*/
+
+/*向上按钮*/
+.UpButton:hover > svg > path {
+    fill: #7f7f7f;
 }
 
 /*向下按钮*/
@@ -113,8 +122,8 @@
     height: 25px;
     width: 98px;
     border: 0px;
-    margin-top: 5px;
-    margin-bottom: 4px;
+    margin-top: 4px;
+    margin-bottom: 5.5px;
     cursor: pointer;
 }
 
@@ -126,10 +135,14 @@
     cursor: not-allowed;
 }
 
-.DownButton:hover {
+/*.DownButton:hover {
     height: 24px;
     border: 0.5px solid #7f7f7f;
-    /* border-top: 12px solid #7f7f7f;*/
+    !* border-top: 12px solid #7f7f7f;*!
+}*/
+
+.DownButton:hover > svg > path {
+    fill: #7f7f7f;
 }
 
 /*日期 输入框*/
@@ -275,7 +288,7 @@
     border-left: 0px;
     border-right: 0px;
     border-style: solid;
-    border-color: #7f7f7f;
+    border-color: #242424;
     background: #242424;
     width: inherit;
     overflow: hidden;
@@ -356,7 +369,6 @@
 .ShowHidebtnDiv:hover {
     height: 98px;
     background-color: #242424;
-
     border: 1px solid #7f7f7f;
 }
 
