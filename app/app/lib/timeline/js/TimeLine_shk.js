@@ -2245,9 +2245,31 @@ function TimeLine() {
                 }
             });
         }
-        Minute_SVGMove(0);
-        // RefreshTimeShow();
-        //console.log('ReSetLayerList:' + m_LayerAllModeData.length);
+        //根据当前移除
+        switch (self.ShowMode) {
+            case "Year_Mode":
+            {
+                Year_SVGMove(0);
+                break;
+            }
+            case "Month_Mode":
+            {
+                Month_SvgMove(0);
+                break;
+            }
+            case "Day_Mode":
+            {
+                Day_SVGMove(0);
+                break;
+            }
+            case "Minute_Mode":
+            {
+                Minute_SVGMove(0);
+                break;
+            }
+            default:
+                break;
+        }
     };
 
 

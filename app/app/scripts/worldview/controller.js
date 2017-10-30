@@ -492,7 +492,7 @@
                 // var _id = tmpList._id;
                 ShinetekView.SatelliteView.setZIndex(tmpList[i]._id, layadd);
             }
-
+            _ResetDatOrder();
 
         }
 
@@ -1030,7 +1030,7 @@
                     //根据列表反向查找， 再次添加
                     // console.log('m_timeLineList');
                     timeLine.AddMinuteData(m_timeLineList);
-                    // _ResetDatOrder();
+                    _ResetDatOrder();
                     var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
                     var timeSelectStr = timeFindJson;
                     //    console.log("isFindExist:" + timeFindJson.isFindExist);
@@ -1654,7 +1654,7 @@
          * @private
          */
         function _FindTimeBegin(dataInfoList, dataStr) {
-        //    console.log('_FindTimeBegin');
+            //    console.log('_FindTimeBegin');
             var dataStrNew = dataStr.format('YYYYMMDDHHmmss');
             var isFind = false;
             if (dataInfoList.length > 0) {
@@ -1667,12 +1667,12 @@
                         if (timeSelect.isBetween(beginTimem, endTimem)) {
                             dataStrNew = beginTimem.format('YYYYMMDDHHmm') + "00";
                             isFind = true;
-                         //   console.log("Find Begin!");
+                            //   console.log("Find Begin!");
                         }
                     }
                 });
             }
-         //   console.log("dataStrNew:" + dataStrNew);
+            //   console.log("dataStrNew:" + dataStrNew);
             return dataStrNew;
 
         }
