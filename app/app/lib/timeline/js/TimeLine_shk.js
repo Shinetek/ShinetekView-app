@@ -2122,10 +2122,14 @@ function TimeLine() {
      */
     this.ADDLayerData = function (ADDDatas) {
         var LengthAddCount = ADDDatas.length;
+        var isADD = false;
         //对于每一个添加的变量
         if (LengthAddCount) {
+
             for (var i = 0; i < LengthAddCount; i++) {
+
                 var m_ADDItem = ADDDatas[i];
+                console.log("Add!:" + m_ADDItem.DataName);
                 //添加 数据图层名称
                 var m_LayerName = m_ADDItem.DataName;
                 //添加数据图层 存在状态
@@ -2141,14 +2145,14 @@ function TimeLine() {
                     m_LayerAllModeDataMonth.push(m_ADDItem.DataInfoMonth);
                     m_LayerAllModeDataDay.push(m_ADDItem.DataInfoDay);
                     IndexNum = m_LayerDataList.length - 1;
+                    isADD = true;
                 }
             }
         }
-        m_LayerExistLayer = [];
-        Year_SVGMove(0);
-        Month_SvgMove(0);
-        Day_SVGMove(0);
-        Minute_SVGMove(0);
+        if (isADD) {
+            m_LayerExistLayer = [];
+            _dragOnly();
+        }
     };
 
     function addDataLayer_Year(m_ADDItem) {
@@ -2165,6 +2169,7 @@ function TimeLine() {
      */
     this.AddYearData = this.AddMonthData = this.AddDayData = this.AddMinuteData = function (m_InsertData) {
         //调用最新的重构函数
+
         this.ADDLayerData(m_InsertData);
     };
 
@@ -2185,34 +2190,34 @@ function TimeLine() {
             m_LayerAllModeDataYear.splice(IndexNum, 1);
             m_LayerAllModeDataMonth.splice(IndexNum, 1);
             m_LayerAllModeDataDay.splice(IndexNum, 1);
-        }
-        //根据新的数据顺序 处理当前列表
 
+            //根据新的数据顺序 处理当前列表
 
-        //根据当前移除
-        switch (self.ShowMode) {
-            case "Year_Mode":
-            {
-                Year_SVGMove(0);
-                break;
+            //根据当前移除
+            switch (self.ShowMode) {
+                case "Year_Mode":
+                {
+                    Year_SVGMove(0);
+                    break;
+                }
+                case "Month_Mode":
+                {
+                    Month_SvgMove(0);
+                    break;
+                }
+                case "Day_Mode":
+                {
+                    Day_SVGMove(0);
+                    break;
+                }
+                case "Minute_Mode":
+                {
+                    Minute_SVGMove(0);
+                    break;
+                }
+                default:
+                    break;
             }
-            case "Month_Mode":
-            {
-                Month_SvgMove(0);
-                break;
-            }
-            case "Day_Mode":
-            {
-                Day_SVGMove(0);
-                break;
-            }
-            case "Minute_Mode":
-            {
-                Minute_SVGMove(0);
-                break;
-            }
-            default:
-                break;
         }
     };
 
@@ -2272,6 +2277,32 @@ function TimeLine() {
         }
     };
 
+    function _dragOnly() {
+        switch (self.ShowMode) {
+            case "Year_Mode":
+            {
+                Year_SVGMove(0);
+                break;
+            }
+            case "Month_Mode":
+            {
+                Month_SvgMove(0);
+                break;
+            }
+            case "Day_Mode":
+            {
+                Day_SVGMove(0);
+                break;
+            }
+            case "Minute_Mode":
+            {
+                Minute_SVGMove(0);
+                break;
+            }
+            default:
+                break;
+        }
+    }
 
     /**
      * 获取图层列表
@@ -2322,7 +2353,6 @@ function TimeLine() {
         BaseModel = m_LayerAllModeDataMinute;
 
 
-        var isFind = false;
         var DataID = m_LayerDataList.indexOf(m_LayerName);
         if (DataID === -1) {
             var m_returnList = [];

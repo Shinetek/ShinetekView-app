@@ -512,8 +512,8 @@
             });
 
             for (var i = 0; i < tmpList.length; i++) {
-                _removeLayFromWMS(tmpList[i]);
-                _addLayToWMS(tmpList[i]);
+                _removeLayFromWMS_OnlyShow(tmpList[i]);
+                _addLayToWMS_OnlyChange(tmpList[i]);
             }
 
             /* for (var i = 0; i < tmpList.length; i++) {
@@ -1030,7 +1030,7 @@
                 //如果数据存在列表中已有此layModule的对象 则不在重新获取数据
                 _getDataExistList(layModule, function (m_timeLineList) {
                     //根据列表反向查找， 再次添加
-                    // console.log('m_timeLineList');
+                    console.log('m_timeLineList get!');
                     timeLine.AddMinuteData(m_timeLineList);
                     _ResetDatOrder();
                     var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
@@ -1061,6 +1061,28 @@
                         palette.init_palette(paletteDivID, paletteModule);
                     }
                 });
+            }
+        }
+
+        function _addLayToWMS_OnlyChange(layModule) {
+            if (layModule.layType === "OVERLAYERS") {
+                // var m_id=layModule._id
+                ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, layModule.projectUrl, "false", layModule.mapType);
+                /*var layadd = 3000;
+                //  console.log("getZIndex: %s", ShinetekView.SatelliteView.getZIndex(layModule._id));
+                if (ShinetekView.SatelliteView.getZIndex(layModule._id)) {
+                    layadd = ShinetekView.SatelliteView.getZIndex(layModule._id) + 3000;
+                }
+                ShinetekView.SatelliteView.setZIndex(layModule._id, layadd);*/
+
+            }
+            if (layModule.layType !== "OVERLAYERS") {
+                var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
+                var timeSelectStr = timeFindJson;
+                //    console.log("isFindExist:" + timeFindJson.isFindExist);
+                var projectUrl = layModule.projectUrl;
+                projectUrl = projectUrl.replace('yyyyMMddHHmmss', timeSelectStr);
+                ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
             }
         }
 
@@ -1095,6 +1117,16 @@
                 _removeDataExistList(layModule);
             }
         }
+
+        /**
+         * 只移除显示部分
+         * @param layModule
+         * @private
+         */
+        function _removeLayFromWMS_OnlyShow(layModule) {
+            ShinetekView.SatelliteView.removeLayer(layModule._id, layModule.mapType);
+        }
+
 
         /**
          * 根据传入的图层 控制其显示与隐藏
@@ -1187,10 +1219,13 @@
         }
 
         function _getDataExistList(layModule, next) {
-            console.log("_getDataExistList");
+            // console.log("_getDataExistList");
             if (layModule.dataListUrl === '') {
+
                 return;
             }
+            //   console.log("_getDataExistList:" + layModule.projectName + layModule._id);
+            var isFind = false;
             var m_timeLineListMinutes = [];
             for (var i = 0; i < timeLineListDataAll.length; i++) {
                 if (timeLineListDataAll[i].DataName === layModule.projectName + layModule._id &&
@@ -1198,45 +1233,47 @@
                     timeLineListDataAll[i].DataInfoMonth.length > 0 ||
                     timeLineListDataAll[i].DataInfoDay.length > 0 ||
                     timeLineListDataAll[i].DataInfoMinute.length > 0)) {
-                    console.log("find it!");
+
+                    isFind = true;
                     m_timeLineListMinutes.push(timeLineListDataAll[i]);
 
                     return next(m_timeLineListMinutes);
                     //    break;
                 }
             }
-
-            WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
-                if (data) {
-                    //分钟数据
+            if (!isFind) {
+                WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
+                    if (data) {
+                        //分钟数据
+                        var timeLineObj_Min = {
+                            DataName: layModule.projectName + layModule._id,
+                            DataInfoYear: data.DataInfoYear,
+                            DataInfoMonth: data.DataInfoMonth,
+                            DataInfoDay: data.DataInfoDay,
+                            DataInfoMinute: data.DataInfoMinute,
+                            Layeris_Show: true
+                        };
+                        m_timeLineListMinutes.push(timeLineObj_Min);
+                        timeLineListDataAll.push(timeLineObj_Min);
+                        next(m_timeLineListMinutes);
+                    }
+                }, function (data) {
+                    var m_timeLineListMinutes = [];
+                    //失败也需要使用名称进行占位
+                    //整体数据
                     var timeLineObj_Min = {
                         DataName: layModule.projectName + layModule._id,
-                        DataInfoYear: data.DataInfoYear,
-                        DataInfoMonth: data.DataInfoMonth,
-                        DataInfoDay: data.DataInfoDay,
-                        DataInfoMinute: data.DataInfoMinute,
+                        DataInfoYear: [],
+                        DataInfoMonth: [],
+                        DataInfoDay: [],
+                        DataInfoMinute: [],
                         Layeris_Show: true
                     };
                     m_timeLineListMinutes.push(timeLineObj_Min);
                     timeLineListDataAll.push(timeLineObj_Min);
                     next(m_timeLineListMinutes);
-                }
-            }, function (data) {
-                var m_timeLineListMinutes = [];
-                //失败也需要使用名称进行占位
-                //整体数据
-                var timeLineObj_Min = {
-                    DataName: layModule.projectName + layModule._id,
-                    DataInfoYear: [],
-                    DataInfoMonth: [],
-                    DataInfoDay: [],
-                    DataInfoMinute: [],
-                    Layeris_Show: true
-                };
-                m_timeLineListMinutes.push(timeLineObj_Min);
-                timeLineListDataAll.push(timeLineObj_Min);
-                next(m_timeLineListMinutes);
-            });
+                });
+            }
         }
 
         /**
@@ -1248,6 +1285,7 @@
             //移除函数
             timeLine.RemoveLayerDataByName(layModule.projectName + layModule._id);
         }
+
 
         /**
          * 根据传入的图层列表 初始化map控件
@@ -1321,6 +1359,8 @@
             var m_baseLays = $cookies.getObject('baseLays');
             var m_overLays = $cookies.getObject('overLays');
             //若Cookies m_baseLays 不为空 加入列表 并加入界面显示
+
+
             if (m_baseLays) {
                 //遍历添加数据
                 m_baseLays.forEach(function (lay) {
@@ -1369,6 +1409,8 @@
                     }
                 });
             });
+
+            //   _reloadLayers();
         }
 
         /**
@@ -1468,7 +1510,7 @@
             //对定时器赋值
             self.anime_timer = setInterval(function () {
                     //若下一个图层加载成功，则进行添加和移除
-                    //console.log(ShinetekView.SatelliteView.oGetStatus());
+
                     // if (ShinetekView.SatelliteView.oGetStatus()) {
                     if (ShinetekView.SatelliteView.oGetStatus()) {
                         self.isWaitingShow = false;
@@ -1523,7 +1565,7 @@
                         //判断添加值域
                         if (add_layer_num < m_NumMax) {
                             //设置当前图层状态为显示模式
-                            console.log("add:" + m_DataAll[add_layer_num].LayerTimeUrl);
+                            //     console.log("add:" + m_DataAll[add_layer_num].LayerTimeUrl);
                             ShinetekView.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
                             ShinetekView.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
                             add_layer_num++;
@@ -1669,8 +1711,7 @@
          * @returns {*}
          * @private
          */
-        function _FindTimeBegin(dataInfoList, dataStr) {
-            //    console.log('_FindTimeBegin');
+        function _findTimeBegin(dataInfoList, dataStr) {
             var dataStrNew = dataStr.format('YYYYMMDDHHmmss');
             var isFind = false;
             if (dataInfoList.length > 0) {
@@ -1683,12 +1724,10 @@
                         if (timeSelect.isBetween(beginTimem, endTimem)) {
                             dataStrNew = beginTimem.format('YYYYMMDDHHmm') + "00";
                             isFind = true;
-                            //   console.log("Find Begin!");
                         }
                     }
                 });
             }
-            //   console.log("dataStrNew:" + dataStrNew);
             return dataStrNew;
 
         }

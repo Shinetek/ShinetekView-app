@@ -29,7 +29,6 @@
                 IsFlag = 1;
             }
             while (BeginMoment.isBefore(EndMoment)) {
-
                 var timeYear = BeginMoment.format("YYYY");
                 var timeMonth = BeginMoment.format("YYYY-MM");
                 var timeDay = BeginMoment.format("YYYY-MM-DD");
@@ -42,11 +41,8 @@
                 dataList_Month.push(MonthJson);
                 dataList_Day.push(DayJson);
                 dataList_Min.push(MinuteJson);
-
                 BeginMoment = BeginMoment.add(1.0, 'minute');
             }
-
-
         }
         dataList_Year = _.uniqBy(dataList_Year, "TimeStr");
         dataList_Month = _.uniqBy(dataList_Month, "TimeStr");
