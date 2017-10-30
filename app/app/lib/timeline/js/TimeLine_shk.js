@@ -1145,14 +1145,24 @@ function TimeLine() {
             if (IsDataShowList[i].isExist === true) {
                 //获取当前图层是否显示信息
                 var Ishow = IsDataShowList[i].isShow;
+                var ColorFlag = IsDataShowList[i].ColorFlag;
                 var RectLineEnd = Rect_Y + rect_Height - 0.4;
                 //根据显示情况
                 if (Ishow) {
                     IS_ShowTag = true;
-                    //若该图层显示 则为蓝色
-                    DateRect = '<rect class="Rect_Data_Show" x="-0.2" y="' + Rect_Y + '" width="2.7" height="' + rect_Height + '" ></rect>'
-                        + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
-                        + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                    if (ColorFlag == 1) {
+                        //若该图层显示 则为蓝色
+                        DateRect = '<rect class="Rect_Data_Show" x="-0.2" y="' + Rect_Y + '" width="2.7" height="' + rect_Height + '" ></rect>'
+                            + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
+                            + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                    }
+                    else {
+                        DateRect = '<rect class="Rect_Data_Show_1" x="-0.2" y="' + Rect_Y + '" width="2.7" height="' + rect_Height + '" ></rect>'
+                            + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>'
+                            + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+
+                    }
+
                 } else {
                     IS_ShowTag = true;
                     //不显示则为灰色
@@ -2234,10 +2244,10 @@ function TimeLine() {
                     m_LayerAllModeDataDay.push(dataItem.DataInfoDay);
                 }
             });
-
-
         }
-        //   console.log('ReSetLayerList:' + m_LayerAllModeData.length);
+        Minute_SVGMove(0);
+        // RefreshTimeShow();
+        //console.log('ReSetLayerList:' + m_LayerAllModeData.length);
     };
 
 
@@ -2750,6 +2760,7 @@ function TimeLine() {
                 DataInfo.forEach(function (DataTimeItem) {
                     if (TimeCompare_begin === DataTimeItem.TimeStr) {
                         ExistReturnItem.isExist = true;
+                        ExistReturnItem.ColorFlag = DataTimeItem.IsFlag;
                     }
                 });
             }
@@ -2820,8 +2831,6 @@ function TimeLine() {
             return TimeSP;
         }
         else {
-
-
             var _DataList = BaseModel[DataID];
             if (_DataList) {
                 _DataList.forEach(function (DataItem) {
@@ -2829,7 +2838,6 @@ function TimeLine() {
                     if (DataItem.TimeStr.toString() === TimeCompare.toString() && isFind === false) {
                         TimeSP = DataItem.TimeBegin;
                         isFind = true;
-
                     }
                 });
             }

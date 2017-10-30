@@ -443,6 +443,17 @@
     border-bottom: 1px;
 }
 
+/*蓝色显示部分*/
+.Rect_Data_Show_1 {
+    fill: #0b69cc;
+    border-style: solid;
+    border-color: #000000;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 1px;
+    border-bottom: 1px;
+}
+
 /*灰色隐藏部分*/
 .Rect_Data_Hide {
     fill: #555555;
