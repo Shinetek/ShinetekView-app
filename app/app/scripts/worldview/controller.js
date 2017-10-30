@@ -1026,6 +1026,7 @@
             //只对base的数据进行排序
             if (layModule.layType !== "OVERLAYERS") {
                 //获取数据存在列表
+                //如果数据存在列表中已有此layModule的对象 则不在重新获取数据
                 _getDataExistList(layModule, function (m_timeLineList) {
                     //根据列表反向查找， 再次添加
                     // console.log('m_timeLineList');
@@ -1189,8 +1190,19 @@
             if (layModule.dataListUrl === '') {
                 return;
             }
+            var m_timeLineListMinutes = [];
+            for (var i = 0; i < timeLineListDataAll.length; i++) {
+                if (timeLineListDataAll[i].DataName === layModule.projectName + layModule._id &&
+                     (timeLineListDataAll[i].DataInfoYear.length > 0 || 
+                        timeLineListDataAll[i].DataInfoMonth.length > 0 ||
+                        timeLineListDataAll[i].DataInfoDay.length > 0 ||
+                        timeLineListDataAll[i].DataInfoMinute.length > 0)) {
+                            m_timeLineListMinutes.push(timeLineListDataAll[i]);
+                            next(m_timeLineListMinutes);
+                     }
+            }
+
             WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
-                var m_timeLineListMinutes = [];
                 if (data) {
                     //分钟数据
                     var timeLineObj_Min = {
