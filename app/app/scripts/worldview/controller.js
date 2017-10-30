@@ -134,7 +134,7 @@
         //时间轴控件发生日期改变时 重新加载所有图层
         timeLineElm.on("DateTimeChange", function (event, selectDate) {
             //  _refreshLayers();
-            console.log("on  DateTimeChange");
+            //   console.log("on  DateTimeChange");
             _reloadLayers();
         });
 
@@ -980,7 +980,7 @@
          * @private
          */
         function _addLayToWMS(layModule) {
-
+            console.log('_addLayToWMS');
             /*  //var timeSelect = moment(timeLine.GetShowDate()).utc();
              var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
              var timeSelectStr = timeFindJson;
@@ -1069,11 +1069,11 @@
                 // var m_id=layModule._id
                 ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, layModule.projectUrl, "false", layModule.mapType);
                 /*var layadd = 3000;
-                //  console.log("getZIndex: %s", ShinetekView.SatelliteView.getZIndex(layModule._id));
-                if (ShinetekView.SatelliteView.getZIndex(layModule._id)) {
-                    layadd = ShinetekView.SatelliteView.getZIndex(layModule._id) + 3000;
-                }
-                ShinetekView.SatelliteView.setZIndex(layModule._id, layadd);*/
+                 //  console.log("getZIndex: %s", ShinetekView.SatelliteView.getZIndex(layModule._id));
+                 if (ShinetekView.SatelliteView.getZIndex(layModule._id)) {
+                 layadd = ShinetekView.SatelliteView.getZIndex(layModule._id) + 3000;
+                 }
+                 ShinetekView.SatelliteView.setZIndex(layModule._id, layadd);*/
 
             }
             if (layModule.layType !== "OVERLAYERS") {
@@ -1360,7 +1360,7 @@
             var m_overLays = $cookies.getObject('overLays');
             //若Cookies m_baseLays 不为空 加入列表 并加入界面显示
 
-
+            console.log(m_baseLays);
             if (m_baseLays) {
                 //遍历添加数据
                 m_baseLays.forEach(function (lay) {
