@@ -134,6 +134,7 @@
         //时间轴控件发生日期改变时 重新加载所有图层
         timeLineElm.on("DateTimeChange", function (event, selectDate) {
             //  _refreshLayers();
+            console.log("on  DateTimeChange");
             _reloadLayers();
         });
 
@@ -1186,20 +1187,23 @@
         }
 
         function _getDataExistList(layModule, next) {
-
+            console.log("_getDataExistList");
             if (layModule.dataListUrl === '') {
                 return;
             }
             var m_timeLineListMinutes = [];
             for (var i = 0; i < timeLineListDataAll.length; i++) {
                 if (timeLineListDataAll[i].DataName === layModule.projectName + layModule._id &&
-                     (timeLineListDataAll[i].DataInfoYear.length > 0 || 
-                        timeLineListDataAll[i].DataInfoMonth.length > 0 ||
-                        timeLineListDataAll[i].DataInfoDay.length > 0 ||
-                        timeLineListDataAll[i].DataInfoMinute.length > 0)) {
-                            m_timeLineListMinutes.push(timeLineListDataAll[i]);
-                            next(m_timeLineListMinutes);
-                     }
+                    (timeLineListDataAll[i].DataInfoYear.length > 0 ||
+                    timeLineListDataAll[i].DataInfoMonth.length > 0 ||
+                    timeLineListDataAll[i].DataInfoDay.length > 0 ||
+                    timeLineListDataAll[i].DataInfoMinute.length > 0)) {
+                    console.log("find it!");
+                    m_timeLineListMinutes.push(timeLineListDataAll[i]);
+
+                    return next(m_timeLineListMinutes);
+                    //    break;
+                }
             }
 
             WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
