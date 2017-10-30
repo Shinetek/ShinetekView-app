@@ -24,16 +24,20 @@
             var BeginMoment = moment.utc(TimeBegin, "YYYYMMDDHHmmss");
             var EndMoment = moment.utc(TimeEnd, "YYYYMMDDHHmmss");
             var BeginTimeStr = TimeBegin;
+            var IsFlag = 0;
+            if (i % 2 === 1) {
+                IsFlag = 1;
+            }
             while (BeginMoment.isBefore(EndMoment)) {
 
                 var timeYear = BeginMoment.format("YYYY");
                 var timeMonth = BeginMoment.format("YYYY-MM");
                 var timeDay = BeginMoment.format("YYYY-MM-DD");
                 var timeMinute = BeginMoment.format("YYYY-MM-DD HH:mm");
-                var YearJson = {TimeStr: timeYear, TimeBegin: BeginTimeStr};
-                var MonthJson = {TimeStr: timeMonth, TimeBegin: BeginTimeStr};
-                var DayJson = {TimeStr: timeDay, TimeBegin: BeginTimeStr};
-                var MinuteJson = {TimeStr: timeMinute, TimeBegin: BeginTimeStr};
+                var YearJson = {TimeStr: timeYear, TimeBegin: BeginTimeStr, IsFlag: IsFlag};
+                var MonthJson = {TimeStr: timeMonth, TimeBegin: BeginTimeStr, IsFlag: IsFlag};
+                var DayJson = {TimeStr: timeDay, TimeBegin: BeginTimeStr, IsFlag: IsFlag};
+                var MinuteJson = {TimeStr: timeMinute, TimeBegin: BeginTimeStr, IsFlag: IsFlag};
                 dataList_Year.push(YearJson);
                 dataList_Month.push(MonthJson);
                 dataList_Day.push(DayJson);

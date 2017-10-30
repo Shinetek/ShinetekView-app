@@ -51,6 +51,12 @@ var concat = require('concat-stream');
             "verison": '0.0.1'
         }, _getDataListByFY4A);
 
+        //日合成产品数据获取 以天为基准 向上向下兼容
+        server.get({
+            "path": BASEPATH + '/datalistfy4a/:SatID/:InstID/:ProdName/:Resolution',
+            "verison": '0.0.1'
+        }, _getDataListByFY4A_all);
+
         //从本地文件中获取！POS极轨卫星
         server.get({
             "path": BASEPATH + '/datalist/POSFile/:FTPFileName',
@@ -483,6 +489,80 @@ var concat = require('concat-stream');
 
     }
 
+
+    function _getDataListByFY4A_all(req, res, next) {
+        //从数据库中获取 FY4A版本 的 全状态数据 。
+        if (_.isUndefined(req.params.SatID)
+            || _.isUndefined(req.params.InstID)
+            || _.isUndefined(req.params.ProdName)
+            || _.isUndefined(req.params.Resolution)
+        ) {
+            res.end("请确认参数如下格式：/datalist/:SatID/:InstID/:ProdName/:ObserveType/:Resolution"
+                + "1SatID:" + req.params.SatID
+                + "2InstID:" + req.params.InstID
+                + "3ProdName:" + req.params.ProdName
+                + "5Resolution:" + req.params.Resolution);
+            next();
+        }
+        //获取Select 语句
+        var _SQL = " SELECT  * FROM ProductInfo  " +
+            " where  SatID ='" + req.params.SatID
+            + "' and InstrumentName ='" + req.params.InstID
+            + "' and ProductName ='" + req.params.ProdName
+            + "' and Resolution =" + req.params.Resolution
+            + " and IsExitFlag = 1 order by CreatTime desc"
+            + " limit 1000";
+        console.log(_SQL);
+
+        var client = mysql.createConnection({
+            "host": config.MYSQL.host,
+            "user": config.MYSQL.user,
+            "password": config.MYSQL.password,
+            "database": config.MYSQL.database
+        });
+        client.connect();
+        client.query(_SQL, function selectCb(err, results) {
+                if (err) {
+                    res.end(JSON.stringify(err));
+                    next();
+                }
+                if (results) {
+                    var DataList = results;
+                    var DataListRteturn = [];
+                    var FYA_Handler = require("../modules/fy4_datainfo_module.js");
+                    DataListRteturn = FYA_Handler.getDataInfo(DataList);
+                    /*  if (DataList && DataList.length > 0) {
+                     DataList.forEach(function (DataItem) {
+                     var DemoReturn = {};
+                     if (DataItem.StartTime && DataItem.EndTime) {
+                     var DataBeginTime = DataItem.StartTime.toString();
+                     var DataEndTime = DataItem.EndTime.toString();
+                     //格式转化
+                     var DataBeginTimem = moment.utc(DataBeginTime, "YYYYMMDDHHmmss");
+                     var DataEndTimem = moment.utc(DataEndTime, "YYYYMMDDHHmmss");
+                     DemoReturn.BeginTime = DataBeginTimem.format("YYYY-MM-DD HH:mm:ss");
+                     DemoReturn.EndTime = DataEndTimem.format("YYYY-MM-DD HH:mm:ss");
+                     //对年月日时分秒 进行 判定
+                     if (DemoReturn.BeginTime !== 'Invalid date' && DemoReturn.EndTime !== 'Invalid date') {
+                     //加入处理
+                     DataListRteturn.push(DemoReturn);
+                     }
+                     }
+                     });
+                     }*/
+                    res.end(JSON.stringify(DataListRteturn));
+                    next();
+                }
+                client.end();
+            }
+        );
+        client.on('error', function (err) {
+            if (err) {
+                client.end();
+            }
+        });
+
+    }
 
     /**
      * 获取数据字段 根据 长度
