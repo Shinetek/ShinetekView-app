@@ -2641,7 +2641,7 @@ function TimeLine() {
             "isEnd": ""
         }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
         ExistReturn = [];
-
+        var i = 0;
         //处理JSON
         m_LayerAllModeData.forEach(function (DataJsonItem) {
             var ExistReturnItem = {
@@ -2659,8 +2659,9 @@ function TimeLine() {
                 });
             }
             //设置查找
-            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturnItem.isShow = m_LayerShowTypeList[i];
             ExistReturn.push(ExistReturnItem);
+            i++;
         });
 
         return ExistReturn;
@@ -2676,7 +2677,7 @@ function TimeLine() {
             "isEnd": ""
         }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
         ExistReturn = [];
-
+        var i = 0;
         //处理JSON
         m_LayerAllModeData.forEach(function (DataJsonItem) {
             var ExistReturnItem = {
@@ -2694,8 +2695,9 @@ function TimeLine() {
                 });
             }
             //设置查找
-            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturnItem.isShow = m_LayerShowTypeList[i];
             ExistReturn.push(ExistReturnItem);
+            i++;
         });
 
         return ExistReturn;
@@ -2711,7 +2713,7 @@ function TimeLine() {
             "isEnd": ""
         }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
         ExistReturn = [];
-
+        var i = 0;
         //处理JSON
         m_LayerAllModeData.forEach(function (DataJsonItem) {
             var ExistReturnItem = {
@@ -2729,8 +2731,9 @@ function TimeLine() {
                 });
             }
             //设置查找
-            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturnItem.isShow = m_LayerShowTypeList[i];
             ExistReturn.push(ExistReturnItem);
+            i++;
         });
 
         return ExistReturn;

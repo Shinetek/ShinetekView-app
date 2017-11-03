@@ -490,7 +490,11 @@
             for (var i = 0; i < tmpList.length; i++) {
                 var layadd = 30 + i;
                 // var _id = tmpList._id;
-                ShinetekView.SatelliteView.setZIndex(tmpList[i]._id, layadd);
+                try {
+                    ShinetekView.SatelliteView.setZIndex(tmpList[i]._id, layadd);
+                } catch (err) {
+                    console.log("_refreshLayers:" + err);
+                }
             }
             _ResetDatOrder();
 
@@ -1001,9 +1005,9 @@
                 }
                 ShinetekView.SatelliteView.setZIndex(layModule._id, layadd);
             }
-            if (layModule.isShow === false) {
-                _setVisibilityFromWMS(layModule);
-            }
+            /*  if (layModule.isShow === false) {
+             _setVisibilityFromWMS(layModule);
+             }*/
             //只对base的数据进行排序
             if (layModule.layType !== "OVERLAYERS") {
                 //获取数据存在列表
@@ -1022,7 +1026,8 @@
                     if (layModule.isShow === false) {
                         _setVisibilityFromWMS(layModule);
                     }
-                    _ResetDatOrder();
+                    _refreshLayers();
+                    //_ResetDatOrder();
                 });
 
                 //获取图层调色板
