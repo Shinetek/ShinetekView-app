@@ -1489,11 +1489,16 @@
             //获取动画长度
             var m_NumMax = self.animedata.length;
             var m_DataAll = self.animedata;
+
+            //清楚当前图层列表中的缓存部分
+            ShinetekView.SatelliteView.clearAnimate();
             //对定时器赋值
             self.anime_timer = setInterval(function () {
                     //若下一个图层加载成功，则进行添加和移除
 
                     // if (ShinetekView.SatelliteView.oGetStatus()) {
+
+
                     if (ShinetekView.SatelliteView.oGetStatus()) {
                         self.isWaitingShow = false;
                         //判断移除值域
