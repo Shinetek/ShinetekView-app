@@ -25,7 +25,11 @@
             var EndMoment = moment.utc(TimeEnd, "YYYYMMDDHHmmss");
             var BeginTimeStr = TimeBegin;
             var IsFlag = 0;
-            if (results[i].ObserveType === 'DISK') {
+            /* if (results[i].ObserveType === 'DISK') {
+             IsFlag = 1;
+             }*/
+
+            if (i % 2 === 1) {
                 IsFlag = 1;
             }
             // console.log("i%2:" + i + "=" + i % 2);
