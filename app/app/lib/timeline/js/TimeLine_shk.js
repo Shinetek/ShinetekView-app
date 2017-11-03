@@ -117,6 +117,7 @@ function TimeLine() {
      * @constructor
      */
     this.init = function (DIVid, m_InitMode) {
+        m_LayerDataList = [];
         //获取当前浏览器类型
         self.browserType = setModeIE();
         //用DIVid 赋值
@@ -259,7 +260,7 @@ function TimeLine() {
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5;
         //分钟位移位置 修改为1分钟模式
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 12.5 * 60 * 24;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 2.5 * 60 * 24;
         RefreshTimeShow();
     };
 
@@ -271,7 +272,7 @@ function TimeLine() {
         var momentStr = (  moment(self.DateShow).add(1, 'month') - moment(self.DateShow)) / 1000 / 3600 / 24;
         self.DateShow = new Date(moment(self.DateShow).add(1, 'month'));
         self.m_Trans = ( self.m_TransYear - moment(self.DateShow).year() + 5 ) * 150;
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 12.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 2.5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5 * momentStr;
         RefreshTimeShow();
@@ -285,7 +286,7 @@ function TimeLine() {
         var momentStr = (moment(self.DateShow).add(1, 'year') - moment(self.DateShow)) / 1000 / 3600 / 24;
 
         //分钟模式 位移
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 12.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 2.5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5 * momentStr;
         //月位移 todo
@@ -303,7 +304,7 @@ function TimeLine() {
     var MinusDay = function () {
         self.DateShow = new Date(moment(self.DateShow).add(-1, 'day'));
         //分钟模式
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12.5 * 60 * 24;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 2.5 * 60 * 24;
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5;
         RefreshTimeShow();
@@ -316,7 +317,7 @@ function TimeLine() {
     var MinusMonth = function () {
         var momentStr = (moment(self.DateShow) - moment(self.DateShow).add(-1, 'month')) / 1000 / 3600 / 24;
         self.DateShow = new Date(moment(self.DateShow).add(-1, 'month'));
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12.5 * 24 * 60 * momentStr;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 2.5 * 24 * 60 * momentStr;
 
 
         //天模式
@@ -334,7 +335,7 @@ function TimeLine() {
 
         self.DateShow = new Date(moment.utc(self.DateShow).add(-1, 'year'));
         //分钟模式
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + momentStr * 12.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + momentStr * 2.5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5 * momentStr;
         RefreshTimeShow();
@@ -846,7 +847,7 @@ function TimeLine() {
      * @constructor
      */
     var SetShowMonth = function (enevt) {
-        //  console.log('SetShowMonth');
+
         var TimeStr = enevt.getAttribute("value");
         var new_Year = TimeStr.split("-")[0];
         var new_Month = TimeStr.split("-")[1];
@@ -975,11 +976,7 @@ function TimeLine() {
                 var DayTimeStr = moment(HourNow).utc().format('YYYY-MM-DD HH:mm');
                 //根据时间加载数据 svg
                 var Data_SVG = GetMinuteMode_DataShowList(DayTimeStr, Minute_Trans);
-                /* if(Data_SVG!=="")
-                 {
-                 console.log(Data_SVG);
-                 //     coanole.log(Data_SVG);
-                 }*/
+
 
                 //根据动画模式 设置是否需要显示动画模块 V1.1 20170321
                 var Trans_SVG = GetMinuteMode_AnimeDateList(DayTimeStr, Minute_Trans);
@@ -1038,12 +1035,15 @@ function TimeLine() {
                 if (self.AnimeMode) {
                     SVG_Hour = SVG_Hour + Trans_SVG;
                 }
-                if (Minute_Trans % (2.5 * 5) === 0) {
-                    if (Minute_Trans % (2.5 * 5 * 2) === 0) {
+                if (Minute_Trans % (2.5 * 5 * 2) === 0) {
+                    if (Minute_Trans % (2.5 * 5 * 2 * 2) === 0) {
                         SVG_Hour = SVG_Hour
-                            + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="40" y2="55" class="tick_10DayLine"'
+                            + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="30" y2="55" class="tick_10DayLine"'
                             + ' ></line>';
                     } else {
+                        SVG_Hour = SVG_Hour
+                            + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="30" y2="55" class="tick_10DayLine"'
+                            + ' ></line>';
                         /*       SVG_Hour = SVG_Hour
                          + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="40" y2="55" class="tick_10DayLine"'
                          + ' ></line>';*/
@@ -1138,7 +1138,7 @@ function TimeLine() {
         if (rect_Height > 10) {
             rect_Height = 10;
         }
-        for (var i = 0; i < m_LayerAllModeData.length; i++) {
+        for (var i = 0; i < IsDataShowList.length; i++) {
             var DateRect = '';
             var Rect_Y = i * rect_Height;
             //生成RECT 样式
@@ -1324,7 +1324,7 @@ function TimeLine() {
                         + '<rect class="DayRect Btn_DayRect" x="0.2" y="0" width="12.5" height="55" value="' + ShowYear + '-' + (parseInt(ShowMonth) + 1) + '-' + parseInt(j + 1) + '">'
                         + '<title>' + ShowYear + '-' + (parseInt(ShowMonth) + 1) + '-' + parseInt(j + 1) + '</title>'
                         + '</rect>'
-                        + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'
+                            /*   + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'*/
                         + '</g>';
                     SVG_Month = SVG_Month + Data_SVG + SVG_Day;
                     if (Day_Trans_min === "62.5" || Day_Trans_min === "125" || Day_Trans_min === "187.5"
@@ -1821,7 +1821,7 @@ function TimeLine() {
                     + '<rect x="0.2" y="0" width="12.5" height="55" class="DayRect Btn_MonthRect" value="' + ShowDateStr + '">'
                     + '<title>' + ShowDateStr + '</title>'
                     + '</rect>'
-                    + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'
+                        /* + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'*/
                     + '</g>';
                 //若显示月为当前月
                 if (self.AnimeMode) {
@@ -2121,20 +2121,20 @@ function TimeLine() {
      * @constructor
      */
     this.ADDLayerData = function (ADDDatas) {
+
         var LengthAddCount = ADDDatas.length;
         var isADD = false;
         //对于每一个添加的变量
         if (LengthAddCount) {
 
             for (var i = 0; i < LengthAddCount; i++) {
-
                 var m_ADDItem = ADDDatas[i];
-                console.log("Add!:" + m_ADDItem.DataName);
                 //添加 数据图层名称
                 var m_LayerName = m_ADDItem.DataName;
                 //添加数据图层 存在状态
                 var m_Layeris_Show = m_ADDItem.Layeris_Show;
                 var IndexNum = m_LayerDataList.indexOf(m_LayerName);
+
                 //若当前不存在 则加入列表及列表-表现层 并为各组数据添加新数据
                 if (IndexNum === -1) {
                     m_LayerDataList.push(m_LayerName);
@@ -2146,6 +2146,7 @@ function TimeLine() {
                     m_LayerAllModeDataDay.push(m_ADDItem.DataInfoDay);
                     IndexNum = m_LayerDataList.length - 1;
                     isADD = true;
+                    // console.log("m_LayerName:" + m_LayerName);
                 }
             }
         }
@@ -2155,13 +2156,6 @@ function TimeLine() {
         }
     };
 
-    function addDataLayer_Year(m_ADDItem) {
-        var DataJson = {
-            "layerName": "",
-            "LayerBeginTime": ""
-        };
-
-    }
 
     /**
      * 集成原有函数
@@ -2191,33 +2185,8 @@ function TimeLine() {
             m_LayerAllModeDataMonth.splice(IndexNum, 1);
             m_LayerAllModeDataDay.splice(IndexNum, 1);
 
-            //根据新的数据顺序 处理当前列表
-
             //根据当前移除
-            switch (self.ShowMode) {
-                case "Year_Mode":
-                {
-                    Year_SVGMove(0);
-                    break;
-                }
-                case "Month_Mode":
-                {
-                    Month_SvgMove(0);
-                    break;
-                }
-                case "Day_Mode":
-                {
-                    Day_SVGMove(0);
-                    break;
-                }
-                case "Minute_Mode":
-                {
-                    Minute_SVGMove(0);
-                    break;
-                }
-                default:
-                    break;
-            }
+            _dragOnly();
         }
     };
 
@@ -2228,7 +2197,7 @@ function TimeLine() {
      */
     this.ReSetLayerList = function (m_NewDataList) {
         var m_LayerAllModeData_bak = m_LayerAllModeData;
-
+        var m_LayerDataList_Bak = m_LayerDataList;
         m_LayerAllModeDataMinute = [];
         m_LayerAllModeDataYear = [];
         m_LayerAllModeDataMonth = [];
@@ -2238,44 +2207,23 @@ function TimeLine() {
         m_LayerShowTypeList = [];
         m_LayerAllModeData = [];
         for (var i = 0; i < m_NewDataList.length; i++) {
-            m_LayerDataList.push(m_NewDataList[i].DataName);
-            m_LayerShowTypeList.push(m_NewDataList[i].Layeris_Show);
-            m_LayerAllModeData_bak.forEach(function (dataItem) {
-                if (dataItem.DataName === m_NewDataList[i].DataName) {
-                    m_LayerAllModeData.push(dataItem);
-                    m_LayerAllModeDataMinute.push(dataItem.DataInfoMinute);
-                    m_LayerAllModeDataYear.push(dataItem.DataInfoYear);
-                    m_LayerAllModeDataMonth.push(dataItem.DataInfoMonth);
-                    m_LayerAllModeDataDay.push(dataItem.DataInfoDay);
-                }
-            });
+            if (m_LayerDataList_Bak.indexOf(m_NewDataList[i].DataName) !== -1) {
+                m_LayerDataList.push(m_NewDataList[i].DataName);
+                m_LayerShowTypeList.push(m_NewDataList[i].Layeris_Show);
+                m_LayerAllModeData_bak.forEach(function (dataItem) {
+                    if (dataItem.DataName === m_NewDataList[i].DataName) {
+                        m_LayerAllModeData.push(dataItem);
+                        m_LayerAllModeDataMinute.push(dataItem.DataInfoMinute);
+                        m_LayerAllModeDataYear.push(dataItem.DataInfoYear);
+                        m_LayerAllModeDataMonth.push(dataItem.DataInfoMonth);
+                        m_LayerAllModeDataDay.push(dataItem.DataInfoDay);
+                    }
+                });
+            }
         }
-        //根据当前移除
-        switch (self.ShowMode) {
-            case "Year_Mode":
-            {
-                Year_SVGMove(0);
-                break;
-            }
-            case "Month_Mode":
-            {
-                Month_SvgMove(0);
-                break;
-            }
-            case "Day_Mode":
-            {
-                Day_SVGMove(0);
-                break;
-            }
-            case "Minute_Mode":
-            {
-                Minute_SVGMove(0);
-                break;
-            }
-            default:
-                break;
-        }
+        _dragOnly();
     };
+
 
     function _dragOnly() {
         switch (self.ShowMode) {
@@ -2497,11 +2445,11 @@ function TimeLine() {
      * @type {boolean}
      */
     self.AnimeMode = false;
-    //动画显示开始结束时间
+//动画显示开始结束时间
     self.Anime_BeginTime;
     self.Anime_EndTime;
 
-    //当前动画显示到哪一帧 （moment时间）
+//当前动画显示到哪一帧 （moment时间）
     self.AnimeDate;
 
     /**
@@ -2576,7 +2524,7 @@ function TimeLine() {
         return true;
     };
 
-    //测试变量 用于控制是否显示动画进度条
+//测试变量 用于控制是否显示动画进度条
     var is_ShowTrans = false;
 
     /**
@@ -2642,8 +2590,8 @@ function TimeLine() {
 
     };
 
-    //使用不区分模式 的 选择
-    //每一种 产品作为一个 json 项目，不再区分 模式。
+//使用不区分模式 的 选择
+//每一种 产品作为一个 json 项目，不再区分 模式。
 
     var CheckDataTimeExistStatus = function (BeginTime_moment, EndTimeStr_moment, TimeMode) {
 
@@ -2799,8 +2747,8 @@ function TimeLine() {
         }, {"isExist": true, "isShow": true, "Width": 0, "isBofore": "", "isEnd": ""}];
         ExistReturn = [];
 
-        //处理JSON
-        m_LayerAllModeData.forEach(function (DataJsonItem) {
+        for (var i = 0; i < m_LayerAllModeData.length; i++) {
+            var DataJsonItem = m_LayerAllModeData[i];
             var ExistReturnItem = {
                 "layerName": DataJsonItem.DataName,
                 "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
@@ -2816,11 +2764,33 @@ function TimeLine() {
                     }
                 });
             }
-            //设置查找
-            ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+            ExistReturnItem.isShow = m_LayerShowTypeList[i];
             ExistReturn.push(ExistReturnItem);
-        });
+        }
+        //处理JSON
+        /*  m_LayerAllModeData.forEach(function (DataJsonItem) {
+         var ExistReturnItem = {
+         "layerName": DataJsonItem.DataName,
+         "timeNow": BeginTime_moment.format("YYYYMMDDHHmmss"),
+         "isExist": false
+         };
+         var DataInfo = DataJsonItem.DataInfoMinute;
+         if (DataInfo && DataInfo.length > 0) {
+         //遍历每一个时段 对 当前时间段内的数据存在进行查找。
+         DataInfo.forEach(function (DataTimeItem) {
+         if (TimeCompare_begin === DataTimeItem.TimeStr) {
+         ExistReturnItem.isExist = true;
+         ExistReturnItem.ColorFlag = DataTimeItem.IsFlag;
+         }
+         });
+         }
 
+
+         //设置查找
+         ExistReturnItem.isShow = DataJsonItem.Layeris_Show;
+         ExistReturn.push(ExistReturnItem);
+         });
+         */
         return ExistReturn;
     };
 
@@ -2874,11 +2844,7 @@ function TimeLine() {
         }
         var isFind = false;
         var DataID = m_LayerDataList.indexOf(layerName);
-        /*   console.log(BaseModel);*/
-        BaseModel
-        /*console.log(m_LayerDataList);
-         console.log(layerName);
-         console.log("DataID" + DataID);*/
+
         if (DataID === -1) {
             return TimeSP;
         }
