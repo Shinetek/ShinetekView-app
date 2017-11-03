@@ -58,9 +58,9 @@
         /*video play 标识: -1 stop; 0 pause; 1 play*/
         self.isVideoPlayed = -1;
         /*video 循环 标识*/
-        self.isLooped = false;
+        self.isLooped = true;
         /*video latest24 标识*/
-        self.isLatest24 = false;
+        self.isLatest24 = true;
         /**/
         self.topsideLayer = null;
         /*video 动画起始时间*/
@@ -365,6 +365,11 @@
          */
         function _showVideoPanel() {
             self.isShownVideoPanel = !self.isShownVideoPanel;
+            //调用显示最新 24h
+            if (self.isShownVideoPanel && self.isLatest24) {
+                self.isLatest24 = !self.isLatest24;
+                _playVideoLatest24();
+            }
         }
 
         /**
@@ -1395,7 +1400,7 @@
          * @private
          */
         function _initTimeLine() {
-            timeLine.init("timeLine", "DAY");
+            timeLine.init("timeLine", "MINUTE");
         }
 
         /**
@@ -1507,9 +1512,9 @@
                                 var m_targetUrl = m_DataAll[show_layer_num].LayerTimeUrl;
                                 //查找年
                                 if (m_baseUrl.indexOf("yyyyMMddHHmmss") >= 0) {
-                                    m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyyMMddHHmmss"), 12);
+                                    m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyyMMddHHmmss"), 14);
                                     m_TimeStr = m_TimeStr.substr(0, 4) + "-" + m_TimeStr.substr(4, 2) + "-" + m_TimeStr.substr(6, 2) + " "
-                                        + m_TimeStr.substr(8, 2) + ":" + m_TimeStr.substr(10, 2);
+                                        + m_TimeStr.substr(8, 2) + ":" + m_TimeStr.substr(10, 2) + ":" + m_TimeStr.substr(12, 2);
                                 }
                                 /*   if (m_baseUrl.indexOf('MM') > 0) {
                                  m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("MM"), 2);
