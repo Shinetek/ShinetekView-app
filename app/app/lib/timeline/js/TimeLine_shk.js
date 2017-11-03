@@ -2337,6 +2337,10 @@ function TimeLine() {
                 }
             });
             m_TimeList = m_TimeList_BAK;
+            // console.log(m_TimeList);
+            m_TimeList.sort();
+            //console.log(m_TimeList);
+            //m_TimeList       对 TimeList 进行排序
 
             //对URL进行转换
             var m_UrlList = [];

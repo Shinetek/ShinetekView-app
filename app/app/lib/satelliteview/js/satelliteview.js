@@ -192,7 +192,7 @@ ShinetekView.CesiumOpt = {
                     tileHeight: 256,
                     minimumLevel: 0,
                     maximumLevel: 7,
-                  //  tilingScheme: new Cesium.GeographicTilingScheme(),
+                    //  tilingScheme: new Cesium.GeographicTilingScheme(),
 
                 })
             );
@@ -295,11 +295,11 @@ ShinetekView.CesiumOpt = {
     },
 
     /**
-     * 显示隐藏图层
+     * 显示隐藏图层 toso 修改显示隐藏 与 2D一致
      * @param nameFun
      * @param WorT
      */
-    setVisibility: function (nameFun, WorT) {
+    setVisibility: function (nameFun, WorT,isShow) {
         this.indexOf(nameFun);
         var nameFunStatus = ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show;
         nameFunStatus == true ? ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show = false : ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show = true;
@@ -836,10 +836,15 @@ ShinetekView.OpenlayerOpt = {
      * @param nameFun 图层对象名
      * @param WorT 图层格式WMS/TMS/KML
      */
-    setVisibility: function (nameFun, WorT) {
+    setVisibility: function (nameFun, WorT, isShow) {
         var WorT = WorT;
         var layer = ShinetekView.openlayerObj[nameFun];
-        (layer.getVisible() == true) ? layer.setVisible(false) : layer.setVisible(true);
+        //  (layer.getVisible() == true) ? layer.setVisible(false) : layer.setVisible(true);
+        if (isShow) {
+            layer.setVisible(true);
+        } else {
+            layer.setVisible(false);
+        }
     },
 
     //监听图片开始加载
@@ -1118,10 +1123,10 @@ ShinetekView.SatelliteView = {
             ShinetekView.OpenlayerOpt.removeLayer(nameFun, WorT) :
             ShinetekView.CesiumOpt.removeLayer(nameFun, WorT);
     },
-    setVisibility: function (nameFun, WorT) {
+    setVisibility: function (nameFun, WorT, isShow) {
         this.getMapFun() == '1' ?
-            ShinetekView.OpenlayerOpt.setVisibility(nameFun, WorT) :
-            ShinetekView.CesiumOpt.setVisibility(nameFun, WorT);
+            ShinetekView.OpenlayerOpt.setVisibility(nameFun, WorT, isShow) :
+            ShinetekView.CesiumOpt.setVisibility(nameFun, WorT, isShow);
     },
     setZIndex: function (nameFun, zIndex) {
         this.getMapFun() == '1' ?

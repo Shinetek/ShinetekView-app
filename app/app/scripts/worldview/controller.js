@@ -241,6 +241,9 @@
          * @private
          */
         function _playVideo() {
+            self.baseLays.forEach(function (layModule) {
+                _removeLayFromWMS(layModule);
+            });
             //开始动画 隐藏菜单栏
             self.isMenuCollapse = 2;
             var orgFlg = self.isVideoPlayed;
@@ -459,7 +462,6 @@
             self.overLays = [];
             self.baseLays.forEach(function (layModule) {
                 _removeLayFromWMS(layModule);
-
             });
             self.baseLays = [];
         }
@@ -1110,6 +1112,7 @@
          * @param {any} layModule
          */
         function _setVisibilityFromWMS(layModule) {
+            //   ShinetekView.SatelliteView.setVisibility(layModule._id, layModule.mapType, layModule.isShow);
             ShinetekView.SatelliteView.setVisibility(layModule._id, layModule.mapType);
         }
 
@@ -1503,21 +1506,23 @@
                                 var m_baseUrl = self.topsideLayer.projectUrl;
                                 var m_targetUrl = m_DataAll[show_layer_num].LayerTimeUrl;
                                 //查找年
-                                if (m_baseUrl.indexOf("yyyy") >= 0) {
-                                    m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyy"), 4);
+                                if (m_baseUrl.indexOf("yyyyMMddHHmmss") >= 0) {
+                                    m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyyMMddHHmmss"), 12);
+                                    m_TimeStr = m_TimeStr.substr(0, 4) + "-" + m_TimeStr.substr(4, 2) + "-" + m_TimeStr.substr(6, 2) + " "
+                                        + m_TimeStr.substr(8, 2) + ":" + m_TimeStr.substr(10, 2);
                                 }
-                                if (m_baseUrl.indexOf('MM') > 0) {
-                                    m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("MM"), 2);
-                                }
-                                if (m_baseUrl.indexOf('dd') > 0) {
-                                    m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("dd"), 2);
-                                }
-                                if (m_baseUrl.indexOf('hh') > 0) {
-                                    m_TimeStr = m_TimeStr + " " + m_targetUrl.substr(m_baseUrl.indexOf("hh"), 2);
-                                }
-                                if (m_baseUrl.indexOf('mm') > 0) {
-                                    m_TimeStr = m_TimeStr + ":" + m_targetUrl.substr(m_baseUrl.indexOf("mm"), 2);
-                                }
+                                /*   if (m_baseUrl.indexOf('MM') > 0) {
+                                 m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("MM"), 2);
+                                 }
+                                 if (m_baseUrl.indexOf('dd') > 0) {
+                                 m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("dd"), 2);
+                                 }
+                                 if (m_baseUrl.indexOf('hh') > 0) {
+                                 m_TimeStr = m_TimeStr + " " + m_targetUrl.substr(m_baseUrl.indexOf("hh"), 2);
+                                 }
+                                 if (m_baseUrl.indexOf('mm') > 0) {
+                                 m_TimeStr = m_TimeStr + ":" + m_targetUrl.substr(m_baseUrl.indexOf("mm"), 2);
+                                 }*/
                             }
                             //拼接当前显示的title信息 使用<br> 换行
 
