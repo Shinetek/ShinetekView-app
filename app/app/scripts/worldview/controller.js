@@ -65,6 +65,8 @@
         self.topsideLayer = null;
 	    /** 所有标记为显示的图层 */
 	    self.sideLayers = [];
+	    /** 临时记录获取到的 m_timeLineList */
+	    self.tmpTimeLineList = [];
         /*video 动画起始时间*/
         self.videoStartTime = moment(new Date());
         /*video 动画结束时间*/
@@ -264,16 +266,16 @@
                 //2 启动动画
                 _getTopLayer();
                 if (self.isLatest24) {
-                    _playLatestVideo(self.topsideLayer, null, orgFlg);
+                    _playLatestVideo(self.sideLayers, null, orgFlg);
                 } else {
-                    _playNextVideo(self.topsideLayer, null, orgFlg);
+                    _playNextVideo(self.sideLayers, null, orgFlg);
                 }
             } else if (orgFlg === 0 && self.isVideoPlayed === 1) {
                 //1 继续动画
                 if (self.isLatest24) {
-                    _playLatestVideo(self.topsideLayer, null, orgFlg);
+                    _playLatestVideo(self.sideLayers, null, orgFlg);
                 } else {
-                    _playNextVideo(self.topsideLayer, null, orgFlg);
+                    _playNextVideo(self.sideLayers, null, orgFlg);
                 }
 
             } else if (orgFlg === 1 && self.isVideoPlayed === 0) {
@@ -284,12 +286,12 @@
 
             /**
              * 播放最新的video
-             * @param {Object} layerModule
+             * @param {Object} sideLayerModules
              * @param {String} layerName
              * @param {Number} orgFlg
              * @private
              */
-            function _playLatestVideo(layerModule, layerName, orgFlg) {
+            function _playLatestVideo(sideLayerModules, layerName, orgFlg) {
                 // if (self.baseLays.length < 1)
                     // return alert("请先添加一个产品");
 	            if (self.sideLayers.length === 0) {
@@ -306,44 +308,80 @@
                     ShinetekView.SatelliteView.removeLayer(layerName);
                 }
 
-                if (layerModule !== undefined) {
+                if (sideLayerModules !== undefined) {
 
-                    _getDataExistList(layerModule, function (m_timeLineList) {
-                        timeLine.AddMinuteData(m_timeLineList);
-                        self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
-                        self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
-                        // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
-	                    /**
-                         * 2017/11/4 范霖
-                         * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
-	                     */
-	                    var dateList = [];
-	                    self.sideLayers.forEach(function(t) {
-	                        dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
-                        });
-                        var timespan = Math.floor(1000 / self.fpsNum);
-                        if (orgFlg === -1) {
-                            _initAnime(dateList);
-                        }
-                        _startAnime(timespan, function (err, layerName) {
-                            if (self.isLooped) {
-                                setTimeout(function () {
-                                    _playLatestVideo(layerModule, layerName, -1);
-                                }, 5000);
-                            }
-                        });
+                    // _getDataExistList(layerModule, function (m_timeLineList) {
+                    //     timeLine.AddMinuteData(m_timeLineList);
+                    //     self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
+                    //     self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
+                    //     // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+	                 //    /**
+                    //      * 2017/11/4 范霖
+                    //      * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
+	                 //     */
+	                 //    var dateList = [];
+	                 //    self.sideLayers.forEach(function(t) {
+	                 //        dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
+                    //     });
+                    //     var timespan = Math.floor(1000 / self.fpsNum);
+                    //     if (orgFlg === -1) {
+                    //         _initAnime(dateList);
+                    //     }
+                    //     _startAnime(timespan, function (err, layerName) {
+                    //         if (self.isLooped) {
+                    //             setTimeout(function () {
+                    //                 _playLatestVideo(layerModule, layerName, -1);
+                    //             }, 5000);
+                    //         }
+                    //     });
+                    // });
+                    var tmpList = [];
+                    sideLayerModules.forEach(function(item) {
+                        tmpList.push(item);
                     });
+                    self.tmpTimeLineList = [];
+	                _getDataExistListByList(tmpList, function(m_timeLineList) {
+		                timeLine.AddMinuteData(m_timeLineList);
+		                self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName +
+			                self.topsideLayer._id, 'minute').add(-24, 'h');
+		                self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName +
+			                self.topsideLayer._id, 'minute');
+		                // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+		                /**
+		                 * 2017/11/4 范霖
+		                 * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
+		                 */
+		                var dateList = [];
+		                self.sideLayers.forEach(function(t) {
+			                dateList.push(
+				                timeLine.getDataList(t.projectName + t._id,
+					                self.videoStartTime, self.videoEndTime,
+					                'minute', t.projectUrl));
+		                });
+		                var timespan = Math.floor(1000 / self.fpsNum);
+		                if (orgFlg === -1) {
+			                _initAnime(dateList);
+		                }
+		                _startAnime(timespan, function(err, layerName) {
+			                if (self.isLooped) {
+				                setTimeout(function() {
+					                _playLatestVideo(sideLayerModules, layerName,
+						                -1);
+				                }, 5000);
+			                }
+		                });
+	                });
                 }
             }
 
             /**
              * 循环播放
-             * @param {Object} layerModule
+             * @param {Object} sideLayerModules
              * @param {String} layerName
              * @param orgFlg
              * @private
              */
-            function _playNextVideo(layerModule, layerName, orgFlg) {
+            function _playNextVideo(sideLayerModules, layerName, orgFlg) {
                 //1 移除最后加载的图层
                 //2 重新读取控制参数
                 //3 播放动画
@@ -370,7 +408,7 @@
                 _startAnime(timespan, function (err, layerName) {
                     if (self.isLooped) {
                         setTimeout(function () {
-                            _playNextVideo(layerModule, layerName, -1);
+                            _playNextVideo(sideLayerModules, layerName, -1);
                         }, 5000);
                     }
                 });
@@ -1036,7 +1074,7 @@
             if (layModule.layType !== "OVERLAYERS") {
                 //获取数据存在列表
                 //如果数据存在列表中已有此layModule的对象 则不在重新获取数据
-                _getDataExistList(layModule, function (m_timeLineList) {
+                _getDataExistList(layModule, false, function (m_timeLineList) {
                     //根据列表反向查找， 再次添加
 
                     timeLine.AddMinuteData(m_timeLineList);
@@ -1219,25 +1257,37 @@
             });
         }
 
-        function _getDataExistList(layModule, next) {
+	    /**
+         * 根据传入的layModule获取对应的数据有无列表
+	     * 根据flg标识，控制获取逻辑。
+         * 当flg === true 时，直接从网络获取数据存在性列表
+         * 当flg === false时，优先从本地获取，当本地获取失败时再去网络获取
+	     * @param {object} layModule - 产品图层对象
+	     * @param {boolean} flg - 是否重新网络获取标识， false:优先从已存在列表中查找 true:直接从网络获取
+	     * @param next
+	     * @returns {*}
+	     * @private
+	     */
+        function _getDataExistList(layModule, flg, next) {
             if (layModule.dataListUrl === '') {
                 return;
             }
             var isFind = false;
             var m_timeLineListMinutes = [];
-            for (var i = 0; i < timeLineListDataAll.length; i++) {
-                if (timeLineListDataAll[i].DataName === layModule.projectName + layModule._id &&
-                    (timeLineListDataAll[i].DataInfoYear.length > 0 ||
-                    timeLineListDataAll[i].DataInfoMonth.length > 0 ||
-                    timeLineListDataAll[i].DataInfoDay.length > 0 ||
-                    timeLineListDataAll[i].DataInfoMinute.length > 0)) {
-
-                    isFind = true;
-                    m_timeLineListMinutes.push(timeLineListDataAll[i]);
-
-                    return next(m_timeLineListMinutes);
-                    //    break;
-                }
+            if (flg === false) {
+	            for (var i = 0; i < timeLineListDataAll.length; i++) {
+		            if (timeLineListDataAll[i].DataName ===
+			            layModule.projectName + layModule._id &&
+			            (timeLineListDataAll[i].DataInfoYear.length > 0 ||
+				            timeLineListDataAll[i].DataInfoMonth.length > 0 ||
+				            timeLineListDataAll[i].DataInfoDay.length > 0 ||
+				            timeLineListDataAll[i].DataInfoMinute.length > 0)) {
+			            isFind = true;
+			            m_timeLineListMinutes.push(timeLineListDataAll[i]);
+			            return next(m_timeLineListMinutes);
+			            //    break;
+		            }
+	            }
             }
             if (!isFind) {
                 WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
@@ -1256,7 +1306,7 @@
                         next(m_timeLineListMinutes);
                     }
                 }, function (data) {
-                    var m_timeLineListMinutes = [];
+                    // var m_timeLineListMinutes = [];
                     //失败也需要使用名称进行占位
                     //整体数据
                     var timeLineObj_Min = {
@@ -1272,6 +1322,26 @@
                     next(m_timeLineListMinutes);
                 });
             }
+        }
+
+	    /**
+         * _getDataExitList对于数组数据的异步回调封装
+	     *
+	     * @param sideLayers
+	     * @param next
+	     * @private
+	     */
+        function _getDataExistListByList(sideLayers, next) {
+            if (sideLayers.length < 1) {
+                return next(self.tmpTimeLineList);
+            }
+            var tmpLayerModule = sideLayers.shift();
+            _getDataExistList(tmpLayerModule, true, function(m_timeLineList) {
+                m_timeLineList.forEach(function(item) {
+                   self.tmpTimeLineList.push(item);
+                });
+                _getDataExistListByList(sideLayers, next);
+            });
         }
 
         /**
