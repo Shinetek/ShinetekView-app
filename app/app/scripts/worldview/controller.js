@@ -382,7 +382,7 @@
              * @param orgFlg
              * @private
              */
-            function _playNextVideo(layerModule, layerName, orgFlg) {
+            function _playNextVideo(sideLayerModules, layerName, orgFlg) {
                 //1 移除最后加载的图层
                 //2 重新读取控制参数
                 //3 播放动画
@@ -409,7 +409,7 @@
                 _startAnime(timespan, function (err, layerName) {
                     if (self.isLooped) {
                         setTimeout(function () {
-                            _playNextVideo(layerModule, layerName, -1);
+                            _playNextVideo(sideLayerModules, layerName, -1);
                         }, 5000);
                     }
                 });
@@ -1258,25 +1258,39 @@
             });
         }
 
-        function _getDataExistList(layModule, next) {
+	    /**
+         * 获取数据存在性列表函数
+         * 获取逻辑：
+         * 当flg === true时 直接从网络获取列表
+         * 当flg === false时 优先从本地获取，失败后从网络获取
+	     * @param layModule
+	     * @param flg
+	     * @param next
+	     * @returns {*}
+	     * @private
+	     */
+        function _getDataExistList(layModule, flg, next) {
             if (layModule.dataListUrl === '') {
                 return;
             }
             var isFind = false;
             var m_timeLineListMinutes = [];
-            for (var i = 0; i < timeLineListDataAll.length; i++) {
-                if (timeLineListDataAll[i].DataName === layModule.projectName + layModule._id &&
-                    (timeLineListDataAll[i].DataInfoYear.length > 0 ||
-                    timeLineListDataAll[i].DataInfoMonth.length > 0 ||
-                    timeLineListDataAll[i].DataInfoDay.length > 0 ||
-                    timeLineListDataAll[i].DataInfoMinute.length > 0)) {
+            if (!flg) {
+	            for (var i = 0; i < timeLineListDataAll.length; i++) {
+		            if (timeLineListDataAll[i].DataName ===
+			            layModule.projectName + layModule._id &&
+			            (timeLineListDataAll[i].DataInfoYear.length > 0 ||
+				            timeLineListDataAll[i].DataInfoMonth.length > 0 ||
+				            timeLineListDataAll[i].DataInfoDay.length > 0 ||
+				            timeLineListDataAll[i].DataInfoMinute.length > 0)) {
 
-                    isFind = true;
-                    m_timeLineListMinutes.push(timeLineListDataAll[i]);
+			            isFind = true;
+			            m_timeLineListMinutes.push(timeLineListDataAll[i]);
 
-                    return next(m_timeLineListMinutes);
-                    //    break;
-                }
+			            return next(m_timeLineListMinutes);
+			            //    break;
+		            }
+	            }
             }
             if (!isFind) {
                 WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
@@ -1295,7 +1309,7 @@
                         next(m_timeLineListMinutes);
                     }
                 }, function (data) {
-                    var m_timeLineListMinutes = [];
+                    // var m_timeLineListMinutes = [];
                     //失败也需要使用名称进行占位
                     //整体数据
                     var timeLineObj_Min = {
@@ -1311,6 +1325,25 @@
                     next(m_timeLineListMinutes);
                 });
             }
+        }
+
+	    /**
+         * _getDataExistList 对于数组数据的异步回调封装
+	     * @param sideLayerModules
+	     * @param next
+	     * @private
+	     */
+        function _getDataExistListByList(sideLayerModules, next) {
+            if (sideLayerModules.length === 0) {
+                return next(self.tmpTimeLineList);
+            }
+            var tmpLayerModule = sideLayerModules.shift();
+            _getDataExistList(tmpLayerModule, true, function(m_timeLineList) {
+                m_timeLineList.forEach(function(item) {
+                   self.tmpTimeLineList.push(item);
+                });
+                _getDataExistListByList(sideLayerModules, next);
+            });
         }
 
         /**
