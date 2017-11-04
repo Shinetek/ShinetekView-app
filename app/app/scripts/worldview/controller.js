@@ -61,8 +61,10 @@
         self.isLooped = true;
         /*video latest24 标识*/
         self.isLatest24 = true;
-        /**/
+	    /*首个标记为显示的图层*/
         self.topsideLayer = null;
+	    /** 所有标记为显示的图层 */
+	    self.sideLayers = [];
         /*video 动画起始时间*/
         self.videoStartTime = moment(new Date());
         /*video 动画结束时间*/
@@ -107,7 +109,7 @@
         /*设置video动画的时间范围*/
         self.setVideoTimeRange = _setVideoTimeRange;
         /*设置video动画播放最近24小时的数据*/
-        self.playVideoLatest24 = _playVideoLatest24;
+	    self.setVideoLatest24 = _setVideoLatest24;
 
         /*   打开截图pannel*/
         self.showScreenShots = _showScreenShots;
@@ -197,7 +199,7 @@
          * 设置video动画播放最近24小时的数据
          * @private
          */
-        function _playVideoLatest24() {
+        function _setVideoLatest24() {
             //1 设置标志, 时间范围区域 disable
             //2 获取播放图层的数据列表
             //3 根据最新数据计算动画的时间范围
@@ -288,8 +290,11 @@
              * @private
              */
             function _playLatestVideo(layerModule, layerName, orgFlg) {
-                if (self.baseLays.length < 1)
-                    return alert("请先添加一个产品");
+                // if (self.baseLays.length < 1)
+                    // return alert("请先添加一个产品");
+	            if (self.sideLayers.length === 0) {
+	                return alert("请先选择至少一个产品");
+                }
                 // self.topsideLayer = self.baseLays[0];
 
                 //只有在停止的时候 -->暂停的时候 不进行最上层 查找转化
@@ -307,7 +312,15 @@
                         timeLine.AddMinuteData(m_timeLineList);
                         self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
                         self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
-                        var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+                        // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+	                    /**
+                         * 2017/11/4 范霖
+                         * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
+	                     */
+	                    var dateList = [];
+	                    self.sideLayers.forEach(function(t) {
+	                        dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
+                        });
                         var timespan = Math.floor(1000 / self.fpsNum);
                         if (orgFlg === -1) {
                             _initAnime(dateList);
@@ -345,7 +358,11 @@
                 if (layerName !== null) {
                     ShinetekView.SatelliteView.removeLayer(layerName);
                 }
-                var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+                // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+	            var dateList = [];
+                self.sideLayers.forEach(function(t) {
+                    dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
+                });
                 var timespan = Math.floor(1000 / self.fpsNum);
                 if (orgFlg === -1) {
                     _initAnime(dateList);
@@ -368,7 +385,7 @@
             //调用显示最新 24h
             if (self.isShownVideoPanel && self.isLatest24) {
                 self.isLatest24 = !self.isLatest24;
-                _playVideoLatest24();
+	            _setVideoLatest24();
             }
         }
 
@@ -1649,26 +1666,33 @@
 
         /**
          * 获取当前最新的URL
+         * 2017/11/3 修改如下内容
+         * 原函数获取baselayer中首个标记为显示的图层
+         * 现增加获取baselayer中所有标记为显示的图层
+         *
          * @private
          */
         function _getTopLayer() {
             var m_flag = false;
+            self.sideLayers.slice(0, self.sideLayers.length);
             if (self.baseLays != null) {
                 for (var i = 0; i < self.baseLays.length; i++) {
-                    if (!m_flag) {
-                        if (self.baseLays[i].isShow === true) {
-                            self.topsideLayer = self.baseLays[i];
-                            m_flag = true;
-                            return true;
-                        }
-                    }
+	                if (self.baseLays[i].isShow === true) {
+		                self.sideLayers.push(self.baseLays[i]);
+		                if (!m_flag) {
+			                if (self.baseLays[i].isShow === true) {
+				                self.topsideLayer = self.baseLays[i];
+				                m_flag = true;
+			                }
+		                }
+	                }
                 }
             }
             if (!m_flag) {
                 self.topsideLayer = null;
-                return false;
+	            // return false;
             }
-
+	        return m_flag;
         }
 
         /**
