@@ -1567,9 +1567,12 @@
                         //判断当前显示值域
                         if (show_layer_num < m_NumMax) {
                             var m_TimeStr = "";
+
+                            var LayerIndex = m_DataAll[show_layer_num].LayerIndex;
                             //字符串拼接 反向获取数值
-                            if (self.topsideLayer != null) {
-                                var m_baseUrl = self.topsideLayer.projectUrl;
+                            if (self.sideLayers[LayerIndex]) {
+
+                                var m_baseUrl = self.sideLayers[LayerIndex].projectUrl;
                                 var m_targetUrl = m_DataAll[show_layer_num].LayerTimeUrl;
                                 //查找年
                                 if (m_baseUrl.indexOf("yyyyMMddHHmmss") >= 0) {
@@ -1577,26 +1580,19 @@
                                     m_TimeStr = m_TimeStr.substr(0, 4) + "-" + m_TimeStr.substr(4, 2) + "-" + m_TimeStr.substr(6, 2) + " "
                                         + m_TimeStr.substr(8, 2) + ":" + m_TimeStr.substr(10, 2) + ":" + m_TimeStr.substr(12, 2);
                                 }
-                                /*   if (m_baseUrl.indexOf('MM') > 0) {
-                                 m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("MM"), 2);
-                                 }
-                                 if (m_baseUrl.indexOf('dd') > 0) {
-                                 m_TimeStr = m_TimeStr + "-" + m_targetUrl.substr(m_baseUrl.indexOf("dd"), 2);
-                                 }
-                                 if (m_baseUrl.indexOf('hh') > 0) {
-                                 m_TimeStr = m_TimeStr + " " + m_targetUrl.substr(m_baseUrl.indexOf("hh"), 2);
-                                 }
-                                 if (m_baseUrl.indexOf('mm') > 0) {
-                                 m_TimeStr = m_TimeStr + ":" + m_targetUrl.substr(m_baseUrl.indexOf("mm"), 2);
-                                 }*/
+
                             }
                             //拼接当前显示的title信息 使用<br> 换行
 
-                            self.showAnimeTitle = self.topsideLayer.projectName + "(" + show_layer_num + "/" + m_DataAll.length + ")";
-                            var m_ShowTitle = "星标:" + self.topsideLayer.satID + " <br>"
-                                + "仪器:" + self.topsideLayer.instID + "<br>"
-                                + "产品:" + self.topsideLayer.projectName + "<br>"
+                            var thisLayer = self.sideLayers[LayerIndex];
+                            //m_itemInfo.LayerIndex
+                            self.showAnimeTitle = thisLayer.projectName + "(" + show_layer_num + "/" + m_DataAll.length + ")";
+                            var m_ShowTitle = "星标:" + thisLayer.satID + " <br>"
+                                + "仪器:" + thisLayer.instID + "<br>"
+                                + "产品:" + thisLayer.projectName + "<br>"
                                 + "时次:" + m_TimeStr;
+                            self.animation.timeStr = m_TimeStr;
+                            self.animation.projectName = thisLayer.projectName;
                             ShinetekView.SatelliteView.setScreenTitle(m_ShowTitle);
                             show_layer_num++;
                             //   ShinetekView.Ol3Opt.setScreenTitle(show_layer_num);
@@ -1669,7 +1665,7 @@
                     for (var t = 0; t < m_UrlList.length; t++) {
                         var m_itemInfo = [];
                         m_itemInfo.LayerTimeUrl = m_UrlList[t];
-                        m_itemInfo.LayerTime = m_proid.substr(0, m_proid.length - 10);
+                        m_itemInfo.LayerIndex = i;
                         m_itemInfo.LayerTimeName = m_proid + "_" + t;
                         m_itemInfo.LayerTimeIndexZ = index_z_max + m_UrlList.length - t;
                         m_TotalList.push(m_itemInfo);
