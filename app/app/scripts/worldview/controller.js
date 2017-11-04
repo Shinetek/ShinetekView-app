@@ -63,8 +63,10 @@
         self.isLatest24 = true;
         /*首个标记为显示的图层*/
         self.topsideLayer = null;
-        /** 所有标记为显示的图层 */
-        self.sideLayers = [];
+	    /** 所有标记为显示的图层 */
+	    self.sideLayers = [];
+	    /** 临时记录获取到的 m_timeLineList */
+	    self.tmpTimeLineList = [];
         /*video 动画起始时间*/
         self.videoStartTime = moment(new Date());
         /*video 动画结束时间*/
@@ -291,9 +293,9 @@
              */
             function _playLatestVideo(layerModule, layerName, orgFlg) {
                 // if (self.baseLays.length < 1)
-                // return alert("请先添加一个产品");
-                if (self.sideLayers.length === 0) {
-                    return alert("请先选择至少一个产品");
+                    // return alert("请先添加一个产品");
+	            if (self.sideLayers.length === 0) {
+	                return alert("请先选择至少一个产品");
                 }
                 // self.topsideLayer = self.baseLays[0];
 
@@ -308,31 +310,67 @@
 
                 if (layerModule !== undefined) {
 
-                    _getDataExistList(layerModule, function (m_timeLineList) {
-                        timeLine.AddMinuteData(m_timeLineList);
-                        self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
-                        self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
-                        // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
-                        /**
-                         * 2017/11/4 范霖
-                         * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
-                         */
-                        var dateList = [];
-                        self.sideLayers.forEach(function (t) {
-                            dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
-                        });
-                        var timespan = Math.floor(1000 / self.fpsNum);
-                        if (orgFlg === -1) {
-                            _initAnime(dateList);
-                        }
-                        _startAnime(timespan, function (err, layerName) {
-                            if (self.isLooped) {
-                                setTimeout(function () {
-                                    _playLatestVideo(layerModule, layerName, -1);
-                                }, 5000);
-                            }
-                        });
+                    // _getDataExistList(layerModule, function (m_timeLineList) {
+                    //     timeLine.AddMinuteData(m_timeLineList);
+                    //     self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute").add(-24, "h");
+                    //     self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, "minute");
+                    //     // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+	                 //    /**
+                    //      * 2017/11/4 范霖
+                    //      * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
+	                 //     */
+	                 //    var dateList = [];
+	                 //    self.sideLayers.forEach(function(t) {
+	                 //        dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
+                    //     });
+                    //     var timespan = Math.floor(1000 / self.fpsNum);
+                    //     if (orgFlg === -1) {
+                    //         _initAnime(dateList);
+                    //     }
+                    //     _startAnime(timespan, function (err, layerName) {
+                    //         if (self.isLooped) {
+                    //             setTimeout(function () {
+                    //                 _playLatestVideo(layerModule, layerName, -1);
+                    //             }, 5000);
+                    //         }
+                    //     });
+                    // });
+                    var tmpList = [];
+                    sideLayerModules.forEach(function(item) {
+                        tmpList.push(item);
                     });
+                    self.tmpTimeLineList = [];
+	                _getDataExistListByList(tmpList, function(m_timeLineList) {
+		                timeLine.AddMinuteData(m_timeLineList);
+		                self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName +
+			                self.topsideLayer._id, 'minute').add(-24, 'h');
+		                self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName +
+			                self.topsideLayer._id, 'minute');
+		                // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
+		                /**
+		                 * 2017/11/4 范霖
+		                 * 为了适应多个图层滚动播放的需求 现将dateList 由原来获取单个图层，改为获取所有sideLayers下的图层
+		                 */
+		                var dateList = [];
+		                self.sideLayers.forEach(function(t) {
+			                dateList.push(
+				                timeLine.getDataList(t.projectName + t._id,
+					                self.videoStartTime, self.videoEndTime,
+					                'minute', t.projectUrl));
+		                });
+		                var timespan = Math.floor(1000 / self.fpsNum);
+		                if (orgFlg === -1) {
+			                _initAnime(dateList);
+		                }
+		                _startAnime(timespan, function(err, layerName) {
+			                if (self.isLooped) {
+				                setTimeout(function() {
+					                _playLatestVideo(sideLayerModules, layerName,
+						                -1);
+				                }, 5000);
+			                }
+		                });
+	                });
                 }
             }
 
@@ -359,8 +397,8 @@
                     ShinetekView.SatelliteView.removeLayer(layerName);
                 }
                 // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
-                var dateList = [];
-                self.sideLayers.forEach(function (t) {
+	            var dateList = [];
+                self.sideLayers.forEach(function(t) {
                     dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
                 });
                 var timespan = Math.floor(1000 / self.fpsNum);
@@ -385,7 +423,7 @@
             //调用显示最新 24h
             if (self.isShownVideoPanel && self.isLatest24) {
                 self.isLatest24 = !self.isLatest24;
-                _setVideoLatest24();
+	            _setVideoLatest24();
             }
         }
 
@@ -1616,22 +1654,22 @@
             //存储 JsonData
             var m_TotalList = [];
             self.animedata = [];
-                //去重复
+            //去重复
             var m_UrlList = JsonData.UrlList;
             var m_proid = JsonData._id;
-                var index_z_max = 550;
+            var index_z_max = 550;
             if (JsonData != undefined &&
-                    m_UrlList != undefined && m_UrlList.length > 0 &&
-                    m_proid != undefined) {
-                    //遍历 存在数据 的URL的列表
-                    for (var t = 0; t < m_UrlList.length; t++) {
-                        var m_itemInfo = [];
-                        m_itemInfo.LayerTimeUrl = m_UrlList[t];
-                        m_itemInfo.LayerTimeName = m_proid + "_" + t;
-                        m_itemInfo.LayerTimeIndexZ = index_z_max + m_UrlList.length - t;
-                        m_TotalList.push(m_itemInfo);
-                    }
-            self.animedata = m_TotalList;
+                m_UrlList != undefined && m_UrlList.length > 0 &&
+                m_proid != undefined) {
+                //遍历 存在数据 的URL的列表
+                for (var t = 0; t < m_UrlList.length; t++) {
+                    var m_itemInfo = [];
+                    m_itemInfo.LayerTimeUrl = m_UrlList[t];
+                    m_itemInfo.LayerTimeName = m_proid + "_" + t;
+                    m_itemInfo.LayerTimeIndexZ = index_z_max + m_UrlList.length - t;
+                    m_TotalList.push(m_itemInfo);
+                }
+                self.animedata = m_TotalList;
             }
             //var m_HidenList = [];
             //初始化值
@@ -1682,22 +1720,22 @@
             self.sideLayers.slice(0, self.sideLayers.length);
             if (self.baseLays != null) {
                 for (var i = 0; i < self.baseLays.length; i++) {
-                    if (self.baseLays[i].isShow === true) {
-                        self.sideLayers.push(self.baseLays[i]);
-                        if (!m_flag) {
-                            if (self.baseLays[i].isShow === true) {
-                                self.topsideLayer = self.baseLays[i];
-                                m_flag = true;
-                            }
-                        }
-                    }
+	                if (self.baseLays[i].isShow === true) {
+		                self.sideLayers.push(self.baseLays[i]);
+		                if (!m_flag) {
+			                if (self.baseLays[i].isShow === true) {
+				                self.topsideLayer = self.baseLays[i];
+				                m_flag = true;
+			                }
+		                }
+	                }
                 }
             }
             if (!m_flag) {
                 self.topsideLayer = null;
-                // return false;
+	            // return false;
             }
-            return m_flag;
+	        return m_flag;
         }
 
         /**
