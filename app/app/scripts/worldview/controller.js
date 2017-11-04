@@ -43,6 +43,9 @@
 
         /*模态框中的 常用图层列表*/
         self.frequentlyLayers = [];
+        self.animation = {};
+        //timeStr = "";
+        //self.animationprojectName = "";
 
         /*模态框中的 数据排列形式  Collapse  Tile*/
         self.layerMenuType = "Tile";
@@ -60,7 +63,7 @@
         /*video 循环 标识*/
         self.isLooped = true;
         /*video latest24 标识*/
-        self.isLatest24 = true;
+        self.isLatest24 = false;
         /*首个标记为显示的图层*/
         self.topsideLayer = null;
         /** 所有标记为显示的图层 */
@@ -249,6 +252,11 @@
                 //   _removeLayFromWMS(layModule);
                 _removeLayFromWMS_OnlyShow(layModule);
             });
+            self.overLays.forEach(function (layModule) {
+                ShinetekView.SatelliteView.setZIndex(layModule._id, 30000);
+                //  _addLayToWMS(layModule);
+                //  tmpList.unshift(layModule);
+            });
             //开始动画 隐藏菜单栏
             self.isMenuCollapse = 2;
             var orgFlg = self.isVideoPlayed;
@@ -426,6 +434,7 @@
                 self.isLatest24 = !self.isLatest24;
                 _setVideoLatest24();
             }
+            timeLine._ClickShowAndHide();
         }
 
         /**
@@ -1062,10 +1071,11 @@
             // 待测试 如果为OVERLAYERS图层 则使用 原IndexZ 添加3000 liuyp
             if (layModule.layType === "OVERLAYERS") {
                 ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, layModule.projectUrl, "false", layModule.mapType);
-                var layadd = 3000;
+                var layadd = 30000;
                 if (ShinetekView.SatelliteView.getZIndex(layModule._id)) {
-                    layadd = ShinetekView.SatelliteView.getZIndex(layModule._id) + 3000;
+                    layadd = ShinetekView.SatelliteView.getZIndex(layModule._id) + 30000;
                 }
+                console.log("layadd:" + layadd);
                 ShinetekView.SatelliteView.setZIndex(layModule._id, layadd);
             }
             /*  if (layModule.isShow === false) {
@@ -1075,7 +1085,7 @@
             if (layModule.layType !== "OVERLAYERS") {
                 //获取数据存在列表
                 //如果数据存在列表中已有此layModule的对象 则不在重新获取数据
-                _getDataExistList(layModule, function (m_timeLineList) {
+                _getDataExistList(layModule, false, function (m_timeLineList) {
                     //根据列表反向查找， 再次添加
 
                     timeLine.AddMinuteData(m_timeLineList);
@@ -1174,7 +1184,7 @@
          */
         function _setVisibilityFromWMS(layModule) {
             //   ShinetekView.SatelliteView.setVisibility(layModule._id, layModule.mapType, layModule.isShow);
-            ShinetekView.SatelliteView.setVisibility(layModule._id, layModule.mapType);
+            ShinetekView.SatelliteView.setVisibility(layModule._id, layModule.mapType, layModule.isShow);
         }
 
 
@@ -1258,17 +1268,17 @@
             });
         }
 
-	    /**
+        /**
          * 获取数据存在性列表函数
          * 获取逻辑：
          * 当flg === true时 直接从网络获取列表
          * 当flg === false时 优先从本地获取，失败后从网络获取
-	     * @param layModule
-	     * @param flg
-	     * @param next
-	     * @returns {*}
-	     * @private
-	     */
+         * @param layModule
+         * @param flg
+         * @param next
+         * @returns {*}
+         * @private
+         */
         function _getDataExistList(layModule, flg, next) {
             if (layModule.dataListUrl === '') {
                 return;
@@ -1276,21 +1286,21 @@
             var isFind = false;
             var m_timeLineListMinutes = [];
             if (!flg) {
-	            for (var i = 0; i < timeLineListDataAll.length; i++) {
-		            if (timeLineListDataAll[i].DataName ===
-			            layModule.projectName + layModule._id &&
-			            (timeLineListDataAll[i].DataInfoYear.length > 0 ||
-				            timeLineListDataAll[i].DataInfoMonth.length > 0 ||
-				            timeLineListDataAll[i].DataInfoDay.length > 0 ||
-				            timeLineListDataAll[i].DataInfoMinute.length > 0)) {
+                for (var i = 0; i < timeLineListDataAll.length; i++) {
+                    if (timeLineListDataAll[i].DataName ===
+                        layModule.projectName + layModule._id &&
+                        (timeLineListDataAll[i].DataInfoYear.length > 0 ||
+                        timeLineListDataAll[i].DataInfoMonth.length > 0 ||
+                        timeLineListDataAll[i].DataInfoDay.length > 0 ||
+                        timeLineListDataAll[i].DataInfoMinute.length > 0)) {
 
-			            isFind = true;
-			            m_timeLineListMinutes.push(timeLineListDataAll[i]);
+                        isFind = true;
+                        m_timeLineListMinutes.push(timeLineListDataAll[i]);
 
-			            return next(m_timeLineListMinutes);
-			            //    break;
-		            }
-	            }
+                        return next(m_timeLineListMinutes);
+                        //    break;
+                    }
+                }
             }
             if (!isFind) {
                 WorldviewServices.getDataExistList(layModule.dataListUrl, function (data) {
@@ -1327,20 +1337,20 @@
             }
         }
 
-	    /**
+        /**
          * _getDataExistList 对于数组数据的异步回调封装
-	     * @param sideLayerModules
-	     * @param next
-	     * @private
-	     */
+         * @param sideLayerModules
+         * @param next
+         * @private
+         */
         function _getDataExistListByList(sideLayerModules, next) {
             if (sideLayerModules.length === 0) {
                 return next(self.tmpTimeLineList);
             }
             var tmpLayerModule = sideLayerModules.shift();
-            _getDataExistList(tmpLayerModule, true, function(m_timeLineList) {
-                m_timeLineList.forEach(function(item) {
-                   self.tmpTimeLineList.push(item);
+            _getDataExistList(tmpLayerModule, true, function (m_timeLineList) {
+                m_timeLineList.forEach(function (item) {
+                    self.tmpTimeLineList.push(item);
                 });
                 _getDataExistListByList(sideLayerModules, next);
             });
@@ -1624,14 +1634,18 @@
                                 + "仪器:" + thisLayer.instID + "<br>"
                                 + "产品:" + thisLayer.projectName + "<br>"
                                 + "时次:" + m_TimeStr;
-                            self.animation.timeStr = m_TimeStr;
-                            self.animation.projectName = thisLayer.projectName;
+                            //     self.animation = {};
+                            document.getElementById("AnprojectName").innerHTML = thisLayer.projectName;
+                            document.getElementById("AntimeStr").innerHTML = m_TimeStr;
+                            /*    self.animation.timeStr = m_TimeStr;
+                             self.animation.projectName = thisLayer.projectName;*/
                             ShinetekView.SatelliteView.setScreenTitle(m_ShowTitle);
                             show_layer_num++;
                             //   ShinetekView.Ol3Opt.setScreenTitle(show_layer_num);
                             if (show_layer_num === m_NumMax) {
                                 //结束当前定时器
                                 _pauseAnime();
+                                //console.log("LayerTimeName：" + m_DataAll[show_layer_num - 1].LayerTimeName);
                                 callback(null, m_DataAll[show_layer_num - 1].LayerTimeName);
                                 return;
                             }
@@ -1641,6 +1655,11 @@
                             //设置当前图层状态为显示模式
                             ShinetekView.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
                             ShinetekView.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
+
+                            console.log(m_DataAll[add_layer_num].LayerTimeIndexZ);
+
+                            console.log(ShinetekView.SatelliteView.getZIndex(m_DataAll[add_layer_num].LayerTimeName));
+
                             add_layer_num++;
                         }
                     }

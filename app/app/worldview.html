@@ -51,7 +51,7 @@
 <div>
     <ul class="sv-toolbar">
         <li class="sv-toolbar-button" ng-class="{'sv-toolbar-button-active': WorldviewCtrl.isShownVideoPanel}"
-            ng-click="WorldviewCtrl.showVideoPanel()" >
+            ng-click="WorldviewCtrl.showVideoPanel()">
             <label role="button">
                 <span class="glyphicon glyphicon-facetime-video"></span>
             </label>
@@ -389,8 +389,9 @@
         <!-- 设置居中显示-->
         <div class="aminite-label">
             <p>动画模式 </p>
-            <p>{{ WorldviewCtrl.animation.projectName}}</p>
-            <p>{{ WorldviewCtrl.animation.timeStr}}</p>
+
+            <p id="AnprojectName"></p>
+            <p id="AntimeStr"></p>
         </div>
     </div>
     <!--动画显示部分 div end-->

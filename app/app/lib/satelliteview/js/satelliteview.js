@@ -299,7 +299,7 @@ ShinetekView.CesiumOpt = {
      * @param nameFun
      * @param WorT
      */
-    setVisibility: function (nameFun, WorT,isShow) {
+    setVisibility: function (nameFun, WorT, isShow) {
         this.indexOf(nameFun);
         var nameFunStatus = ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show;
         nameFunStatus == true ? ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show = false : ShinetekView.CesiumTMSLayers.get(this.indexOf(nameFun)).show = true;
@@ -866,7 +866,7 @@ ShinetekView.OpenlayerOpt = {
     //地图渲染结束事件
     oGetStatus: function () {
         if (ShinetekView.tileAllNum <= ShinetekView.tileLoadEnd + ShinetekView.tileLoadError) {
-            console.log("true");
+            //console.log("true");
 
             ShinetekView.OpenlayerOpt.clearAnimate();
             return true;
@@ -887,6 +887,8 @@ ShinetekView.OpenlayerOpt = {
      */
     getZIndex: function (nameFun) {
         var layer = ShinetekView.openlayerObj[nameFun];
+        console.log("layer");
+        console.log(layer);
         return layer.getZIndex();
     },
 

@@ -106,7 +106,7 @@ function TimeLine() {
     var m_LayerShowTypeList = [];
 
     var m_LayerAllModeData = [];
-    var m_LayerExistLayer = [];
+
 
     /** 对外接口 */
 
@@ -1319,7 +1319,6 @@ function TimeLine() {
                     }
 
                     //根据时间 初始化 基础svg
-                    /*      + ' onclick="javascript:' + self.DayRectOnClick(evt, ' + ShowYear + ', ' + ShowMonth + ', ' + j + ') + '"   >'*/
                     var SVG_Day = '   <g class="tick_Year_One" transform="translate(' + Day_Trans_min + ')" >'
                         + '<rect class="DayRect Btn_DayRect" x="0.2" y="0" width="12.5" height="55" value="' + ShowYear + '-' + (parseInt(ShowMonth) + 1) + '-' + parseInt(j + 1) + '">'
                         + '<title>' + ShowYear + '-' + (parseInt(ShowMonth) + 1) + '-' + parseInt(j + 1) + '</title>'
@@ -1967,24 +1966,29 @@ function TimeLine() {
         return ShowLayer_DataSVG;
     };
 
+    this._ClickShowAndHide = ClickShowAndHide;
     /**
      * 整体显示 --  点击按钮 伸缩界面 事件
      * @constructor
      */
-    var ClickShowAndHide = function () {
+    function ClickShowAndHide() {
         //获取TimeLine 部分的DIV
         var ShowTimeLine = document.getElementsByClassName("TimeLineTotalDiv");
+        var TimeInputDiv = document.getElementsByClassName("TimeInputDiv");
         //如果当前显示为全部
         if (self.Is_ShowSVGLine) {
             for (var i = 0; i < ShowTimeLine.length; i++) {
                 ShowTimeLine[i].style.display = "none";
+
             }
+            TimeInputDiv[0].style.display = "none";
             self.Is_ShowSVGLine = false;
         } else {
             //如果当前为压缩模式 修改为伸缩模式
             for (var j = 0; j < ShowTimeLine.length; j++) {
                 ShowTimeLine[j].style.display = "block";
             }
+            TimeInputDiv[0].style.display = "block";
             self.Is_ShowSVGLine = true;
             //伸长后重绘界面 重新计算
             GetFullModeWidth(self.IDName);
@@ -2148,10 +2152,20 @@ function TimeLine() {
                     isADD = true;
                     // console.log("m_LayerName:" + m_LayerName);
                 }
+                else {
+                    m_LayerDataList[IndexNum] = m_LayerName;
+                    m_LayerShowTypeList[IndexNum] = (m_Layeris_Show);
+                    m_LayerAllModeData[IndexNum] = (m_ADDItem);
+                    m_LayerAllModeDataMinute[IndexNum] = (m_ADDItem.DataInfoMinute);
+                    m_LayerAllModeDataYear[IndexNum] = (m_ADDItem.DataInfoYear);
+                    m_LayerAllModeDataMonth[IndexNum] = (m_ADDItem.DataInfoMonth);
+                    m_LayerAllModeDataDay[IndexNum] = (m_ADDItem.DataInfoDay);
+                    //  IndexNum = m_LayerDataList.length - 1;
+                    isADD = true;
+                }
             }
         }
         if (isADD) {
-            m_LayerExistLayer = [];
             _dragOnly();
         }
     };
