@@ -141,7 +141,6 @@
         //时间轴控件发生日期改变时 重新加载所有图层
         timeLineElm.on("DateTimeChange", function (event, selectDate) {
             //  _refreshLayers();
-            //   console.log("on  DateTimeChange");
             _reloadLayers();
         });
 
@@ -450,11 +449,9 @@
                 var m_ShptAPI = '';
                 if (self.topsideLayer.screenshotUrl) {
                     m_ShptAPI = self.topsideLayer.screenshotUrl;
-                    /*     console.log("截图配置URL:");
-                     console.log(self.topsideLayer.screenshotUrl);*/
                 }
                 else {
-                    /*   console.log('当前截图图层为空！');*/
+
                 }
 
                 var m_ShotParam = self.topsideLayer.screenshotparam;
@@ -480,7 +477,6 @@
                 screenshots.init(m_ShptAPI, m_ShotParam);
             }
             else {
-                // console.log("显示图层为空！");
                 screenshots.init('', '');
             }
         }
@@ -489,7 +485,7 @@
         self.switch3D = _switch3D;
         /*3D 切换函数*/
         function _switch3D() {
-            console.log("_switch3D");
+            //  console.log("_switch3D");
             if (self.isShown3D === false) {
                 //当前为2D 显示 切换显示3D
                 //_clearLayers();
@@ -561,11 +557,9 @@
 
             for (var i = 0; i < tmpList.length; i++) {
                 var layadd = 30 + i;
-                // var _id = tmpList._id;
                 try {
                     ShinetekView.SatelliteView.setZIndex(tmpList[i]._id, layadd);
                 } catch (err) {
-                    console.log("_refreshLayers:" + err);
                 }
             }
             _ResetDatOrder();
@@ -1075,7 +1069,6 @@
                 if (ShinetekView.SatelliteView.getZIndex(layModule._id)) {
                     layadd = ShinetekView.SatelliteView.getZIndex(layModule._id) + 30000;
                 }
-                console.log("layadd:" + layadd);
                 ShinetekView.SatelliteView.setZIndex(layModule._id, layadd);
             }
             /*  if (layModule.isShow === false) {
@@ -1091,10 +1084,8 @@
                     timeLine.AddMinuteData(m_timeLineList);
                     var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
                     var timeSelectStr = timeFindJson;
-                    //    console.log("isFindExist:" + timeFindJson.isFindExist);
                     var projectUrl = layModule.projectUrl;
                     projectUrl = projectUrl.replace('yyyyMMddHHmmss', timeSelectStr);
-                    console.log(projectUrl);
                     ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
                     if (layModule.isShow === false) {
                         _setVisibilityFromWMS(layModule);
@@ -1125,7 +1116,6 @@
             if (layModule.layType !== "OVERLAYERS") {
                 var timeFindJson = timeLine.findDataExistList(layModule.projectName + layModule._id);
                 var timeSelectStr = timeFindJson;
-                //    console.log("isFindExist:" + timeFindJson.isFindExist);
                 var projectUrl = layModule.projectUrl;
                 projectUrl = projectUrl.replace('yyyyMMddHHmmss', timeSelectStr);
                 ShinetekView.SatelliteView.addLayer(layModule._id, layModule.layerName, projectUrl, "false", layModule.mapType);
@@ -1441,7 +1431,6 @@
             //若Cookies m_baseLays 不为空 加入列表 并加入界面显示
             var m_baseLays = JSON.parse(localStorage.getItem("baseLays"));
             var m_overLays = JSON.parse(localStorage.getItem("overLays"));
-            console.log("11111");
             if (m_baseLays) {
                 //遍历添加数据
                 m_baseLays.forEach(function (lay) {
@@ -1476,7 +1465,6 @@
                     }
                 });
             }
-            console.log("projectList!");
             //遍历显示列表
             projectList.forEach(function (lay) {
                 self.baseLays.forEach(function (inlay) {
@@ -1645,7 +1633,7 @@
                             if (show_layer_num === m_NumMax) {
                                 //结束当前定时器
                                 _pauseAnime();
-                                //console.log("LayerTimeName：" + m_DataAll[show_layer_num - 1].LayerTimeName);
+
                                 callback(null, m_DataAll[show_layer_num - 1].LayerTimeName);
                                 return;
                             }
@@ -1656,16 +1644,12 @@
                             ShinetekView.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
                             ShinetekView.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
 
-                            console.log(m_DataAll[add_layer_num].LayerTimeIndexZ);
-
-                            console.log(ShinetekView.SatelliteView.getZIndex(m_DataAll[add_layer_num].LayerTimeName));
 
                             add_layer_num++;
                         }
                     }
                     else {
                         self.isWaitingShow = true;
-                        // console.log("当前所有图层 未加载完成 标志位:" + m_Flag);
                     }
                 }
                 ,
