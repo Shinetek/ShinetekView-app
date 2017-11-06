@@ -1049,7 +1049,12 @@
          */
         function _eyeClick(layModule) {
             layModule.isShow = !layModule.isShow;
-            _setVisibilityFromWMS(layModule);
+
+            try {
+                _setVisibilityFromWMS(layModule);
+            } catch (err) {
+
+            }
             _ResetDatOrder();
         }
 

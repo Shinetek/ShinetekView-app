@@ -887,8 +887,8 @@ ShinetekView.OpenlayerOpt = {
      */
     getZIndex: function (nameFun) {
         var layer = ShinetekView.openlayerObj[nameFun];
-        console.log("layer");
-        console.log(layer);
+        /*      console.log("layer");
+         console.log(layer);*/
         return layer.getZIndex();
     },
 
