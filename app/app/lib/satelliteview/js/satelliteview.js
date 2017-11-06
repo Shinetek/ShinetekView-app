@@ -839,11 +839,13 @@ ShinetekView.OpenlayerOpt = {
     setVisibility: function (nameFun, WorT, isShow) {
         var WorT = WorT;
         var layer = ShinetekView.openlayerObj[nameFun];
-        //  (layer.getVisible() == true) ? layer.setVisible(false) : layer.setVisible(true);
-        if (isShow) {
-            layer.setVisible(true);
-        } else {
-            layer.setVisible(false);
+        //(layer.getVisible() == true) ? layer.setVisible(false) : layer.setVisible(true);
+        if (layer) {
+            if (isShow) {
+                layer.setVisible(true);
+            } else {
+                layer.setVisible(false);
+            }
         }
     },
 
