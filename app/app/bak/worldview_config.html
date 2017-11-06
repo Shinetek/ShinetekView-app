@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="WVConfig">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引用angular -->
+    <title>遥感产品综合展示平台配置</title>
+    <link rel="shortcut icon" href="./publics/logo2.ico">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+
+    <script type="text/javascript" src="scripts/worldviewconfig/controllerspro.js"></script>
+    <style type="text/css">
+        .inputDiv {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            height: 40px;
+        }
+
+        .inputLabel {
+            text-align: right;
+            vertical-align: middle !important;
+            font-size: 16px;
+            display: block;
+            line-height: 40px;
+        }
+
+        .ShowTabletd {
+            text-align: center;
+            vertical-align: middle !important;
+            word-break: break-all;
+        }
+
+        .ShowTableth {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+    </style>
+</head>
+<body ng-controller="ProdConfigController">
+
+<!--导航栏部分-->
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/worldview">遥感产品综合展示平台</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                <li class="active"><a href="#">产品详情配置</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search" STYLE="display: none">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="{{SearchStr}}">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">说明</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<!--title部分 及 检索部分-->
+<div class="projects-header page-header row" style="text-align: center;">
+    <h3> 产品详情配置 -- 配置产品总数： {{ProdInfonum}}<span>  </span></h3>
+
+    <form class="navbar-form" role="search">
+        <label>检索:</label> <input type="text" class="form-control" placeholder="请输入检索内容" ng-model="query">
+        <select ng-model="orderProp" class="form-control">
+            <option value="satID">星标</option>
+            <option value="instID">仪器名称</option>
+            <option value="projectName">产品名称</option>
+            <option value="layerName">图层名称</option>
+        </select>
+        <button class="btn btn-success" data-toggle="modal" data-target="#AddModal">添加</button>
+        <button class="btn btn-primary" ng-click="GetInfoALL()">刷新</button>
+    </form>
+</div>
+<!--主体显示列表部分-->
+<div class="row">
+    <!-- 产品列表-->
+    <div class="col-lg-10 col-lg-offset-1">
+        <table class="table table-bordered" style="visibility: visible;">
+            <thead>
+            <tr>
+                <th class="ShowTableth">卫星标识</th>
+                <th class="ShowTableth">卫星类型</th>
+                <th class="ShowTableth">仪器名称</th>
+                <th class="ShowTableth">默认显示</th>
+                <th class="ShowTableth">产品名称</th>
+                <th class="ShowTableth">产品路径</th>
+                <th class="ShowTableth">图层名称</th>
+                <th class="ShowTableth">图层类型</th>
+                <th class="ShowTableth">map类型</th>
+                <th class="ShowTableth">数据API</th>
+                <th class="ShowTableth">相关操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="Prod in groupInfoList | filter:query| orderBy:orderProp">
+                <td class="ShowTabletd">{{Prod.satID}}</td>
+                <td class="ShowTabletd">{{Prod.satType}}</td>
+                <td class="ShowTabletd">{{Prod.instID}}</td>
+                <td class="ShowTabletd">{{Prod.isDefault}}</td>
+                <td class="ShowTabletd">{{Prod.projectName}}</td>
+                <td class="ShowTabletd">
+                    <p style="width: 250px;word-break: break-all;">{{Prod.projectUrl}}</p>
+                </td>
+                <td class="ShowTabletd">
+                    <p style="width: 100px;word-break: break-all;">{{Prod.layerName}}</p>
+                </td>
+                <td class="ShowTabletd">{{Prod.layType}}</td>
+                <td class="ShowTabletd">{{Prod.mapType}}</td>
+                <td class="ShowTabletd">{{Prod.dataListUrl}}</td>
+                <td>
+                    <div>
+                        <button type="button" class="btn btn-default" ng-click="ChangeModelFunc(Prod)"
+                                date-ChangeInfo={{Prod}} data-toggle="modal"
+                                data-target="#ChangeModal" style="float: left ;margin: 2px;">
+                            <span class="glyphicon glyphicon-pencil"></span> 修改
+                        </button>
+                        <button class="btn btn-default" ng-click="DeleteProd(Prod)" style="float: left ;margin: 2px;">
+                            <span class="glyphicon glyphicon-remove"></span> 删除
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- 修改DIV-->
+    <div class="modal fade" id="ChangeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改产品 ID:{{ChangeModelData.ID}}</h4>
+                </div>
+                <div class=" modal-body row">
+                    <div class="col-sm-12">
+                        <!--1 卫星标识-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 control-label inputLabel ">卫星标识</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.satID}}"
+                                       ng-model="ChangeModelData.satID">
+                            </div>
+                        </div>
+                        <!--2 卫星类型-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 control-label  inputLabel ">卫星类型</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.satType}}"
+                                       ng-model="ChangeModelData.satType">
+                            </div>
+                        </div>
+                        <!--3 仪器名称-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2  control-label inputLabel">仪器名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.instID}}"
+                                       ng-model="ChangeModelData.instID">
+                            </div>
+                        </div>
+                        <!--4 是否默认加载-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 control-label inputLabel  ">是否默认</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.isDefault}}"
+                                       ng-model="ChangeModelData.isDefault">
+                            </div>
+                        </div>
+                        <!--5 产品名称-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2  inputLabel  ">产品名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.projectName}}"
+                                       ng-model="ChangeModelData.projectName">
+                            </div>
+                        </div>
+                        <!--6 产品路径-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 inputLabel   ">产品URL</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.projectUrl}}"
+                                       ng-model="ChangeModelData.projectUrl">
+                            </div>
+                        </div>
+                        <!--7 图层名称-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2  inputLabel  ">图层名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.layerName}}"
+                                       ng-model="ChangeModelData.layerName">
+                            </div>
+                        </div>
+                        <!--8 图层类型-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">图层类型</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{ChangeModelData.layType}}"
+                                       ng-model="ChangeModelData.layType">
+                            </div>
+                        </div>
+                        <!--9 map类型-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">map类型</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.mapType}}"
+                                       ng-model="ChangeModelData.mapType">
+                            </div>
+                        </div>
+                        <!--10 数据API-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">数据API</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{ChangeModelData.dataListUrl}}"
+                                       ng-model="ChangeModelData.dataListUrl">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="SubmitChangeFunc()">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建 DIV-->
+    <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="Add_ModalLabel">添加新产品配置 </h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-sm-10">
+                        <!--1卫星标识-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 control-label inputLabel ">卫星标识</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="display: none;"
+                                       placeholder="{{AddModelData.satID}}"
+                                       ng-model="AddModelData.satID">
+                                <select ng-model="AddModelData.satID" class="form-control">
+                                    <option value="FY3A">FY3A</option>
+                                    <option value="FY3B">FY3B</option>
+                                    <option value="FY3C">FY3C</option>
+                                    <option value="FY4A">FY4A</option>
+                                    <option value="AQUA">AQUA</option>
+                                    <option value="TERRA">TERRA</option>
+                                    <option value="NPP">NPP</option>
+                                    <option value="NOAA18">NOAA18</option>
+                                    <option value="NOAA19">NOAA19</option>
+                                    <option value="NAN">NAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--2卫星类型-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 control-label  inputLabel ">卫星类型</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="display: none;"
+                                       placeholder="{{AddModelData.satType}}"
+                                       ng-model="AddModelData.satType">
+
+                                <select ng-model="AddModelData.satType" class="form-control">
+                                    <option value="GEO">GEO</option>
+                                    <option value="POS">POS</option>
+                                    <option value="NAN">NAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--3仪器名称-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2  control-label inputLabel">仪器名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{AddModelData.instID}}"
+                                       style="display: none;" ng-model="AddModelData.instID">
+                                <select ng-model="AddModelData.instID" class="form-control">
+                                    <option value="MODIS">MODIS</option>
+                                    <option value="MERSI">MERSI</option>
+                                    <option value="VIRR">VIRR</option>
+                                    <option value="AGRI">AGRI</option>
+                                    <option value="AVHRR">AVHRR</option>
+                                    <option value="VIIRS">VIIRS</option>
+                                    <option value="NAN">NAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--4 是否默认加载-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 control-label inputLabel">是否默认</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{AddModelData.isDefault}}"
+                                       style="display: none;" ng-model="AddModelData.isDefault">
+                                <select ng-model="AddModelData.isDefault" class="form-control">
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--5 产品名称-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2  inputLabel  ">产品名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.projectName}}"
+                                       ng-model="AddModelData.projectName">
+                            </div>
+                        </div>
+                        <!--6 产品路径-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2 inputLabel">产品路径</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.projectUrl}}"
+                                       ng-model="AddModelData.projectUrl">
+                            </div>
+                        </div>
+                        <!--7 图层名称-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2  inputLabel  ">图层名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="{{AddModelData.layerName}}"
+                                       ng-model="AddModelData.layerName">
+                            </div>
+                        </div>
+                        <!--8 图层类型-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">图层类型</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="display: none;"
+                                       placeholder="{{AddModelData.layType}}"
+                                       ng-model="AddModelData.layType">
+                                <select ng-model="AddModelData.layType" class="form-control">
+                                    <option value="BASELAYERS">BASELAYERS</option>
+                                    <option value="OVERLAYERS">OVERLAYERS</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--9 map类型-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">map类型</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="display: none;"
+                                       placeholder="{{AddModelData.mapType}}"
+                                       ng-model="AddModelData.mapType">
+                                <select ng-model="AddModelData.mapType" class="form-control">
+                                    <option value="TMS">TMS</option>
+                                    <option value="WMS">WMS</option>
+                                    <option value="FMS">FMS</option>
+                                    <option value="KML">KML</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--10 数据API-->
+                        <div class="form-group inputDiv">
+                            <label class="col-sm-2   inputLabel ">数据API</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       placeholder="{{AddModelData.dataListUrl}}"
+                                       ng-model="AddModelData.dataListUrl">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="SubmitAddFunc()">提交添加内容</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

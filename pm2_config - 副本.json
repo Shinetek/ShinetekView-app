@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "name": "worldview-app",
+      "cwd ": "/home/shinetek/ShinetekView-app/app",
+      "script": "/home/shinetek/ShinetekView-app/app/worldview.js",
+      "exec_mode": "fork",
+      "kill_timeout": 30000
+    },
+    {
+      "name": "worldview-api",
+      "cwd ": "/home/shinetek/ShinetekView-app/api",
+      "script": "/home/shinetek/ShinetekView-app/api/worldview-api.js",
+      "exec_mode": "fork",
+      "kill_timeout": 30000
+    },
+    {
+      "name": "worldview-firepoint",
+      "cwd ": "/home/shinetek/ShinetekView-app/api",
+      "script": "/home/shinetek/ShinetekView-app/api/FirePointKMLServer.js",
+      "exec_mode": "fork",
+      "kill_timeout": 30000
+    },
+    {
+      "name": "snipshot",
+      "cwd ": "/home/shinetek/ShinetekView-SnapshotServer",
+      "script": "/home/shinetek/ShinetekView-SnapshotServer/snipshot.js",
+      "exec_mode": "fork",
+      "kill_timeout": 30000
+    }
+  ]
+}

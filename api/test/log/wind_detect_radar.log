@@ -1,0 +1,1224 @@
+[2017-07-24 03:08:06.376714] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0000_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0000_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-24 03:10:28.493178] success!
+
+[2017-07-24 03:10:28.493560] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0010_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0010_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:22:30.447652] 20150918_1050 success!
+
+[2017-07-27 03:22:30.448036] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1020_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1020_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:23:57.406335] 20150918_1020 success!
+
+[2017-07-27 03:23:57.406728] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0340_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0340_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:26:28.541068] 20150918_0340 success!
+
+[2017-07-27 03:26:28.541472] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1030_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1030_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:26:44.320204] 20150918_1030 success!
+
+[2017-07-27 03:26:44.320590] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0520_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0520_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:29:16.253665] 20150918_0520 success!
+
+[2017-07-27 03:29:16.254053] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0530_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0530_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:31:11.710160] 20150918_0530 success!
+
+[2017-07-27 03:31:11.710528] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2025_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2025_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:33:13.938550] 20150918_2025 success!
+
+[2017-07-27 03:33:13.938946] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0400_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0400_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:34:44.479657] 20150918_0400 success!
+
+[2017-07-27 03:34:44.480035] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2145_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2145_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:35:09.209249] 20150918_2145 success!
+
+[2017-07-27 03:35:09.209623] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1350_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1350_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:36:27.633240] 20150918_1350 success!
+
+[2017-07-27 03:36:27.633615] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2155_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2155_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:38:45.287617] 20150918_2155 success!
+
+[2017-07-27 03:38:45.288003] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2245_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2245_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:39:06.763405] 20150918_2245 success!
+
+[2017-07-27 03:39:06.763778] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2215_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2215_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:40:10.730159] 20150918_2215 success!
+
+[2017-07-27 03:40:10.730545] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1515_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1515_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:42:32.837584] 20150918_1515 success!
+
+[2017-07-27 03:42:32.837987] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2015_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2015_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:44:57.701182] 20150918_2015 success!
+
+[2017-07-27 03:44:57.701570] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1820_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1820_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:45:48.028512] 20150918_1820 success!
+
+[2017-07-27 03:45:48.028891] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1455_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1455_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:47:41.799550] 20150918_1455 success!
+
+[2017-07-27 03:47:41.799931] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2205_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2205_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:48:14.396023] 20150918_2205 success!
+
+[2017-07-27 03:48:14.396416] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0625_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0625_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:50:17.852806] 20150918_0625 success!
+
+[2017-07-27 03:50:17.853190] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0900_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0900_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:51:15.398017] 20150918_0900 success!
+
+[2017-07-27 03:51:15.398402] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1710_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1710_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:51:40.981822] 20150918_1710 success!
+
+[2017-07-27 03:51:40.982211] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1840_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1840_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:54:12.184387] 20150918_1840 success!
+
+[2017-07-27 03:54:12.184776] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0020_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0020_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:54:34.688383] 20150918_0020 success!
+
+[2017-07-27 03:54:34.688775] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0210_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0210_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:55:56.902761] 20150918_0210 success!
+
+[2017-07-27 03:55:56.903167] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0645_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0645_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:58:18.590413] 20150918_0645 success!
+
+[2017-07-27 03:58:18.590804] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0450_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0450_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 03:59:16.880376] 20150918_0450 success!
+
+[2017-07-27 03:59:16.880758] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1140_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1140_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:00:07.779572] 20150918_1140 success!
+
+[2017-07-27 04:00:07.779979] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1150_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1150_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:02:40.258863] 20150918_1150 success!
+
+[2017-07-27 04:02:40.259248] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2320_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2320_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:04:43.542333] 20150918_2320 success!
+
+[2017-07-27 04:04:43.542718] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1555_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1555_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:05:50.968231] 20150918_1555 success!
+
+[2017-07-27 04:05:50.968617] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0330_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0330_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:08:20.455409] 20150918_0330 success!
+
+[2017-07-27 04:08:20.455786] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1340_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1340_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:10:50.640322] 20150918_1340 success!
+
+[2017-07-27 04:10:50.640757] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0705_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0705_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:13:20.967999] 20150918_0705 success!
+
+[2017-07-27 04:13:20.968379] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0540_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0540_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:14:52.284265] 20150918_0540 success!
+
+[2017-07-27 04:14:52.284642] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1200_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1200_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:17:21.972414] 20150918_1200 success!
+
+[2017-07-27 04:17:21.972808] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0000_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0000_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:19:43.925094] 20150918_0000 success!
+
+[2017-07-27 04:19:43.925538] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0820_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0820_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:21:49.944914] 20150918_0820 success!
+
+[2017-07-27 04:21:49.945307] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0200_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0200_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:24:13.928062] 20150918_0200 success!
+
+[2017-07-27 04:24:13.928469] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0320_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0320_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:26:44.705697] 20150918_0320 success!
+
+[2017-07-27 04:26:44.706071] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0655_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0655_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:29:13.100371] 20150918_0655 success!
+
+[2017-07-27 04:29:13.100753] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1730_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1730_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:30:47.795448] 20150918_1730 success!
+
+[2017-07-27 04:30:47.795822] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1920_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1920_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:32:25.136149] 20150918_1920 success!
+
+[2017-07-27 04:32:25.136528] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2045_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2045_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:34:24.666616] 20150918_2045 success!
+
+[2017-07-27 04:34:24.667019] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1410_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1410_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:35:50.722938] 20150918_1410 success!
+
+[2017-07-27 04:35:50.723286] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0725_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0725_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:37:58.379845] 20150918_0725 success!
+
+[2017-07-27 04:37:58.380252] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0950_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0950_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:39:20.896370] 20150918_0950 success!
+
+[2017-07-27 04:39:20.896719] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0120_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0120_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:40:47.380056] 20150918_0120 success!
+
+[2017-07-27 04:40:47.380423] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1310_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1310_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:43:11.666199] 20150918_1310 success!
+
+[2017-07-27 04:43:11.666597] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1230_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1230_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:44:32.908193] 20150918_1230 success!
+
+[2017-07-27 04:44:32.908592] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0810_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0810_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:45:40.552924] 20150918_0810 success!
+
+[2017-07-27 04:45:40.553285] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1330_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1330_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:48:07.193177] 20150918_1330 success!
+
+[2017-07-27 04:48:07.193533] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0150_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0150_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:50:37.441331] 20150918_0150 success!
+
+[2017-07-27 04:50:37.441707] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1900_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1900_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:53:01.290241] 20150918_1900 success!
+
+[2017-07-27 04:53:01.290619] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0140_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0140_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:55:31.991790] 20150918_0140 success!
+
+[2017-07-27 04:55:31.992161] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0840_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0840_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:57:28.037633] 20150918_0840 success!
+
+[2017-07-27 04:57:28.038008] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2235_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2235_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 04:59:00.994278] 20150918_2235 success!
+
+[2017-07-27 04:59:00.994634] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0130_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0130_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:00:23.662587] 20150918_0130 success!
+
+[2017-07-27 05:00:23.662960] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0830_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0830_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:01:22.311589] 20150918_0830 success!
+
+[2017-07-27 05:01:22.311930] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1850_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1850_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:03:22.099756] 20150918_1850 success!
+
+[2017-07-27 05:03:22.100107] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2225_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2225_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:04:29.567219] 20150918_2225 success!
+
+[2017-07-27 05:04:29.567572] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0410_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0410_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:04:54.391991] 20150918_0410 success!
+
+[2017-07-27 05:04:54.392369] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1130_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1130_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:06:58.585135] 20150918_1130 success!
+
+[2017-07-27 05:06:58.585493] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2340_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2340_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:09:01.649595] 20150918_2340 success!
+
+[2017-07-27 05:09:01.649962] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2005_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2005_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:09:18.339847] 20150918_2005 success!
+
+[2017-07-27 05:09:18.340217] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1220_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1220_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:09:54.143982] 20150918_1220 success!
+
+[2017-07-27 05:09:54.144361] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1830_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1830_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:11:32.931919] 20150918_1830 success!
+
+[2017-07-27 05:11:32.932282] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1505_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1505_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:12:39.485609] 20150918_1505 success!
+
+[2017-07-27 05:12:39.486045] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1400_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1400_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:13:01.845858] 20150918_1400 success!
+
+[2017-07-27 05:13:01.846239] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1320_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1320_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:13:40.936498] 20150918_1320 success!
+
+[2017-07-27 05:13:40.936844] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0030_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0030_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:14:47.693634] 20150918_0030 success!
+
+[2017-07-27 05:14:47.694053] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2330_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2330_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:15:30.121337] 20150918_2330 success!
+
+[2017-07-27 05:15:30.121701] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1210_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1210_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:16:05.962274] 20150918_1210 success!
+
+[2017-07-27 05:16:05.962628] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1535_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1535_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:16:44.928563] 20150918_1535 success!
+
+[2017-07-27 05:16:44.928962] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0050_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0050_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:16:51.667257] 20150918_0050 success!
+
+[2017-07-27 05:16:51.667634] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0715_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0715_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:17:46.214306] 20150918_0715 success!
+
+[2017-07-27 05:17:46.214696] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2350_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2350_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:20:16.423283] 20150918_2350 success!
+
+[2017-07-27 05:20:16.423644] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0230_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0230_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:20:25.048429] 20150918_0230 success!
+
+[2017-07-27 05:20:25.048777] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0510_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0510_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:22:56.079386] 20150918_0510 success!
+
+[2017-07-27 05:22:56.079755] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1010_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1010_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:24:36.716541] 20150918_1010 success!
+
+[2017-07-27 05:24:36.716887] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0550_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0550_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:25:17.473185] 20150918_0550 success!
+
+[2017-07-27 05:25:17.473546] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0500_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0500_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:27:49.919282] 20150918_0500 success!
+
+[2017-07-27 05:27:49.919647] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0010_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0010_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:30:09.191140] 20150918_0010 success!
+
+[2017-07-27 05:30:09.191535] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0220_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0220_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:31:17.598165] 20150918_0220 success!
+
+[2017-07-27 05:31:17.598572] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0040_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0040_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:31:58.335305] 20150918_0040 success!
+
+[2017-07-27 05:31:58.335680] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0350_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0350_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:33:34.221677] 20150918_0350 success!
+
+[2017-07-27 05:33:34.222061] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0310_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0310_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:34:36.371719] 20150918_0310 success!
+
+[2017-07-27 05:34:36.372090] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1640_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1640_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:35:26.167144] 20150918_1640 success!
+
+[2017-07-27 05:35:26.167519] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1740_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1740_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:36:55.713065] 20150918_1740 success!
+
+[2017-07-27 05:36:55.713439] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2105_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2105_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:37:54.244346] 20150918_2105 success!
+
+[2017-07-27 05:37:54.244724] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0850_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0850_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:39:01.635342] 20150918_0850 success!
+
+[2017-07-27 05:39:01.635709] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2035_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2035_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:41:24.085862] 20150918_2035 success!
+
+[2017-07-27 05:41:24.086242] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1525_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1525_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:42:04.233587] 20150918_1525 success!
+
+[2017-07-27 05:42:04.233968] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0635_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0635_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:43:37.275790] 20150918_0635 success!
+
+[2017-07-27 05:43:37.276174] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1650_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1650_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:45:34.686402] 20150918_1650 success!
+
+[2017-07-27 05:45:34.686791] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_2055_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_2055_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:47:14.257827] 20150918_2055 success!
+
+[2017-07-27 05:47:14.258214] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1910_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1910_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:48:41.056221] 20150918_1910 success!
+
+[2017-07-27 05:48:41.056614] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1720_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1720_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:49:37.095556] 20150918_1720 success!
+
+[2017-07-27 05:49:37.095894] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1545_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1545_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:50:45.964691] 20150918_1545 success!
+
+[2017-07-27 05:50:45.965058] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1040_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1040_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:51:29.934268] 20150918_1040 success!
+
+[2017-07-27 05:51:29.934667] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_1000_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_1000_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:52:55.900558] 20150918_1000 success!
+
+[2017-07-27 05:52:55.900930] run command:/gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/wind_detect_radar.exe configure.txt >>wind_detect_radar.log 2>&1
+
+ points of satalite      120000         270
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/input_wrf/u.txt
+ column number of NWP         386
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation/input_geometry/FY3C_FCSSX
+ _GBAL_L1_20150918_0910_GEOXX_MS.HDF           0
+ /gpfs1/work/zhangnaiqiang/CDP_WORK/WindRAD_simulation_new/output/FY3C_FCSSX_GBA
+ L_L1_20150918_0910_GEOXX_MS_result.h5                                          
+                                           
+[2017-07-27 05:54:47.030236] 20150918_0910 success!
+

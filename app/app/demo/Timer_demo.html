@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播动画——示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        div#mapbig {
+            width: 100%;
+            height: 100%;
+        }
+
+        div#map {
+            width: 100%;
+            height: 100%;
+        }
+
+        #map:focus {
+            outline: #4A74A8 solid 0.15em;
+        }
+
+        .clock {
+            width: 30px;
+            height: 20px;
+            position: absolute;
+            z-index: 6000;
+            float: right;
+            top: 5%;
+            left: 93%;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, .4);
+            border-radius: 4px;
+            padding: 4px;
+        }
+    </style>
+    <link rel="stylesheet" href="bower_components/openlayer/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/openlayer/css/jquery.Jcrop.css">   <!--截图-->
+    <link rel="stylesheet" href="bower_components/openlayer/css/bootstrap.css">
+
+    <link rel="stylesheet" href="bower_components/openlayer/css/shk3.css" type="text/css">
+</head>
+<body>
+<div id="mapbig">
+    <!--截图开始-->
+    <div class="camera" style="display :none;"><img src="bower_components/openlayer/example/creamer.jpg"/></div>
+    <div class="clock" title="动画" onclick=" _beginTrandShow_cloud()"><img
+            src="bower_components/openlayer/example/clock.jpg"></div>
+    <div id="snapshot">
+
+    </div>
+    <!--截图结束-->
+    <div id="map" class="map">
+
+    </div>
+</div>
+</body>
+</html>
+
+
+<script type="text/javascript" src="bower_components/openlayer/js/ol-debug.js"></script>
+<script src="bower_components/openlayer/js/ol.js"></script>
+<script src="bower_components/openlayer/js/jquery.min.js"></script>
+<script src="bower_components/openlayer/js/jquery.Jcrop.js"></script>   <!--截图-->
+<script src="bower_components/openlayer/js/bootstrap.js"></script>
+<script type="text/javascript" src="bower_components/openlayer/js/FY4System-3.0.0.js"></script>
+
+<script>
+    WMS.init("http://10.24.10.108/IMAGEL2/GBAL/");
+    /* $("#snapshot").load("photo.html", function () {
+     screenshots.init("http://img1.3lian.com/2015/w7/98/d/22");
+     });*/
+
+
+    //是否开始循环
+    var _beginTranShow_Flag = false;
+    //用于标识开始结束的 当前Timer
+    var m_Timer;
+    //上午时间
+    var TimeList = ["0000", "0010", "0020", "0030", "0040", "0050",
+        "0100", "0110", "0120", "0130", "0140", "0150",
+        "0200", "0210", "0220", "0230", "0240", "0250",
+        "0300", "0310", "0320", "0330", "0340", "0350",
+        "0400", "0410", "0420", "0430", "0440", "0450",
+        "0500", "0510", "0520", "0530", "0540", "0550",
+        "0600", "0610", "0620", "0630", "0640", "0650",
+        "0700", "0710", "0720", "0730", "0740", "0750",
+        "0800", "0810", "0820", "0830", "0840", "0850",
+        "0900", "0910", "0920", "0930", "0940", "0950",
+        "1000", "1010", "1020", "1030", "1040", "1050",
+        "1100", "1110", "1120", "1130", "1140", "1150",
+        "1200", "1210", "1220", "1230", "1240", "1250"
+
+    ];
+    //下午时间
+    var Time_after = ["1300", "1310", "1320", "1330", "1340", "0350",
+        "1400", "1410", "1420", "1430", "1440", "1450",
+        "1500", "1510", "1520", "1530", "1540", "1550",
+        "1600", "1610", "1620", "1630", "1640", "1650",
+        "1700", "1710", "1720", "1730", "1740", "1750",
+        "1800", "1810", "1820", "1830", "1840", "1850",
+        "1900", "1910", "1920", "1930", "1940", "1950",
+        "2000", "2010", "2020", "2030", "2040", "2050",
+        "2100", "2110", "2120", "2130", "2140", "2150",
+        "2200", "2210", "2220", "2230", "2240", "2250",
+        "2300", "2310", "2320", "2330", "2340", "2350"];
+    //需要进行动画的列表
+    var m_DataList = [];
+    //包含数据全部信息的列表 包含当前图层，当前图层名字（唯一）等信息
+    var m_DataAll = [];
+
+    //根据日期初始化
+    function initBaseJson() {
+        var m_BaseURL = "http://10.24.10.108/IMAGEL2/PRJ/500M/0064/20170306_";
+        m_DataList = [];
+        for (var i = 0; i < TimeList.length; i++) {
+            var m_Url = m_BaseURL + TimeList[i] + "/";
+            m_DataList.push(m_Url);
+        }
+    }
+    //初始化json
+    initJson();
+    function initJson() {
+        initBaseJson();
+        var LayerName = "testLayer";
+        var MaxNum = m_DataList.length;
+        var MaxItem = 550 + MaxNum;
+        var num = 1;
+        //处理数据列表
+        for (var i = 0; i < MaxNum; i++) {
+            var m_item = [];
+            m_item.LayerTimeName = LayerName + "_" + i;
+            m_item.LayerTimeUrl = m_DataList[i];
+            m_item.LayerTimeIndexZ = MaxItem - i;
+            m_DataAll.push(m_item);
+        }
+        WMS.addLayer(m_DataAll[0].LayerTimeName, "TMS3", m_DataAll[0].LayerTimeUrl, "false", "TMS");//0
+        WMS.setZIndex(m_DataAll[0].LayerTimeName, m_DataAll[0].LayerTimeIndexZ);
+        WMS.addLayer(m_DataAll[1].LayerTimeName, "TMS3", m_DataAll[1].LayerTimeUrl, "false", "TMS");//0
+        WMS.setZIndex(m_DataAll[1].LayerTimeName, m_DataAll[1].LayerTimeIndexZ);
+        WMS.addLayer(m_DataAll[2].LayerTimeName, "TMS3", m_DataAll[2].LayerTimeUrl, "false", "TMS");//0
+        WMS.setZIndex(m_DataAll[2].LayerTimeName, m_DataAll[2].LayerTimeIndexZ);
+        m_Num_remove = 0;
+        m_Num_Now = 1;
+        m_Num_add = 3;
+    }
+
+    //设置的变量
+    var m_Num_remove;
+    var m_Num_Now;
+    var m_Num_add;
+
+    //点击开始动画函数
+    function _beginTrandShow_cloud() {
+
+        var m_NumMax = m_DataAll.length;
+        if (!_beginTranShow_Flag) {
+            console.log("循环开始");
+            m_Timer = setInterval(function () {
+                if (m_Num_remove >= m_NumMax) {
+                    m_Num_remove = 0;
+                }
+                if (m_Num_Now >= m_NumMax) {
+                    m_Num_Now = 0;
+                }
+                if (m_Num_add >= m_NumMax) {
+                    m_Num_add = 0;
+                }
+                console.log("setInterva：" + m_Num_remove + ":" + m_Num_Now + ":" + m_Num_add);
+                console.log("当前显示时次：" + m_DataAll[m_Num_Now].LayerTimeUrl);
+                WMS.addLayer(m_DataAll[m_Num_add].LayerTimeName, "TMS3", m_DataAll[m_Num_add].LayerTimeUrl, "false", "TMS");//0
+                WMS.setZIndex(m_DataAll[m_Num_add].LayerTimeName, m_DataAll[m_Num_add].LayerTimeIndexZ);
+                WMS.removeLayer(m_DataAll[m_Num_remove].LayerTimeName, "TMS");
+                m_Num_remove++;
+                m_Num_Now++;
+                m_Num_add++;
+            }, 500);
+            _beginTranShow_Flag = true;
+        }
+        else {
+            console.log("循环停止");
+            window.clearInterval(m_Timer);
+            _beginTranShow_Flag = false;
+        }
+    }
+
+    var oClock = document.getElementsByClassName("camera")[0];
+    oClock.onclock = function () {
+        alert("")
+    };
+
+    //WMS.addLayer("tFun4","TMS4","http://10.24.10.108/IMAGEL2/tianditu/WMS_20160820/","false","TMS");//TMS天地图
+    //WMS.addLayer("kFun1","KML1","http://10.24.4.130:4004/firepoint/AHI8/AGRI/20170122/AHI8_AGRIX_L2_FHS_20170122_0110_2000M_NOM.KML","false","KML");//火点图
+    //WMS.addLayer("wFun2","WMS谷歌","https://ahocevar.com/geoserver/wms","false","WMS");//wms谷歌
+</script>

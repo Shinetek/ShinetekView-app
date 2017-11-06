@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "worldview-app",
+      "script": "/home/satelliteview/ShinetekView/app/worldview.js",
+      "cwd ": "/home/satelliteview/ShinetekView/app",
+      "exec_mode": "fork",
+      "kill_timeout": 30000
+    },
+    {
+      "name": "worldview-api",
+      "script": "/home/satelliteview/ShinetekView/api/worldview-api.js",
+      "cwd ": "/home/satelliteview/ShinetekView/api",
+      "exec_mode": "fork",
+      "kill_timeout": 30000
+    }
+  ]
+}
