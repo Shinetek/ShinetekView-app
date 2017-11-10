@@ -57,7 +57,7 @@ function TimeLine() {
         isMove_Minute: false,
         x_Minute: 0,
         X_Before_Minute: -150,
-        m_Trans_Minute: -150
+        m_Trans_Minute: 3 * 5 * 60
     };
     /* 分钟模式  鼠标 操作 变量*/
 
@@ -253,7 +253,7 @@ function TimeLine() {
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5;
         //分钟位移位置 修改为1分钟模式
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 2.5 * 60 * 24;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 5 * 60 * 24;
         RefreshTimeShow();
     };
 
@@ -265,7 +265,7 @@ function TimeLine() {
         var momentStr = (moment(self.DateShow).add(1, 'month') - moment(self.DateShow)) / 1000 / 3600 / 24;
         self.DateShow = new Date(moment(self.DateShow).add(1, 'month'));
         self.m_Trans = (self.m_TransYear - moment(self.DateShow).year() + 5) * 150;
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 2.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5 * momentStr;
         RefreshTimeShow();
@@ -279,7 +279,7 @@ function TimeLine() {
         var momentStr = (moment(self.DateShow).add(1, 'year') - moment(self.DateShow)) / 1000 / 3600 / 24;
 
         //分钟模式 位移
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 2.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - momentStr * 5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day - 12.5 * momentStr;
         //月位移 todo
@@ -297,7 +297,7 @@ function TimeLine() {
     var MinusDay = function () {
         self.DateShow = new Date(moment(self.DateShow).add(-1, 'day'));
         //分钟模式
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 2.5 * 60 * 24;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 5 * 60 * 24;
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5;
         RefreshTimeShow();
@@ -310,7 +310,7 @@ function TimeLine() {
     var MinusMonth = function () {
         var momentStr = (moment(self.DateShow) - moment(self.DateShow).add(-1, 'month')) / 1000 / 3600 / 24;
         self.DateShow = new Date(moment(self.DateShow).add(-1, 'month'));
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 2.5 * 24 * 60 * momentStr;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 5 * 24 * 60 * momentStr;
 
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5 * momentStr;
@@ -327,7 +327,7 @@ function TimeLine() {
 
         self.DateShow = new Date(moment.utc(self.DateShow).add(-1, 'year'));
         //分钟模式
-        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + momentStr * 2.5 * 24 * 60;
+        POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + momentStr * 5 * 24 * 60;
         //天模式
         m_Trans_Day = m_Trans_Day + 12.5 * momentStr;
         RefreshTimeShow();
@@ -802,13 +802,13 @@ function TimeLine() {
 
         //向后拖动
         while (POINT_X.m_Trans_Minute > 0) {
-            POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 12 * 2.5 * 5;
+            POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute - 12 * 5 * 5;
             //减一个小时
             MinuteBegin_Date.setHours(MinuteBegin_Date.getHours() - 1);
         }
         //向前拖动
-        while (POINT_X.m_Trans_Minute < -60 * 2.5) {
-            POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12 * 2.5 * 5;
+        while (POINT_X.m_Trans_Minute < -60 * 5) {
+            POINT_X.m_Trans_Minute = POINT_X.m_Trans_Minute + 12 * 5 * 5;
             //加1小时
             MinuteBegin_Date.setHours(MinuteBegin_Date.getHours() + 1);
         }
@@ -831,7 +831,7 @@ function TimeLine() {
             //每一个小时 中 1 min循环    一小时12
             for (var j = 0; j < 60; j++) {
                 //每一个小时中 每5min的位移
-                var Minute_Trans = (j * 2.5).toString();
+                var Minute_Trans = (j * 5).toString();
                 //根据时间计算当前块显示 DATE YYYY-MM-dd
                 var DayTimeStr = moment(HourNow).utc().format('YYYY-MM-DD HH:mm');
                 //根据时间加载数据 svg
@@ -862,7 +862,7 @@ function TimeLine() {
                 }
 
                 //根据时间 初始化 基础svg
-                var SVG_Day = '<g class="tick_Year_One" transform="translate(' + Minute_Trans + ')" >' + '<rect class="DayRect Btn_MinuteRect" x="0.2" y="0" width="2.5" height="55" value="' + DayTimeStr + '">' + '<title>' + DayTimeStr + '</title>' + '</rect>'
+                var SVG_Day = '<g class="tick_Year_One" transform="translate(' + Minute_Trans + ')" >' + '<rect class="DayRect Btn_MinuteRect" x="0.2" y="0" width="5" height="55" value="' + DayTimeStr + '">' + '<title>' + DayTimeStr + '</title>' + '</rect>'
                 /*   + '<line class="tick_dot" x1="12" x2="12" y1="0" y2="52"></line>'*/
                 + '</g>';
                 //SVG_Hour = SVG_Hour + Data_SVG + SVG_Day + TimeGar;
@@ -871,8 +871,8 @@ function TimeLine() {
                 if (self.AnimeMode) {
                     SVG_Hour = SVG_Hour + Trans_SVG;
                 }
-                if (Minute_Trans % (2.5 * 5 * 2) === 0) {
-                    if (Minute_Trans % (2.5 * 5 * 2 * 2) === 0) {
+                if (Minute_Trans % (5 * 5 * 2) === 0) {
+                    if (Minute_Trans % (5 * 5 * 2 * 2) === 0) {
                         SVG_Hour = SVG_Hour + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="30" y2="55" class="tick_10DayLine"' + ' ></line>';
                     } else {
                         SVG_Hour = SVG_Hour + '<line x1="' + Minute_Trans + '" x2="' + Minute_Trans + '" y1="30" y2="55" class="tick_10DayLine"' + ' ></line>';
@@ -885,8 +885,8 @@ function TimeLine() {
                 // 加5min
                 HourNow.setMinutes(HourNow.getMinutes() + 1);
             }
-            Month_Trans = 60 * 2.5 + Month_Trans;
-            var Width = 60 * 2.5;
+            Month_Trans = 60 * 5 + Month_Trans;
+            var Width = 60 * 5;
             var TimeHourShow = moment(CountDate).utc().format("YYYY-MM-DD HH:mm");
             if (CountDate.getUTCHours() === 0) {
                 TimeHourShow = moment(CountDate).utc().format("YYYY-MM-DD");
@@ -973,14 +973,14 @@ function TimeLine() {
                     IS_ShowTag = true;
                     if (ColorFlag == 1) {
                         //若该图层显示 则为蓝色
-                        DateRect = '<rect class="Rect_Data_Show" x="-0.2" y="' + Rect_Y + '" width="2.7" height="' + rect_Height + '" ></rect>' + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>' + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                        DateRect = '<rect class="Rect_Data_Show" x="-0.2" y="' + Rect_Y + '" width="5.2" height="' + rect_Height + '" ></rect>' + '<line x1="0" x2="5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>' + '<line x1="0" x2="5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
                     } else {
-                        DateRect = '<rect class="Rect_Data_Show_1" x="-0.2" y="' + Rect_Y + '" width="2.7" height="' + rect_Height + '" ></rect>' + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>' + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                        DateRect = '<rect class="Rect_Data_Show_1" x="-0.2" y="' + Rect_Y + '" width="5.2" height="' + rect_Height + '" ></rect>' + '<line x1="0" x2="5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>' + '<line x1="0" x2="5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
                     }
                 } else {
                     IS_ShowTag = true;
                     //不显示则为灰色
-                    DateRect = '<rect class="Rect_Data_Hide" x="0" y="' + Rect_Y + '" width="2.5" height="' + rect_Height + '" ></rect>' + '<line x1="0" x2="2.5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>' + '<line x1="0" x2="2.5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
+                    DateRect = '<rect class="Rect_Data_Hide" x="0" y="' + Rect_Y + '" width="5" height="' + rect_Height + '" ></rect>' + '<line x1="0" x2="5" y1="' + Rect_Y + '" y2="' + Rect_Y + '" class="Data_tick_Line"></line>' + '<line x1="0" x2="5" y1="' + RectLineEnd + '" y2="' + RectLineEnd + '" class="Data_tick_Line"></line>';
                 }
             } else {
                 //若没有数据 则为空
@@ -1776,7 +1776,7 @@ function TimeLine() {
         $("#btn_MinusDay").attr("disabled", false);
 
         //计算  天显示的时间差
-        var Time_Day = Math.round((DayBegin_Date - self.DateShow) / 86400000 * 12.5, 2);
+        var Time_Day = Math.round((DayBegin_Date - self.DateShow) / 86400000 * 12.5, 2) + 12.5 * 45;
         self.ShowMode = "Day_Mode";
         m_Trans_Day = m_Trans_Day + Time_Day;
         Day_SVGMove(0);
@@ -1807,8 +1807,8 @@ function TimeLine() {
         //设置显示模式
         self.ShowMode = "Minute_Mode";
         //计算偏移量
-        var ItemTime = self.DateShow - MinuteBegin_Date - 1000 * 60 * 60 * 2;
-        var m_Trans = ItemTime / 1000 / 60 * 2.5;
+        var ItemTime = self.DateShow - MinuteBegin_Date - 1000 * 60 * 60 * 4;
+        var m_Trans = ItemTime / 1000 / 60 * 5;
         //拖拽 分钟
         Minute_SVGMove(m_Trans);
     };

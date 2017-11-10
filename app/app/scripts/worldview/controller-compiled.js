@@ -238,7 +238,7 @@
         }
 
         /**
-         * 播放动画
+         * 播放动画 轮播模式
          * @private
          */
         function _playVideo() {
@@ -392,9 +392,11 @@
                 }
                 // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                 var dateList = [];
+
                 self.sideLayers.forEach(function (t) {
                     dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
                 });
+
                 var timespan = Math.floor(1000 / self.fpsNum);
                 if (orgFlg === -1) {
                     _initAnime(dateList);
@@ -1652,7 +1654,7 @@
             // var m_NumNow = self.animedata.length;
             //20170517 修改最小动画范围小于 4的情况
             if (self.animedata.length < add_layer_num) {
-                console.warn("当前设置动画最小帧数为:" + add_layer_num + "。\n当前选择时间范围内，有效数据数为：" + self.animedata.length);
+                console.warn("当前所选时间范围内，可播动画有效帧数为：" + self.animedata.length + "。帧数不足以进行动画，请重新选择时间范围！");
                 add_layer_num = self.animedata.length;
             }
             for (var i = remove_layer_num; i < add_layer_num; i++) {
@@ -1707,6 +1709,9 @@
                 self.topsideLayer = null;
                 // return false;
             }
+            //20171110  只轮播最上层
+            self.sideLayers = [];
+            self.sideLayers.push(self.topsideLayer);
             return m_flag;
         }
 
