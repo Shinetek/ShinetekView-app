@@ -56,7 +56,7 @@
         self.isShownVideoPanel = false;
 
         /*video帧频*/
-        self.fpsNum = 2;
+        self.fpsNum = 4;
         /*video play 标识: -1 stop; 0 pause; 1 play*/
         self.isVideoPlayed = -1;
         /*video 循环 标识*/
@@ -70,9 +70,9 @@
         /** 临时记录获取到的 m_timeLineList */
         self.tmpTimeLineList = [];
         /*video 动画起始时间*/
-        self.videoStartTime = moment(new Date());
+        self.videoStartTime = moment.utc(new Date());
         /*video 动画结束时间*/
-        self.videoEndTime = moment(new Date());
+        self.videoEndTime = moment.utc(new Date());
 
         /*功能标签选择*/
         self.selectTab = _selectTab;
@@ -232,7 +232,7 @@
                 x = -1;
             }
             if (unit === 'm') {
-                x = 5 * x;
+                x = 30 * x;
             }
             targetTime.add(x, unit);
         }
@@ -345,6 +345,8 @@
                         timeLine.AddMinuteData(m_timeLineList);
                         self.videoStartTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, 'minute').add(-24, 'h');
                         self.videoEndTime = timeLine.getLatestDate(self.topsideLayer.projectName + self.topsideLayer._id, 'minute');
+                        // console.log(self.videoStartTime);
+                        // console.log(self.videoEndTime);
                         // var dateList = timeLine.getDataList(self.topsideLayer.projectName + self.topsideLayer._id, self.videoStartTime, self.videoEndTime, 'minute', self.topsideLayer.projectUrl);
                         /**
                          * 2017/11/4 范霖
@@ -354,6 +356,7 @@
                         self.sideLayers.forEach(function (t) {
                             dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
                         });
+
                         var timespan = Math.floor(1000 / self.fpsNum);
                         if (orgFlg === -1) {
                             _initAnime(dateList);
@@ -396,6 +399,7 @@
                 self.sideLayers.forEach(function (t) {
                     dateList.push(timeLine.getDataList(t.projectName + t._id, self.videoStartTime, self.videoEndTime, 'minute', t.projectUrl));
                 });
+                console.log(self.videoStartTime.format("YYYYMMDD HH:mmss"));
 
                 var timespan = Math.floor(1000 / self.fpsNum);
                 if (orgFlg === -1) {
@@ -1452,8 +1456,8 @@
 
             //初始化video动画播放时间范围
             var tmp = moment(new Date());
-            self.videoEndTime = moment(tmp.add(1, "h").format("YYYY-MM-DD HH:00:00"));
-            self.videoStartTime = moment(tmp.add(-1, "d").format("YYYY-MM-DD HH:00:00"));
+            self.videoEndTime = moment.utc(tmp.add(1, "h").format("YYYY-MM-DD HH:00:00"));
+            self.videoStartTime = moment.utc(tmp.add(-1, "d").format("YYYY-MM-DD HH:00:00"));
 
             //初始化图层列表
             _initLayerMenuModal(function () {
@@ -1509,7 +1513,7 @@
         self.animedata = [];
 
         //定时器 动画控制 相关变量 以下变量均为未进行部分 即下一个循环需要进行的部分
-        self.anime_timer;
+        self.anime_timer = null;
         //移除图层的num 初始化 -- 0 （初始化 未进行移除，将要移除第0层数据）
         var remove_layer_num = 0;
         //当前现实图层num 初始化 -- 1 （初始化 显示图层0）
@@ -1522,6 +1526,7 @@
          * @private
          */
         function _anime_Begin(timespan, callback) {
+            console.log('_anime_Begin');
             //获取动画长度
             var m_NumMax = self.animedata.length;
             var m_DataAll = self.animedata;
@@ -1529,71 +1534,78 @@
             //清楚当前图层列表中的缓存部分
             ShinetekView.SatelliteView.clearAnimate();
             //对定时器赋值
-            self.anime_timer = setInterval(function () {
-                //若下一个图层加载成功，则进行添加和移除
+            if (self.anime_timer !== null) {
+                clearInterval(self.anime_timer);
+                self.anime_timer = null;
+            }
 
-                // if (ShinetekView.SatelliteView.oGetStatus()) {
+            if (self.anime_timer === null) {
+                self.anime_timer = setInterval(function () {
+                    //若下一个图层加载成功，则进行添加和移除
+
+                    // if (ShinetekView.SatelliteView.oGetStatus()) {
 
 
-                if (ShinetekView.SatelliteView.oGetStatus()) {
-                    self.isWaitingShow = false;
-                    //判断移除值域
-                    if (remove_layer_num < m_NumMax) {
-                        //移除上一层的显示
-                        ShinetekView.SatelliteView.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
-                        remove_layer_num++;
-                    }
+                    if (ShinetekView.SatelliteView.oGetStatus()) {
+                        self.isWaitingShow = false;
+                        //判断移除值域
+                        if (remove_layer_num < m_NumMax) {
+                            //移除上一层的显示
+                            ShinetekView.SatelliteView.removeLayer(m_DataAll[remove_layer_num].LayerTimeName, "TMS");
+                            remove_layer_num++;
+                        }
 
-                    //判断当前显示值域
-                    if (show_layer_num < m_NumMax) {
-                        var m_TimeStr = "";
+                        //判断当前显示值域
+                        if (show_layer_num < m_NumMax) {
+                            var m_TimeStr = "";
 
-                        var LayerIndex = m_DataAll[show_layer_num].LayerIndex;
-                        //字符串拼接 反向获取数值
-                        if (self.sideLayers[LayerIndex]) {
+                            var LayerIndex = m_DataAll[show_layer_num].LayerIndex;
+                            //字符串拼接 反向获取数值
+                            if (self.sideLayers[LayerIndex]) {
 
-                            var m_baseUrl = self.sideLayers[LayerIndex].projectUrl;
-                            var m_targetUrl = m_DataAll[show_layer_num].LayerTimeUrl;
-                            //查找年
-                            if (m_baseUrl.indexOf("yyyyMMddHHmmss") >= 0) {
-                                m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyyMMddHHmmss"), 14);
-                                m_TimeStr = m_TimeStr.substr(0, 4) + "-" + m_TimeStr.substr(4, 2) + "-" + m_TimeStr.substr(6, 2) + " " + m_TimeStr.substr(8, 2) + ":" + m_TimeStr.substr(10, 2) + ":" + m_TimeStr.substr(12, 2);
+                                var m_baseUrl = self.sideLayers[LayerIndex].projectUrl;
+                                var m_targetUrl = m_DataAll[show_layer_num].LayerTimeUrl;
+                                //查找年
+                                if (m_baseUrl.indexOf("yyyyMMddHHmmss") >= 0) {
+                                    m_TimeStr = m_targetUrl.substr(m_baseUrl.indexOf("yyyyMMddHHmmss"), 14);
+                                    m_TimeStr = m_TimeStr.substr(0, 4) + "-" + m_TimeStr.substr(4, 2) + "-" + m_TimeStr.substr(6, 2) + " " + m_TimeStr.substr(8, 2) + ":" + m_TimeStr.substr(10, 2) + ":" + m_TimeStr.substr(12, 2);
+                                }
+                            }
+                            //拼接当前显示的title信息 使用<br> 换行
+
+                            var thisLayer = self.sideLayers[LayerIndex];
+                            //m_itemInfo.LayerIndex
+                            self.showAnimeTitle = thisLayer.projectName + "(" + show_layer_num + "/" + m_DataAll.length + ")";
+                            var m_ShowTitle = "星标:" + thisLayer.satID + " <br>" + "仪器:" + thisLayer.instID + "<br>" + "产品:" + thisLayer.projectName + "<br>" + "时次:" + m_TimeStr;
+                            //     self.animation = {};
+                            document.getElementById("AnprojectName").innerHTML = thisLayer.projectName;
+                            document.getElementById("AntimeStr").innerHTML = m_TimeStr;
+                            /*    self.animation.timeStr = m_TimeStr;
+                             self.animation.projectName = thisLayer.projectName;*/
+                            ShinetekView.SatelliteView.setScreenTitle(m_ShowTitle);
+                            show_layer_num++;
+                            //   ShinetekView.Ol3Opt.setScreenTitle(show_layer_num);
+                            if (show_layer_num === m_NumMax) {
+                                //结束当前定时器
+                                _pauseAnime();
+
+                                callback(null, m_DataAll[show_layer_num - 1].LayerTimeName);
+                                return;
                             }
                         }
-                        //拼接当前显示的title信息 使用<br> 换行
+                        //判断添加值域
+                        if (add_layer_num < m_NumMax) {
+                            //设置当前图层状态为显示模式
+                            ShinetekView.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
+                            ShinetekView.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
 
-                        var thisLayer = self.sideLayers[LayerIndex];
-                        //m_itemInfo.LayerIndex
-                        self.showAnimeTitle = thisLayer.projectName + "(" + show_layer_num + "/" + m_DataAll.length + ")";
-                        var m_ShowTitle = "星标:" + thisLayer.satID + " <br>" + "仪器:" + thisLayer.instID + "<br>" + "产品:" + thisLayer.projectName + "<br>" + "时次:" + m_TimeStr;
-                        //     self.animation = {};
-                        document.getElementById("AnprojectName").innerHTML = thisLayer.projectName;
-                        document.getElementById("AntimeStr").innerHTML = m_TimeStr;
-                        /*    self.animation.timeStr = m_TimeStr;
-                         self.animation.projectName = thisLayer.projectName;*/
-                        ShinetekView.SatelliteView.setScreenTitle(m_ShowTitle);
-                        show_layer_num++;
-                        //   ShinetekView.Ol3Opt.setScreenTitle(show_layer_num);
-                        if (show_layer_num === m_NumMax) {
-                            //结束当前定时器
-                            _pauseAnime();
-
-                            callback(null, m_DataAll[show_layer_num - 1].LayerTimeName);
-                            return;
+                            add_layer_num++;
                         }
+                    } else {
+                        self.isWaitingShow = true;
                     }
-                    //判断添加值域
-                    if (add_layer_num < m_NumMax) {
-                        //设置当前图层状态为显示模式
-                        ShinetekView.SatelliteView.addLayer(m_DataAll[add_layer_num].LayerTimeName, "TMS3", m_DataAll[add_layer_num].LayerTimeUrl, "false", "TMS"); //0
-                        ShinetekView.SatelliteView.setZIndex(m_DataAll[add_layer_num].LayerTimeName, m_DataAll[add_layer_num].LayerTimeIndexZ);
-
-                        add_layer_num++;
-                    }
-                } else {
-                    self.isWaitingShow = true;
-                }
-            }, timespan);
+                }, timespan);
+            }
         }
 
         /**
@@ -1602,6 +1614,7 @@
          */
         function _pauseAnime() {
             clearInterval(self.anime_timer);
+            self.anime_timer = null;
             var m_showList = [];
 
             //移除当前显示的信息 暂停的时候个人认为不需要删除显示
